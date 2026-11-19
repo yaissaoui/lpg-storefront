@@ -276,6 +276,9 @@ export function createFixtureTransport({ store = 'fr', currency = 'EUR', storage
     ProductByUrlKey: ({ urlKey }) => ({
       data: { products: { items: products().filter((p) => p.url_key === urlKey) } },
     }),
+    ProductBySku: ({ sku }) => ({
+      data: { products: { items: products().filter((p) => p.sku === sku) } },
+    }),
     CategoryByUrlPath: ({ urlPath }) => ({
       data: { categories: { items: categories().filter((c) => c.url_path === urlPath).map((c) => ({ ...c, description: `<p>Demo description of the ${c.name} category.</p>`, image: null })) } },
     }),

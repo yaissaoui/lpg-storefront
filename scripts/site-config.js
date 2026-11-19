@@ -50,6 +50,56 @@ export function storeCodeFor(config, siteKey, prefix) {
   return locale ? locale.store : null;
 }
 
+const BACKENDS = ['aco', 'paas-core', 'fixture'];
+
+/**
+ * Commerce backends for one store view. Keys are read from the locale, then the site, then
+ * the top level of sites.json. Dev overrides (env) only reach this function on dev hosts.
+ *
+ * - catalog-backend: aco | paas-core | fixture. Missing: paas-core when commerce-endpoint is
+ *   set, fixture otherwise.
+ * - commerce-endpoint: catalogue GraphQL (the ACO Merchandising URL for aco).
+ * - commerce-core-endpoint: PaaS core GraphQL (cart, account, checkout, price book id).
+ * - aco: { viewId, priceBookId, locale, policies }, merged top level < site < locale.
+ *
+ * A view on "aco" without an aco.viewId key is not exported to ACO and stays on paas-core.
+ * A view on paas-core reads its catalogue from commerce-core-endpoint.
+ *
+ * @returns {object} { catalogBackend, endpoint, coreEndpoint, aco }
+ */
+export function resolveCommerce(config, site = {}, locale = {}, env = {}) {
+  const pick = (k) => locale[k] ?? site[k] ?? config[k];
+  const aco = { ...(config.aco || {}), ...(site.aco || {}), ...(locale.aco || {}) };
+  const catalogOverride = env.endpointOverride || '';
+  const coreOverride = env.coreEndpointOverride || '';
+  const backendOverride = BACKENDS.includes(env.backendOverride) ? env.backendOverride : '';
+
+  let backend = backendOverride || pick('catalog-backend') || '';
+  let endpoint = catalogOverride || pick('commerce-endpoint') || '';
+  let coreEndpoint = coreOverride || pick('commerce-core-endpoint') || '';
+
+  if (!BACKENDS.includes(backend)) backend = endpoint ? 'paas-core' : 'fixture';
+  // Before ACO, a dev endpoint override alone switched the page to the live PaaS.
+  if (backend === 'fixture' && catalogOverride && !backendOverride) backend = 'paas-core';
+  // commerce-endpoint is the ACO URL then, never a PaaS fallback.
+  const notExported = backend === 'aco' && !('viewId' in aco);
+  if (notExported) backend = 'paas-core';
+
+  if (backend === 'paas-core') {
+    const url = catalogOverride || coreOverride || coreEndpoint || (notExported ? '' : endpoint);
+    endpoint = url;
+    coreEndpoint = coreOverride || url;
+  }
+  if (backend !== 'fixture' && !endpoint) backend = 'fixture';
+  if (backend === 'fixture') {
+    endpoint = '';
+    coreEndpoint = '';
+  }
+  return {
+    catalogBackend: backend, endpoint, coreEndpoint, aco,
+  };
+}
+
 /**
  * Builds the full context for one request.
  * @returns {object} context with site, locale, storeCode, sells, basePath, url(), localeUrl()
@@ -68,10 +118,7 @@ export function resolveContext(config, env = {}) {
   const relativePath = exact ? (path.slice(locale.prefix.length + 1) || '/') : path;
   const basePath = `${devPrefix}/${locale.prefix}`;
 
-  const endpoint = (dev && env.endpointOverride)
-    || site['commerce-endpoint']
-    || config['commerce-endpoint']
-    || '';
+  const commerce = resolveCommerce(config, site, locale, dev ? env : {});
 
   const join = (base, p = '/') => `${base}${p.startsWith('/') ? p : `/${p}`}`;
 
@@ -92,7 +139,7 @@ export function resolveContext(config, env = {}) {
     priceSuffix: locale.priceSuffix || '',
     basePath,
     relativePath,
-    endpoint,
+    ...commerce,
     dev,
     productAttributes: config.productAttributes || {},
     /** Builds a link inside the current site and locale. */
@@ -143,6 +190,10 @@ export function getSiteContext() {
         search,
         storedSite: dev && storage ? storage.getItem(keys.storageKey) : null,
         endpointOverride: dev && storage ? storage.getItem(keys.endpointStorageKey) : null,
+        coreEndpointOverride: dev && storage
+          ? storage.getItem(keys.coreEndpointStorageKey || 'commerce-core-endpoint') : null,
+        backendOverride: dev && storage
+          ? storage.getItem(keys.backendStorageKey || 'catalog-backend') : null,
       });
     });
   }

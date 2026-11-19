@@ -1,42 +1,101 @@
 # Commerce data module
 
-This folder is the only code that talks to Adobe Commerce. Blocks import functions from `index.js` and never write GraphQL. When the backend moves from PaaS to Commerce as a Cloud Service or to API Mesh, the queries and `normalise.js` change and the blocks stay as they are.
+This folder is the only code that talks to Adobe Commerce. Blocks import functions from `index.js` and never write GraphQL. When a backend changes, the queries and the normalisers change and the blocks stay as they are.
 
-Today the module targets the core GraphQL of Adobe Commerce PaaS 2.4.7. It does not use Catalog Service.
+The module has two clients, the same split as the Adobe commerce boilerplate (`scripts/commerce.js`, catalogue client on `commerce-endpoint`, core client on `commerce-core-endpoint`):
+
+| Client | Serves | Backend | Endpoint key |
+|---|---|---|---|
+| Catalogue | `getProduct`, `listCategory`, `search`, `getCategoryTree` | `aco` (Commerce Optimizer Merchandising GraphQL), `paas-core` (PaaS core GraphQL) or `fixture` | `commerce-endpoint` for `aco`, `commerce-core-endpoint` for `paas-core` |
+| Core | `cart.*`, the price book id, later account and checkout | Always the PaaS core GraphQL of `lpg-migration`, header `Store` | `commerce-core-endpoint` |
 
 ## Files
 
 | File | Role |
 |---|---|
-| `index.js` | Public API. `createCommerce()` for tests, bound functions for blocks. |
-| `queries.js` | GraphQL documents, each with its HTTP method. |
-| `client.js` | HTTP transport: GET or POST, `Store` header, `CommerceError`. |
-| `normalise.js` | Raw GraphQL payloads to the shapes below. |
-| `fixtures.js` | Fixture transport used when no endpoint is configured. |
+| `index.js` | Public API. `createCommerce()` for tests, bound functions for blocks. Picks the backend and routes calls. |
+| `client.js` | HTTP transport (GET or POST, `Store` header on PaaS only, extra headers per request), `createRunner`, `CommerceError`. |
+| `queries.js`, `normalise.js` | PaaS core GraphQL documents and their mapping to the shapes below. |
+| `aco.js` | ACO catalogue client: headers, price book fallback, variant lookup. |
+| `aco-queries.js`, `aco-normalise.js` | ACO Merchandising GraphQL documents and their mapping to the same shapes. |
+| `price-book.js` | `commerceOptimizer { priceBookId }` on PaaS, cached per session and store view. |
+| `fixtures.js` | Fixture transport used when no backend is configured. |
+
+## Choosing the backend
+
+Everything lives in `config/sites.json`. Keys are read from the locale entry, then the site entry, then the top level.
+
+| Key | Meaning |
+|---|---|
+| `catalog-backend` | `aco`, `paas-core` or `fixture`. When it is missing: `paas-core` if `commerce-endpoint` is set, `fixture` otherwise. |
+| `commerce-endpoint` | Catalogue URL. For `aco` it is `https://na1-sandbox.api.commerce.adobe.com/QD1T4hbz1zGxLHYpp8cyPy/graphql`. |
+| `commerce-core-endpoint` | PaaS core GraphQL. Set per site: the main host for LPG, the `wellbox.` host for Wellbox. |
+| `aco.viewId` | Catalogue view id from Optimizer Studio, sent as `AC-View-ID`. Required. |
+| `aco.priceBookId` | Base price book of the website (`lpg_group`, `wellbox`). Used as the fallback. |
+| `aco.locale` | Optional. Sent as `AC-Scope-Locale`. Leave it out unless a view holds several sources. |
+| `aco.policies` | Optional `{ "Name": "value" }`, sent as `AC-Policy-Name: value`. |
+
+On 19 November 2026 the committed value is `"catalog-backend": "fixture"`, because the catalogue views do not exist yet. The view ids in the `fr`, `en`, `wellbox_fr` and `wellbox_en` locales are placeholders that start with `TODO`. A placeholder makes every catalogue call fail with `CONFIG_ERROR`, on purpose.
+
+To switch to ACO once the views exist:
+
+1. In Optimizer Studio, copy the id of each view (`LPG FR`, `LPG EN`, `Wellbox FR`, `Wellbox EN`).
+2. Replace the four `TODO-...-catalog-view-id` values in `config/sites.json` with these ids.
+3. Set the top-level `"catalog-backend"` to `"aco"`.
+
+A locale without an `aco.viewId` key is not exported to ACO (es, it, de, nl, us, pro_fr, pro_en today). When the backend is `aco` these views use `paas-core` on their `commerce-core-endpoint`. They never send PaaS queries to the ACO URL.
+
+On dev hosts three `localStorage` keys override the file: `catalog-backend`, `commerce-endpoint` and `commerce-core-endpoint`. Setting only `commerce-endpoint` with no backend keeps the old behaviour (live PaaS through that URL).
+
+## Headers
+
+| Header | Sent to | Value |
+|---|---|---|
+| `Store` | PaaS only | Store view code (`fr`, `wellbox_fr`, ...) |
+| `AC-View-ID` | ACO only | `aco.viewId`. Required by the Merchandising API |
+| `AC-Price-Book-ID` | ACO only | Session price book, or the base one (see below) |
+| `AC-Scope-Locale` | ACO, only when `aco.locale` is set | Source locale |
+| `AC-Policy-*` | ACO, only when `aco.policies` is set | Policy trigger values |
+
+The Merchandising API needs no secret for a public catalogue view. Adobe documents "Authentication is not required for the Merchandising API by default". A private view needs a JWT signed with an RSA private key in `AC-Catalog-View-Access-Token`. That key cannot live in browser code, so private views are not supported here.
+
+`AC-Source-Locale` is not in the current header reference. The sandbox error messages name `AC-Scope-Locale` and `Magento-Store-View-Code` when a request cannot resolve a locale, which is why the optional header is `AC-Scope-Locale`.
+
+## Price book
+
+Before a priced ACO request on a view that sells, the module asks PaaS `commerceOptimizer { priceBookId }` (POST, never cached by a CDN). The answer is kept in `sessionStorage` under `commerce-pricebook:<store>` and sent as `AC-Price-Book-ID`. When PaaS fails or returns nothing, the module sends `aco.priceBookId` and tries again on the next page. Views that do not sell (`fr`, `en`) skip the PaaS call and send the base book. `resetPriceBook()` forgets the cached value. Sign in and sign out must call it once they exist.
+
+Observed on 19 November 2026: the guest book `wellbox::sha1(0)` only holds the prices that differ for the group (catalogue rule discounts). Simple products without a discount have no price there, only in the base book `wellbox`. The module therefore re-reads the SKUs that came back without a price from the base book (one extra `products(skus:)` query) and merges them. Products that still have no price show none.
 
 ## Public API
 
-All functions are async and use the store view of the current page (see `config/sites.json`).
+All functions are async and use the store view of the current page.
 
-| Function | GraphQL used | Method | Returns |
+| Function | `paas-core` / fixture | `aco` | Returns |
 |---|---|---|---|
-| `getProduct(urlKey)` | `products(filter: { url_key: { eq } })` | GET | `Product` or `null` |
-| `listCategory(urlPath, { page, pageSize, sort })` | `categories(filters: { url_path: { eq } })`, then `products(filter: { category_uid: { eq } })` | GET, GET | `CategoryPage` or `null` |
-| `search(term, { page, pageSize })` | `products(search:)` | GET | `SearchPage` |
-| `getCategoryTree()` | `categoryList` | GET | `CategoryNode[]` |
-| `cart.create()` | `createGuestCart` | POST | cart id (string) |
-| `cart.add(sku, qty, { selectedOptions })` | `addProductsToCart` | POST | `Cart` |
-| `cart.get()` | `cart(cart_id:)` | POST | `Cart` (empty cart when none) |
-| `cart.clear()` | none, forgets the local cart id | | |
-| `getMode()` | none | | `'live'` or `'fixture'` |
+| `getProduct(urlKey, { sku })` | `products(filter: { url_key })`, or `{ sku }` when only the sku is given | `productSearch(filter: url_key)`, or `products(skus:)` when the sku is given | `Product` or `null` |
+| `listCategory(urlPath, { page, pageSize, sort })` | `categories(filters: { url_path })`, then `products(filter: { category_uid })` | `categoryTree(slugs: [ancestors, slug])`, then `productSearch(filter: categoryPath)` | `CategoryPage` or `null` |
+| `search(term, { page, pageSize })` | `products(search:)` | `productSearch(phrase:)` | `SearchPage` |
+| `getCategoryTree()` | `categoryList` | `navigation(family: "top_menu")` | `CategoryNode[]` |
+| `cart.create()` | `createGuestCart` on PaaS | same | cart id |
+| `cart.add(sku, qty, { selectedOptions })` | `addProductsToCart` on PaaS | same | `Cart` |
+| `cart.get()`, `cart.clear()` | `cart(cart_id:)` on PaaS | same | `Cart` |
+| `getMode()`, `getBackend()` | | | `'live'` or `'fixture'`, and the backend name |
+| `resetPriceBook()` | no effect | clears the cached price book id | |
 
-`sort` accepts `position` (default), `name`, `price_asc` and `price_desc`. Blocks hide the price sorts on views that do not sell.
+ACO catalogue reads use GET (the sandbox accepts GET and its CORS answer allows `content-type`, `ac-view-id` and `ac-price-book-id` from `http://localhost:3000`). Mutations, the cart and the price book use POST.
 
-Only GET requests are cacheable by Commerce and Fastly, so every catalogue read uses GET. Mutations use POST. The cart query also uses POST because a cart is private and must never land in a shared cache.
+`sort` accepts `position` (default), `name`, `price_asc` and `price_desc`. On ACO they map to `productSearch(sort:)` on `position`, `name` and `price`, the sortable attributes the sandbox reports.
 
-The cart id is kept in `localStorage` under `commerce-cart:<store code>`. When Commerce no longer knows the id, `cart.get()` returns an empty cart and `cart.add()` creates a new cart and retries once. After each change the module fires a `commerce:cart` event on `window` with the new `Cart` (the header mini cart listens to it).
+### Add to cart from an ACO product
 
-Errors are thrown as `CommerceError` with a `code`. Codes include `GRAPHQL_ERROR`, `HTTP_ERROR`, `NETWORK_ERROR`, `INVALID_INPUT`, `CART_ERROR` and the `user_errors` codes of `addProductsToCart` (for example `PRODUCT_NOT_FOUND` or `INSUFFICIENT_STOCK`).
+For a configurable product the block sends the parent sku and the option value ids. The connector exports the Magento option uids as ACO option value ids. On the sandbox, `wellbox-2` returns `Y29uZmlndXJhYmxlLzkzLzEz` from ACO and the same uid from PaaS `configurable_options` (base64 of `configurable/93/13`). The module therefore sends `{ sku: parent, selected_options: [uid] }`, which PaaS accepts. If option ids ever stop being Magento uids, the module asks ACO `refineProduct(sku, optionIds)` for the simple sku and sends `{ sku: child, parent_sku: parent }` instead.
+
+Bundles are not handled. The connector expects `base64("bundle_item/" + JSON.stringify({ sku, qty }))` per selected option, and no LPG bundle has been seen yet.
+
+Errors are thrown as `CommerceError` with a `code`. Codes include `CONFIG_ERROR`, `GRAPHQL_ERROR`, `HTTP_ERROR`, `NETWORK_ERROR`, `INVALID_INPUT`, `CART_ERROR` and the `user_errors` codes of `addProductsToCart` (for example `PRODUCT_NOT_FOUND` or `INSUFFICIENT_STOCK`).
+
+The cart id is kept in `localStorage` under `commerce-cart:<store code>`. When Commerce no longer knows the id, `cart.get()` returns an empty cart and `cart.add()` creates a new cart and retries once. After each change the module fires a `commerce:cart` event on `window` with the new `Cart`.
 
 ## Shapes
 
@@ -48,7 +107,7 @@ Price        { regular: Money, final: Money, discounted: boolean }
 Image        { url: string, label: string }
 
 ProductSummary {
-  id, sku, name, urlKey, type,          // type: simple | configurable | bundle | ...
+  id, sku, name, urlKey, type,          // type: simple | configurable | bundle | complex | ...
   inStock: boolean,
   image: Image | null,
   shortDescription: string (HTML),
@@ -59,7 +118,7 @@ Product = ProductSummary + {
   description: string (HTML),
   metaTitle, metaDescription,
   images: Image[],                      // media gallery, sorted, disabled entries removed
-  attributes: { [code]: string },       // custom_attributesV2, option labels joined
+  attributes: { [code]: string },       // custom_attributesV2 or ACO attributes, lists joined
   options: [{ id, code, label, values: [{ id, label }] }],   // configurable options
   categories: [{ id, name, urlPath }],
   breadcrumbs: [{ name, urlPath }]      // from the deepest category
@@ -70,26 +129,39 @@ Category     { id, name, urlPath, description (HTML), image: Image | null,
 PageInfo     { current, size, totalPages, totalCount }
 CategoryPage { category: Category, sort, items: ProductSummary[], page: PageInfo }
 SearchPage   { term, items: ProductSummary[], page: PageInfo }
-CategoryNode { id, name, urlPath, position, children: CategoryNode[] }   // include_in_menu only
+CategoryNode { id, name, urlPath, position, children: CategoryNode[] }   // menu entries only
 CartItem     { id, sku, name, urlKey, image, quantity, options: [{ label, value }], rowTotal: Money }
 Cart         { id, totalQuantity, items: CartItem[], subtotal: Money | null, grandTotal: Money | null }
 ```
+
+How ACO fields map:
+
+| Shape field | ACO source |
+|---|---|
+| `id` | `ProductView.id` (composite key, unique per locale) |
+| `urlKey` | `urlKey` |
+| `type` | `simple` for `SimpleProductView`. For `ComplexProductView`, read from the first option value uid (`configurable`, `bundle`), `complex` otherwise |
+| `inStock` | Complex: true when one option value has `inStock`. Simple: always true, the live schema no longer exposes `inStock` on products. PaaS still refuses out of stock items at add to cart |
+| `image` | Image with role `small_image`, then `image`, then the first one |
+| `price` | `price` (simple) or `priceRange.minimum` (complex). `null` when roles contain `hidden` |
+| `attributes` | `attributes[].name` to `value` (strings, numbers and lists. Objects are skipped) |
+| `options` | `options[].id` (the attribute code), `title`, `values[].id`, `values[].title` |
+| `categories`, `urlPath` | Category `slug`, which is the Magento `url_path` |
+| `breadcrumbs` | Deepest category: its `parents` then itself |
+| `CategoryNode.position` | Order returned by `navigation` |
 
 The HTML fields come from the Commerce admin. Blocks pass them through `sanitizeHtml()` in `scripts/product-ui.js` before inserting them.
 
 ## Fixture mode
 
-When `commerce-endpoint` is empty, the module answers from `fixtures.js`. The fixture transport returns the same raw GraphQL payloads as Commerce, so the normalisation code runs the same way in both modes. The data is fake on purpose: names like "Demo serum A", skus `DEMO-001` to `DEMO-008` and `DEMO-W01` to `DEMO-W03`, example prices and placeholder SVG images under `/images/demo/`. Store codes starting with `wellbox_` get the Wellbox catalogue, every other code gets the LPG one. The fixture cart lives in `localStorage` (or memory under Node).
+When the backend is `fixture` (the committed default) or no catalogue URL is set, the module answers from `fixtures.js`. The fixture transport returns PaaS-shaped raw payloads, so `normalise.js` runs the same way. The data is fake on purpose: names like "Demo serum A", skus `DEMO-001` to `DEMO-008` and `DEMO-W01` to `DEMO-W03`, example prices and placeholder SVG images under `/images/demo/`. Store codes starting with `wellbox_` get the Wellbox catalogue, every other code gets the LPG one.
 
-## Assumptions to check against the sandbox
+## Known gaps and assumptions
 
-These points come from the Adobe Commerce 2.4.7 schema as documented, not from the LPG instance, which does not exist yet.
+Facts observed on the sandbox on 19 November 2026 are marked as such. The rest is inference.
 
-- `custom_attributesV2` exists on `ProductInterface` from 2.4.7. If a module removes it, the product query fails as a whole.
-- The PDP tab attribute codes (`application`, `ingredients`, `results`) are placeholders in `config/sites.json` under `productAttributes`. The real LPG codes are unknown.
-- `categoryList` without filters returns the root category of the store view. The menu is its children.
-- `createGuestCart` is the 2.4.7 mutation. Older instances only have `createEmptyCart`.
-
-## Moving to SaaS later
-
-Commerce as a Cloud Service and Catalog Service expose different queries (`productSearch`, `products(skus:)`, `categories` on Catalog Service). The switch means new documents in `queries.js`, new mapping functions in `normalise.js` that produce the same shapes, and the tests in `test/commerce.test.js` updated with SaaS payloads. Blocks should need no change.
+- Observed: ACO prices are tax excluded (41.71 for a product PaaS shows at 44.00 incl. VAT, 1,165.83 for 1,399.00). Wellbox shows prices "TTC". Until ACO or the connector provides display prices with tax, the ACO prices on Wellbox are wrong for French shoppers. This needs a decision before the Wellbox switch.
+- Observed: LPG `fr` and `en` have no categories in ACO, so `getCategoryTree()` returns an empty list there and the header uses `fallbackNav`. `listCategory` on LPG paths returns `null`.
+- Inference: `aco.locale` is not needed when a view has a single source. To check with the first real view id.
+- `getProduct` by url key relies on `url_key` being filterable in `productSearch`. It is on the Wellbox sandbox data. The sku route (`products(skus:)`) has no such dependency.
+- The PaaS core endpoint sends no CORS headers for `http://localhost:3000` (preflight answered 204 without `Access-Control-Allow-Origin`). In the browser the price book call fails and the base book is used, and the cart needs the dev proxy (`commerce-core-endpoint` override set to `http://localhost:3001/graphql`).

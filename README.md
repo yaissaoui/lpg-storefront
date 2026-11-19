@@ -1,6 +1,6 @@
 # LPG storefront on Edge Delivery Services (lab)
 
-First version of the EDS storefront for the LPG migration lab. It covers two sites from one code base: the institutional LPG catalogue and the Wellbox shop. It reads Adobe Commerce PaaS 2.4.7 through its core GraphQL and uses custom blocks only. The plan behind it is in `../docs/PLAN.en.md`, sections 4 and 6.
+First version of the EDS storefront for the LPG migration lab. It covers two sites from one code base: the institutional LPG catalogue and the Wellbox shop. It reads the catalogue from Adobe Commerce Optimizer (ACO) or from the PaaS 2.4.7 core GraphQL, and does cart, account and checkout on the PaaS core GraphQL. It uses custom blocks only. The plan behind it is in `../docs/PLAN.en.md`, sections 4 and 6.
 
 The code starts from `adobe/aem-boilerplate` (Apache-2.0, commit `599a356`). `scripts/aem.js` is vendored from it and must not be edited.
 
@@ -9,9 +9,9 @@ Any document or screenshot from this repository that goes to the client needs a 
 ## Rules that apply here
 
 - The repository must stay private. It contains LPG brand assets (`icons/lpg-logo.svg`, `icons/wellbox-logo.svg`, downloaded from the production sites on 19 Nov 2026) and the General Sans font files. Making it public needs LPG's agreement and a new check of the font licence.
-- No `@dropins/*` package and no Storefront Compatibility Package. See the last section.
+- No `@dropins/*` package in this repository (rule 5 of `../AGENTS.md`). The Storefront Compatibility Package is installed on the PaaS side (`lpg-migration`) since the ACO connector work, but the storefront does not depend on it. See the last section.
 - No real customer or product data. Fixtures use DEMO skus, fake prices and placeholder SVGs.
-- Nothing is pushed. The local git repository has a placeholder `origin` remote (`example-org/lpg-storefront`) because the AEM CLI refuses to start without one. Its push URL is set to `PUSH-DISABLED-local-lab-only`, so a push fails.
+- Pushes go only to the private repository `yaissaoui/lpg-storefront` (remote `origin`).
 
 ## Run it locally
 
@@ -63,7 +63,7 @@ blocks/
   product-details/ PDP: gallery, options, tabs, price and cart only on selling views
   search/          search results
   columns/ fragment/ widget/   kept from the boilerplate
-config/sites.json  sites, locales, store view codes, sells flag, endpoint
+config/sites.json  sites, locales, store view codes, sells flag, backends, ACO view ids
 scripts/
   scripts.js       boilerplate loader, sets body.site-lpg or body.site-wellbox and html lang
   site-config.js   site and locale resolution (pure functions, tested)
@@ -92,23 +92,47 @@ The locale is the first path segment. EDS folder names use hyphens and Commerce 
 
 `sells` decides whether prices, quantity and the add to cart button appear. On 19 Nov 2026 the institutional LPG site showed no price and no cart, while Wellbox showed prices and a black "Ajouter au panier" button. The pro views are set to sell because they serve professionals. That is an assumption from the brief, not something observed. `miniCart` defaults to `sells`.
 
-Each request to Commerce carries the header `Store: <store view code>`.
+Each request to the PaaS core GraphQL carries the header `Store: <store view code>`. Requests to ACO carry `AC-View-ID` and `AC-Price-Book-ID` instead.
 
 ## Data module
 
-Blocks call `getProduct`, `listCategory`, `search`, `getCategoryTree` and `cart.create`, `cart.add`, `cart.get`. They never call GraphQL. The contract, the shapes and the queries are documented in `scripts/commerce/README.md`. This module is where the switch to Commerce as a Cloud Service or API Mesh will happen.
+Blocks call `getProduct`, `listCategory`, `search`, `getCategoryTree` and `cart.create`, `cart.add`, `cart.get`. They never call GraphQL. The contract, the shapes and the queries are documented in `scripts/commerce/README.md`.
+
+The module has a catalogue client and a core client, like the Adobe commerce boilerplate. The catalogue backend is chosen per store view with `catalog-backend` in `config/sites.json`:
+
+| Value | Catalogue from | Cart, account, checkout |
+|---|---|---|
+| `aco` | ACO Merchandising GraphQL on `commerce-endpoint` | PaaS core GraphQL on `commerce-core-endpoint` |
+| `paas-core` | PaaS core GraphQL on `commerce-core-endpoint` | same |
+| `fixture` | `scripts/commerce/fixtures.js` | fixtures |
+
+Only `fr`, `en`, `wellbox_fr` and `wellbox_en` are exported to ACO. The other views stay on `paas-core` even when the site is switched to `aco`.
 
 ## Fixture mode
 
-`commerce-endpoint` is empty in `config/sites.json`, so the module runs on fixtures. Product and list pages show a small blue notice on dev hosts so nobody mistakes demo data for the sandbox.
+`catalog-backend` is `fixture` in `config/sites.json`, so the module runs on fixtures. Product and list pages show a small blue notice on dev hosts so nobody mistakes demo data for the sandbox.
 
-## Pointing at the sandbox
+## Switching to ACO
 
-The sandbox environment does not exist yet. Once the project owner fills `SANDBOX_DEFAULT_URL` in the root `.env`:
+The ACO catalogue views are being created in Optimizer Studio. Once their ids are known:
+
+1. Put each id in `config/sites.json`, in the `aco.viewId` of the matching locale (`fr`, `en` under `lpg`, `fr`, `en` under `wellbox`). They currently hold `TODO-...-catalog-view-id`.
+2. Set the top-level `catalog-backend` to `aco`.
+3. Run `npm test`. The test `backends: fixture in the committed config` will then fail on purpose and must be updated.
+
+To try ACO on a dev host without touching the file, set `localStorage` keys `catalog-backend` to `aco` and `commerce-core-endpoint` to `http://localhost:3001/graphql` (the proxy below). The view ids still have to be real.
+
+ACO answers CORS for `http://localhost:3000`. The PaaS does not, so cart calls and the price book lookup need the dev proxy locally, and a CDN route or CORS on the PaaS for `*.aem.page`.
+
+Known gap before Wellbox goes on ACO: ACO prices are tax excluded while Wellbox shows prices including VAT. Details in `scripts/commerce/README.md`.
+
+## Pointing at the PaaS sandbox
+
+The sandbox is `lpg-migration` (`https://lpg-migration-6j6zloi-37xbp5mgn7pn2.eu-4.magentosite.cloud`). With `SANDBOX_DEFAULT_URL` set in the root `.env`:
 
 1. Start the proxy with `make graphql-proxy`. It forwards `http://localhost:3001/graphql` to `$SANDBOX_DEFAULT_URL/graphql`. Another URL can be given with `make graphql-proxy COMMERCE_GRAPHQL_URL=https://<host>/graphql`.
 2. In the browser console on `http://localhost:3000`, run `localStorage.setItem('commerce-endpoint', 'http://localhost:3001/graphql')` and reload. `localStorage.removeItem('commerce-endpoint')` goes back to fixtures. This override only works on dev hosts.
-3. For a shared preview, set `commerce-endpoint` in `config/sites.json` to `https://<host>/graphql`, or per site with a `commerce-endpoint` key inside the site entry. A direct call from `*.aem.page` to the sandbox needs CORS on the Commerce side.
+3. For a shared preview on PaaS only, set `catalog-backend` to `paas-core` in `config/sites.json`. The `commerce-core-endpoint` of each site already points to the sandbox. A direct call from `*.aem.page` to the sandbox needs CORS on the Commerce side.
 
 The proxy only exists for local development. It allows the origin `http://localhost:3000` only, forwards the `Store` header, never forwards cookies and logs no request body. The Adobe documentation prefers same-origin delivery (a CDN route from the EDS host to `/graphql`) and treats CORS as a last resort. That decision belongs to the delivery set-up of phase B (API Mesh) or to the CDN configuration.
 
@@ -136,7 +160,7 @@ The ITF licence allows self-hosting through `@font-face` for the licensee's own 
 
 ## Tests and lint
 
-`npm test` runs `node --test` on `test/`. The tests cover the store mapping and site resolution, normalisation, fixture mode (catalogue, sort, pagination, cart), the GET or POST choice with the `Store` header, and the dev proxy. `npm run lint` runs ESLint (airbnb-base) and Stylelint from the boilerplate.
+`npm test` runs `node --test` on `test/`. The tests cover the store mapping and site resolution, backend selection, PaaS and ACO normalisation, ACO headers, price book resolution and fallback, routing (catalogue to ACO, cart and price book to PaaS), add to cart for configurable products, fixture mode (catalogue, sort, pagination, cart), the GET or POST choice with the `Store` header, and the dev proxy. ACO payloads in `test/aco.test.js` are fake and follow the documented schema. `npm run lint` runs ESLint (airbnb-base) and Stylelint from the boilerplate.
 
 ## Not done yet
 
@@ -151,6 +175,8 @@ The ITF licence allows self-hosting through `@font-face` for the licensee's own 
 
 ## Why drop-ins are not used
 
+This section predates the ACO decision. ACO now brings the drop-in and Storefront Compatibility Package licence, and the package is installed on `lpg-migration`. The repository still keeps custom blocks behind the data module, as `../AGENTS.md` requires, and the module follows the boilerplate split so a later move to drop-ins stays possible.
+
 Adobe licenses the commerce drop-ins (`@dropins/*`) for Commerce as a Cloud Service and Commerce Optimizer. A PaaS licence alone does not include them, and the Storefront Compatibility Package needed to connect them to PaaS is described as unavailable without Optimizer. The npm packages download without an account, but the licence forbids that use, and the drop-in agreement also binds the integrator. This storefront therefore uses custom blocks behind the data module (route A of the plan). The full reasoning and the questions for Adobe are in `../docs/PLAN.en.md` and `../docs/ADOBE-QUESTIONS.md`.
 
 ## Sources
@@ -159,3 +185,7 @@ Adobe licenses the commerce drop-ins (`@dropins/*`) for Commerce as a Cloud Serv
 - https://www.aem.live/docs/
 - https://www.aem.live/developer/keeping-it-100
 - https://www.fontshare.com/licenses/itf-ffl
+- https://developer.adobe.com/commerce/services/optimizer/merchandising-services/using-the-api/
+- https://developer.adobe.com/commerce/services/reference/graphql/
+- https://experienceleague.adobe.com/en/docs/commerce/aco-optimizer-connector/headless-storefront
+- https://experienceleague.adobe.com/en/docs/commerce/aco-optimizer-connector/reference/field-mapping

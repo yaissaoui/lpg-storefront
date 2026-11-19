@@ -54,6 +54,14 @@ export const PRODUCT_BY_URL_KEY = {
 }${PRODUCT_FULL}${PRODUCT_CARD}`,
 };
 
+export const PRODUCT_BY_SKU = {
+  name: 'ProductBySku',
+  method: 'GET',
+  query: `query ProductBySku($sku: String!) {
+  products(filter: { sku: { eq: $sku } }) { items { ...ProductFull } }
+}${PRODUCT_FULL}${PRODUCT_CARD}`,
+};
+
 export const CATEGORY_BY_URL_PATH = {
   name: 'CategoryByUrlPath',
   method: 'GET',
