@@ -20,3 +20,10 @@ Edge Delivery Services. Read a block first. Omissions are in the repo or known.
 - A PR without a `{branch}--{repo}--{owner}.aem.page/{path}` link is rejected.
 - All committed files are served. Use `.hlxignore`.
 - Skills: `/plugin marketplace add adobe/skills`, then `aem-edge-delivery-services` (23 skills). For docs, search `site:www.aem.live <terms>`.
+
+## LPG lab
+- The hard rules in `../AGENTS.md` apply here: no secrets, no real personal data, no `@dropins/*`, nothing pushed.
+- Blocks never call GraphQL. Use `scripts/commerce/` (contract in its README).
+- Site, locale and store view come from `config/sites.json` through `scripts/site-config.js`.
+- Local content lives in `drafts/` as `.plain.html`. Serve with `aem up --html-folder drafts --html-mount /`.
+- Run `npm run lint` and `npm test` before saying a change is done.

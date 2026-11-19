@@ -1,0 +1,71 @@
+{
+  "commerce-endpoint": "",
+  "defaultSite": "lpg",
+  "devHosts": ["localhost", "127.0.0.1", ".aem.page"],
+  "devOverride": { "queryParam": "site", "storageKey": "lpg-dev-site", "endpointStorageKey": "commerce-endpoint" },
+  "productAttributes": {
+    "application": "application",
+    "ingredients": "ingredients",
+    "results": "results"
+  },
+  "sites": {
+    "lpg": {
+      "label": "LPG",
+      "theme": "lpg",
+      "logo": { "src": "/icons/lpg-logo.svg", "width": 136, "height": 46, "invertOnLight": true },
+      "hostMatch": [],
+      "devPathPrefix": "",
+      "accountPath": "/espace-pro",
+      "storeLocatorPath": "/trouver-un-centre",
+      "fallbackNav": {
+        "fr": [
+          { "label": "Expertise esthétique", "path": "/expertise-esthetique" },
+          { "label": "Cosmétiques visage", "path": "/expertise-esthetique/cosmetiques/cosmetiques-visage" },
+          { "label": "Expertise médicale", "path": "/expertise-medicale" },
+          { "label": "Groupe LPG", "path": "/groupe-lpg" }
+        ],
+        "en": [
+          { "label": "Aesthetic expertise", "path": "/aesthetic-expertise" },
+          { "label": "Medical expertise", "path": "/medical-expertise" },
+          { "label": "LPG Group", "path": "/lpg-group" }
+        ]
+      },
+      "locales": [
+        { "prefix": "fr", "store": "fr", "lang": "fr", "label": "FR", "numberLocale": "fr-FR", "currency": "EUR", "sells": false },
+        { "prefix": "en", "store": "en", "lang": "en", "label": "EN", "numberLocale": "en-GB", "currency": "EUR", "sells": false },
+        { "prefix": "es", "store": "es", "lang": "es", "label": "ES", "numberLocale": "es-ES", "currency": "EUR", "sells": false },
+        { "prefix": "it", "store": "it", "lang": "it", "label": "IT", "numberLocale": "it-IT", "currency": "EUR", "sells": false },
+        { "prefix": "de", "store": "de", "lang": "de", "label": "DE", "numberLocale": "de-DE", "currency": "EUR", "sells": false },
+        { "prefix": "nl", "store": "nl", "lang": "nl", "label": "NL", "numberLocale": "nl-NL", "currency": "EUR", "sells": false },
+        { "prefix": "us", "store": "us", "lang": "en", "label": "US", "numberLocale": "en-US", "currency": "USD", "sells": false },
+        { "prefix": "pro-fr", "store": "pro_fr", "lang": "fr", "label": "PRO FR", "numberLocale": "fr-FR", "currency": "EUR", "sells": true, "miniCart": true, "professional": true, "priceSuffix": "HT" },
+        { "prefix": "pro-en", "store": "pro_en", "lang": "en", "label": "PRO EN", "numberLocale": "en-GB", "currency": "EUR", "sells": true, "miniCart": true, "professional": true, "priceSuffix": "excl. VAT" }
+      ]
+    },
+    "wellbox": {
+      "label": "Wellbox",
+      "theme": "wellbox",
+      "logo": { "src": "/icons/wellbox-logo.svg", "width": 162, "height": 32, "invertOnLight": true },
+      "hostMatch": ["wellbox"],
+      "devPathPrefix": "/wellbox",
+      "accountPath": "/mon-compte",
+      "storeLocatorPath": "",
+      "fallbackNav": {
+        "fr": [
+          { "label": "Wellbox®", "path": "/appareils" },
+          { "label": "Accessoires", "path": "/accessoires" },
+          { "label": "Cosmétiques", "path": "/cosmetiques" }
+        ],
+        "en": [
+          { "label": "Wellbox®", "path": "/devices" },
+          { "label": "Accessories", "path": "/accessories" },
+          { "label": "Cosmetics", "path": "/cosmetics" }
+        ]
+      },
+      "locales": [
+        { "prefix": "fr", "store": "wellbox_fr", "lang": "fr", "label": "FR", "numberLocale": "fr-FR", "currency": "EUR", "sells": true, "miniCart": true, "priceSuffix": "TTC" },
+        { "prefix": "en", "store": "wellbox_en", "lang": "en", "label": "EN", "numberLocale": "en-GB", "currency": "EUR", "sells": true, "miniCart": true, "priceSuffix": "incl. VAT" }
+      ]
+    }
+  }
+}

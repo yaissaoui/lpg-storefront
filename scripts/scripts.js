@@ -11,6 +11,7 @@ import {
   loadCSS,
   buildBlock,
 } from './aem.js';
+import { getSiteContext } from './site-config.js';
 
 if (window.trustedTypes && window.trustedTypes.createPolicy) {
   const innerTT = window.trustedTypes.createPolicy('tt-inner', {
@@ -160,7 +161,19 @@ export function decorateMain(main) {
  * @param {Element} doc The container element
  */
 async function loadEager(doc) {
-  document.documentElement.lang = 'en';
+  // Site (lpg or wellbox) and locale drive the theme, the language and the store view.
+  try {
+    const ctx = await getSiteContext();
+    document.documentElement.lang = ctx.lang;
+    doc.body.classList.add(`site-${ctx.theme}`);
+    if (ctx.sells) doc.body.classList.add('site-sells');
+    if (ctx.professional) doc.body.classList.add('site-pro');
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error('Site configuration failed, using defaults', e);
+    document.documentElement.lang = 'fr';
+    doc.body.classList.add('site-lpg');
+  }
   decorateTemplateAndTheme();
   const main = doc.querySelector('main');
   if (main) {

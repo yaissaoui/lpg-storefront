@@ -1,0 +1,32 @@
+.search .search-form {
+  display: flex;
+  gap: 12px;
+  max-width: 640px;
+  margin: 24px 0;
+}
+
+.search .search-form input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--grey-200);
+  border-radius: var(--button-radius);
+  padding: 10px 14px;
+}
+
+.search .search-count {
+  color: var(--grey-600);
+  font-size: var(--body-font-size-s);
+}
+
+.search .search-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.search .search-pagination a,
+.search .search-pagination span {
+  padding: 6px 10px;
+  border: 1px solid var(--grey-200);
+  border-radius: 4px;
+}

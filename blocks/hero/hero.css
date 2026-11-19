@@ -1,3 +1,7 @@
+main .section.hero-container {
+  margin-top: 0;
+}
+
 .hero-container .hero-wrapper {
   max-width: unset;
   padding: 0;
@@ -5,33 +9,96 @@
 
 .hero {
   position: relative;
-  padding: 40px 24px;
-  min-height: 300px;
+  display: flex;
+  align-items: flex-end;
+  min-height: 420px;
+  overflow: hidden;
+  background-color: var(--grey-800);
+}
+
+.hero .hero-media {
+  position: absolute;
+  inset: 0;
+}
+
+.hero .hero-media picture,
+.hero .hero-media img,
+.hero .hero-media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero .hero-media video {
+  position: absolute;
+  inset: 0;
+}
+
+.hero .hero-content {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 40px 20px;
+  color: var(--color-white);
 }
 
 .hero h1 {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  color: var(--background-color);
+  max-width: 14em;
+  margin: 0;
+  color: var(--color-white);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
 }
 
-.hero picture {
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  object-fit: cover;
-  box-sizing: border-box;
+.hero p {
+  max-width: 40em;
 }
 
-.hero img {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
+.hero a.button.secondary {
+  border-color: var(--color-white);
+  background-color: transparent;
+  color: var(--color-white);
+}
+
+.hero a.button.primary {
+  border-color: var(--color-white);
+  background-color: var(--color-white);
+  color: var(--color-black);
+}
+
+/* wellbox hero: light picture, dark text, no uppercase */
+body.site-wellbox .hero {
+  align-items: center;
+  background-color: var(--grey-100);
+}
+
+body.site-wellbox .hero .hero-content {
+  color: var(--color-black);
+}
+
+body.site-wellbox .hero h1 {
+  color: var(--color-black);
+  text-transform: none;
+}
+
+body.site-wellbox .hero a.button.primary {
+  border-color: var(--color-black);
+  background-color: var(--color-black);
+  color: var(--color-white);
 }
 
 @media (width >= 900px) {
   .hero {
-    padding: 40px 32px;
+    min-height: 640px;
+  }
+
+  .hero .hero-content {
+    padding: 64px 48px;
+  }
+
+  .hero h1 {
+    font-size: 48px;
   }
 }

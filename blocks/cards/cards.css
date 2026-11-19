@@ -1,27 +1,102 @@
+/* default: expertise cards, image on top, title, text, arrow link */
 .cards > ul {
-  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 32px 24px;
   margin: 0;
   padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(257px, 1fr));
-  gap: 24px;
+  list-style: none;
 }
 
 .cards > ul > li {
-  border: 1px solid #dadada;
+  display: flex;
+  flex-direction: column;
   background-color: var(--background-color);
-}
-
-.cards .cards-card-body {
-  margin: 16px;
 }
 
 .cards .cards-card-image {
   line-height: 0;
 }
 
-.cards > ul > li img {
+.cards .cards-card-image img {
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
+}
+
+.cards .cards-card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 16px 0;
+}
+
+.cards .cards-card-body h3 {
+  margin-top: 0;
+  font-size: var(--heading-font-size-h4);
+}
+
+.cards .cards-card-body > :last-child:has(a) {
+  margin-top: auto;
+}
+
+.cards .cards-card-body a:any-link:not(.button) {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+}
+
+.cards .cards-card-body a:any-link:not(.button)::after {
+  content: '';
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--grey-100) url('../../icons/arrow-right.svg') center / 18px no-repeat;
+}
+
+/* reinsurance row: small icon above a short text, five across on desktop */
+.cards.reinsurance > ul {
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+  text-align: center;
+}
+
+.cards.reinsurance > ul > li {
+  background: transparent;
+}
+
+.cards.reinsurance .cards-card-body {
+  padding: 8px 0;
+  font-size: var(--body-font-size-s);
+}
+
+.cards.reinsurance .cards-card-body p {
+  margin: 0;
+}
+
+.cards.reinsurance .icon {
+  width: 32px;
+  height: 32px;
+}
+
+/* stats row: big figures, as in "Notre engagement" */
+.cards.stats > ul {
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  text-align: center;
+}
+
+.cards.stats > ul > li {
+  background: transparent;
+}
+
+.cards.stats .cards-card-body strong {
+  display: block;
+  color: var(--blue);
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-font-size-h2);
+}
+
+body.site-wellbox .cards.stats .cards-card-body strong {
+  color: var(--accent-color);
 }
