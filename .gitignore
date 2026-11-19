@@ -1,0 +1,22 @@
+.hlx/*
+coverage/*
+logs/*
+node_modules/*
+
+helix-importer-ui
+.DS_Store
+*.bak
+.idea
+
+# Ensure these files are tracked
+!CLAUDE.md
+!AGENTS.md
+node_modules/
+coverage/
+
+# Lab hard rules: secrets and dumps never go in git
+.env
+.env.*
+.aio
+*.sql
+*.sql.gz
