@@ -22,7 +22,7 @@ Edge Delivery Services. Read a block first. Omissions are in the repo or known.
 - Skills: `/plugin marketplace add adobe/skills`, then `aem-edge-delivery-services` (23 skills). For docs, search `site:www.aem.live <terms>`.
 
 ## LPG lab
-- The hard rules in `../AGENTS.md` apply here: no secrets, no real personal data, no `@dropins/*`, nothing pushed.
+- The hard rules in `../AGENTS.md` apply here: no secrets, no real personal data, no `@dropins/*`, nothing pushed except to the private repository yaissaoui/lpg-storefront.
 - Blocks never call GraphQL. Use `scripts/commerce/` (contract in its README).
 - Site, locale and store view come from `config/sites.json` through `scripts/site-config.js`.
 - Local content lives in `drafts/` as `.plain.html`. Serve with `aem up --html-folder drafts --html-mount /`.
