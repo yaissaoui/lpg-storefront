@@ -106,8 +106,33 @@ test('normaliseCart maps lines and totals', () => {
     prices: { grand_total: { value: 20, currency: 'EUR' } },
   });
   assert.equal(c.items[0].rowTotal.value, 20);
+  assert.equal(c.items[0].unitPrice, null);
   assert.equal(c.grandTotal.value, 20);
   assert.equal(c.subtotal, null);
+});
+
+test('normaliseCart keeps unit prices and row totals with and without tax', () => {
+  const eur = (value) => ({ value, currency: 'EUR' });
+  const c = normaliseCart({
+    id: 'X',
+    total_quantity: 2,
+    items: [{
+      uid: 'L1',
+      quantity: 2,
+      product: { sku: 'S', name: 'N', url_key: 'n' },
+      prices: {
+        price: eur(832.5),
+        price_including_tax: eur(999),
+        row_total: eur(1665),
+        row_total_including_tax: eur(1998),
+      },
+    }],
+    prices: { grand_total: eur(1998) },
+  });
+  const [line] = c.items;
+  const values = [line.unitPrice, line.unitPriceInclTax, line.rowTotal, line.rowTotalInclTax]
+    .map((m) => m.value);
+  assert.deepEqual(values, [832.5, 999, 1665, 1998]);
 });
 
 /* Fixture mode */

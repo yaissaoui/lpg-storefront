@@ -72,12 +72,16 @@ test('unknown prefix falls back to the first locale of the site', () => {
   assert.equal(ctx.basePath, '/fr');
 });
 
-test('backends: fixture in the committed config until the ACO view ids exist', () => {
+test('backends: every exported store view has an ACO catalogue view id', () => {
+  const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+  const exported = Object.values(config.sites)
+    .flatMap((site) => site.locales)
+    .filter((l) => ['fr', 'en', 'wellbox_fr', 'wellbox_en'].includes(l.store));
+  assert.equal(exported.length, 4);
+  exported.forEach((l) => assert.match(l.aco.viewId, uuid, l.store));
+  assert.equal(new Set(exported.map((l) => l.aco.viewId)).size, 4);
   const ctx = resolveContext(config, { hostname: 'wellbox.example.com', pathname: '/fr/' });
-  assert.equal(ctx.catalogBackend, 'fixture');
-  assert.equal(ctx.coreEndpoint, '');
   assert.equal(ctx.aco.priceBookId, 'wellbox');
-  assert.match(ctx.aco.viewId, /^TODO/);
 });
 
 test('backends: switching to aco routes exported views to ACO and the others to PaaS core', () => {

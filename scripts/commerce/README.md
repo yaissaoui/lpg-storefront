@@ -34,14 +34,20 @@ Everything lives in `config/sites.json`. Keys are read from the locale entry, th
 | `aco.priceBookId` | Base price book of the website (`lpg_group`, `wellbox`). Used as the fallback. |
 | `aco.locale` | Optional. Sent as `AC-Scope-Locale`. Leave it out unless a view holds several sources. |
 | `aco.policies` | Optional `{ "Name": "value" }`, sent as `AC-Policy-Name: value`. |
+| `aco.taxRate` | Optional. ACO prices are excluding tax. A view that displays prices including tax sets the rate (`0.2` for French VAT) and the client adds it, rounded to the cent. |
 
-On 19 November 2026 the committed value is `"catalog-backend": "fixture"`, because the catalogue views do not exist yet. The view ids in the `fr`, `en`, `wellbox_fr` and `wellbox_en` locales are placeholders that start with `TODO`. A placeholder makes every catalogue call fail with `CONFIG_ERROR`, on purpose.
+The four catalogue views were created in Optimizer Studio on 19 November 2026.
 
-To switch to ACO once the views exist:
+| Store view | Studio name | `aco.viewId` |
+|---|---|---|
+| `fr` | LPG lab LPG FR | `3b06919b-2447-4d9b-9426-13cb72d40689` |
+| `en` | LPG lab LPG EN | `97ebb532-021d-419b-af10-6507acb2626e` |
+| `wellbox_fr` | LPG lab Wellbox FR | `8aabd439-f2ab-4d91-a9b1-548fe45b389e` |
+| `wellbox_en` | LPG lab Wellbox EN | `71f025e3-6691-4141-8d92-a380017eece3` |
 
-1. In Optimizer Studio, copy the id of each view (`LPG FR`, `LPG EN`, `Wellbox FR`, `Wellbox EN`).
-2. Replace the four `TODO-...-catalog-view-id` values in `config/sites.json` with these ids.
-3. Set the top-level `"catalog-backend"` to `"aco"`.
+The committed value is still `"catalog-backend": "fixture"`, so a shared `*.aem.page` preview keeps running on demo data. To try ACO on a dev host, use the `localStorage` overrides below. To switch for good, set the top-level `"catalog-backend"` to `"aco"`. A placeholder view id that starts with `TODO` makes every catalogue call fail with `CONFIG_ERROR`, on purpose.
+
+The `taxRate` of `0.2` was checked against PaaS on six Wellbox SKUs on 19 November 2026. The PaaS price including tax divided by the ACO price was 1.2 every time, give or take the rounding to the cent. One rate per view is an approximation. It ignores product tax classes and the customer address.
 
 A locale without an `aco.viewId` key is not exported to ACO (es, it, de, nl, us, pro_fr, pro_en today). When the backend is `aco` these views use `paas-core` on their `commerce-core-endpoint`. They never send PaaS queries to the ACO URL.
 
@@ -130,7 +136,8 @@ PageInfo     { current, size, totalPages, totalCount }
 CategoryPage { category: Category, sort, items: ProductSummary[], page: PageInfo }
 SearchPage   { term, items: ProductSummary[], page: PageInfo }
 CategoryNode { id, name, urlPath, position, children: CategoryNode[] }   // menu entries only
-CartItem     { id, sku, name, urlKey, image, quantity, options: [{ label, value }], rowTotal: Money }
+CartItem     { id, sku, name, urlKey, image, quantity, options: [{ label, value }],
+               unitPrice, unitPriceInclTax, rowTotal, rowTotalInclTax: Money | null }
 Cart         { id, totalQuantity, items: CartItem[], subtotal: Money | null, grandTotal: Money | null }
 ```
 

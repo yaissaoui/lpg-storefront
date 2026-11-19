@@ -168,7 +168,10 @@ export function normaliseCart(raw) {
       options: (i.configurable_options || []).map((o) => ({
         label: str(o.option_label), value: str(o.value_label),
       })),
+      unitPrice: normaliseMoney(i.prices?.price),
+      unitPriceInclTax: normaliseMoney(i.prices?.price_including_tax),
       rowTotal: normaliseMoney(i.prices?.row_total),
+      rowTotalInclTax: normaliseMoney(i.prices?.row_total_including_tax),
     })),
     subtotal: normaliseMoney(raw.prices?.subtotal_including_tax),
     grandTotal: normaliseMoney(raw.prices?.grand_total),

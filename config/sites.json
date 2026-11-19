@@ -40,8 +40,8 @@
         ]
       },
       "locales": [
-        {"prefix": "fr", "store": "fr", "lang": "fr", "label": "FR", "numberLocale": "fr-FR", "currency": "EUR", "sells": false, "aco": {"viewId": "TODO-fr-catalog-view-id", "priceBookId": "lpg_group"}},
-        {"prefix": "en", "store": "en", "lang": "en", "label": "EN", "numberLocale": "en-GB", "currency": "EUR", "sells": false, "aco": {"viewId": "TODO-en-catalog-view-id", "priceBookId": "lpg_group"}},
+        {"prefix": "fr", "store": "fr", "lang": "fr", "label": "FR", "numberLocale": "fr-FR", "currency": "EUR", "sells": false, "aco": {"viewId": "3b06919b-2447-4d9b-9426-13cb72d40689", "priceBookId": "lpg_group"}},
+        {"prefix": "en", "store": "en", "lang": "en", "label": "EN", "numberLocale": "en-GB", "currency": "EUR", "sells": false, "aco": {"viewId": "97ebb532-021d-419b-af10-6507acb2626e", "priceBookId": "lpg_group"}},
         {"prefix": "es", "store": "es", "lang": "es", "label": "ES", "numberLocale": "es-ES", "currency": "EUR", "sells": false},
         {"prefix": "it", "store": "it", "lang": "it", "label": "IT", "numberLocale": "it-IT", "currency": "EUR", "sells": false},
         {"prefix": "de", "store": "de", "lang": "de", "label": "DE", "numberLocale": "de-DE", "currency": "EUR", "sells": false},
@@ -73,8 +73,8 @@
         ]
       },
       "locales": [
-        {"prefix": "fr", "store": "wellbox_fr", "lang": "fr", "label": "FR", "numberLocale": "fr-FR", "currency": "EUR", "sells": true, "miniCart": true, "priceSuffix": "TTC", "aco": {"viewId": "TODO-wellbox-fr-catalog-view-id", "priceBookId": "wellbox"}},
-        {"prefix": "en", "store": "wellbox_en", "lang": "en", "label": "EN", "numberLocale": "en-GB", "currency": "EUR", "sells": true, "miniCart": true, "priceSuffix": "incl. VAT", "aco": {"viewId": "TODO-wellbox-en-catalog-view-id", "priceBookId": "wellbox"}}
+        {"prefix": "fr", "store": "wellbox_fr", "lang": "fr", "label": "FR", "numberLocale": "fr-FR", "currency": "EUR", "sells": true, "miniCart": true, "priceSuffix": "TTC", "aco": {"viewId": "8aabd439-f2ab-4d91-a9b1-548fe45b389e", "priceBookId": "wellbox", "taxRate": 0.2}},
+        {"prefix": "en", "store": "wellbox_en", "lang": "en", "label": "EN", "numberLocale": "en-GB", "currency": "EUR", "sells": true, "miniCart": true, "priceSuffix": "incl. VAT", "aco": {"viewId": "71f025e3-6691-4141-8d92-a380017eece3", "priceBookId": "wellbox", "taxRate": 0.2}}
       ]
     }
   }

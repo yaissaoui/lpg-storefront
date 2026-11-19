@@ -47,6 +47,19 @@ function renderSections(items) {
   return ul;
 }
 
+/**
+ * "2 × 999,00 €": unit price including tax, or excluding tax on professional views.
+ * Magento row_total and price are excluding tax, which is why both are read.
+ */
+function cartLine(item, ctx) {
+  const unit = ctx.professional
+    ? item.unitPrice
+    : (item.unitPriceInclTax || item.unitPrice);
+  const fmt = (m) => formatMoney(m, { ...ctx, priceSuffix: '' });
+  if (!unit) return el('span', { class: 'nav-cart-line' }, fmt(item.rowTotalInclTax || item.rowTotal));
+  return el('span', { class: 'nav-cart-line' }, `${item.quantity} × `, fmt(unit));
+}
+
 function renderMiniCart(ctx) {
   const count = el('span', { class: 'nav-cart-count', 'aria-live': 'polite' }, '0');
   const panel = el('div', {
@@ -75,7 +88,7 @@ function renderMiniCart(ctx) {
       {},
       el('a', { href: ctx.url(`/products/${encodeURIComponent(i.urlKey)}`) }, i.name),
       i.options.length ? el('span', { class: 'nav-cart-options' }, i.options.map((o) => `${o.label}: ${o.value}`).join(', ')) : null,
-      el('span', { class: 'nav-cart-line' }, `${i.quantity} × `, formatMoney(i.rowTotal, { ...ctx, priceSuffix: '' })),
+      cartLine(i, ctx),
     ))));
     panel.append(el('p', { class: 'nav-cart-total' }, `${t(ctx.lang, 'cartTotal')} `, el('strong', {}, formatMoney(c.grandTotal, ctx))));
   };

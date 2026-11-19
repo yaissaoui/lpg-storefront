@@ -37,7 +37,10 @@ fragment CartFields on Cart {
   items {
     uid quantity
     product { sku name url_key small_image { url label } }
-    prices { row_total { value currency } }
+    prices {
+      price { value currency } price_including_tax { value currency }
+      row_total { value currency } row_total_including_tax { value currency }
+    }
     ... on ConfigurableCartItem { configurable_options { option_label value_label } }
   }
   prices {

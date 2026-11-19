@@ -31,6 +31,22 @@ export function acoProductPrice(raw) {
   return acoPrice(raw.priceRange?.minimum);
 }
 
+const round2 = (v) => Math.round((v + Number.EPSILON) * 100) / 100;
+
+/**
+ * ACO price books hold prices excluding tax (the connector exports them that way, checked on
+ * the sandbox on 19 Nov 2026: 832.50 in ACO for 999.00 incl. VAT on PaaS). A store view that
+ * displays prices including tax sets aco.taxRate (0.2 for French VAT). One rate per view is an
+ * approximation: it ignores product tax classes and the customer address.
+ * @param {object|null} price normalised Price
+ * @param {number} rate 0.2 for 20 %
+ */
+export function acoPriceWithTax(price, rate) {
+  if (!price || !(rate > 0)) return price;
+  const add = (m) => (m ? { ...m, value: round2(m.value * (1 + rate)) } : m);
+  return { ...price, regular: add(price.regular), final: add(price.final) };
+}
+
 /** True when a ProductView has no usable price in the current price book. */
 export function acoMissingPrice(raw) {
   return !!raw && acoProductPrice(raw) === null;

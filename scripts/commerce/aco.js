@@ -11,7 +11,7 @@ import {
 } from './aco-queries.js';
 import {
   normaliseAcoProduct, normaliseAcoCategory, normaliseAcoSearchPage, normaliseAcoNavigation,
-  acoMissingPrice,
+  acoMissingPrice, acoPriceWithTax,
 } from './aco-normalise.js';
 
 /** A view id that is empty or still a TODO placeholder from config/sites.json. */
@@ -49,7 +49,8 @@ export function slugChain(slug) {
 /**
  * @param {object} opts
  * @param {Function} opts.run runner bound to the ACO endpoint (client.createRunner)
- * @param {object} opts.aco { viewId, priceBookId (base), locale, policies, method, navFamily }
+ * @param {object} opts.aco { viewId, priceBookId (base), locale, policies, method, navFamily,
+ *   taxRate }
  * @param {object} opts.priceBook resolver from price-book.js
  */
 export function createAcoCatalog({ run, aco = {}, priceBook }) {
@@ -58,6 +59,10 @@ export function createAcoCatalog({ run, aco = {}, priceBook }) {
   const headersFor = (priceBookId) => buildAcoHeaders({ ...aco, priceBookId });
   const withBook = (priceBookId) => ({ headers: headersFor(priceBookId), method });
   const unpriced = () => withBook(priceBook.baseId);
+  const taxRate = Number(aco.taxRate) || 0;
+  const taxed = (item) => (item && taxRate
+    ? { ...item, price: acoPriceWithTax(item.price, taxRate) } : item);
+  const taxedPage = (result) => ({ ...result, items: result.items.map(taxed) });
 
   /**
    * Runs a priced query. The guest child price book (website::sha1(0)) holds only the
@@ -92,7 +97,7 @@ export function createAcoCatalog({ run, aco = {}, priceBook }) {
   async function getProduct(urlKey, { sku } = {}) {
     if (sku) {
       const data = await priced(ACO_PRODUCTS_BY_SKU, { skus: [sku] }, (d) => d.products);
-      return normaliseAcoProduct((data.products || []).find((p) => p?.sku === sku));
+      return taxed(normaliseAcoProduct((data.products || []).find((p) => p?.sku === sku)));
     }
     if (!urlKey) return null;
     const data = await priced(
@@ -102,7 +107,7 @@ export function createAcoCatalog({ run, aco = {}, priceBook }) {
     );
     const view = (data.productSearch?.items || []).map((i) => i?.productView)
       .find((p) => p && p.urlKey === urlKey);
-    return normaliseAcoProduct(view);
+    return taxed(normaliseAcoProduct(view));
   }
 
   async function listCategory(urlPath, { page = 1, pageSize = 12, sort = 'position' } = {}) {
@@ -119,7 +124,7 @@ export function createAcoCatalog({ run, aco = {}, priceBook }) {
       },
       (d) => (d.productSearch?.items || []).map((i) => i?.productView),
     );
-    const result = normaliseAcoSearchPage(products.productSearch, { page, pageSize });
+    const result = taxedPage(normaliseAcoSearchPage(products.productSearch, { page, pageSize }));
     return { category, sort: sortKey, ...result };
   }
 
@@ -131,7 +136,8 @@ export function createAcoCatalog({ run, aco = {}, priceBook }) {
       { phrase: q, pageSize, currentPage: page },
       (d) => (d.productSearch?.items || []).map((i) => i?.productView),
     );
-    return { term: q, ...normaliseAcoSearchPage(data.productSearch, { page, pageSize }) };
+    const result = taxedPage(normaliseAcoSearchPage(data.productSearch, { page, pageSize }));
+    return { term: q, ...result };
   }
 
   async function getCategoryTree() {

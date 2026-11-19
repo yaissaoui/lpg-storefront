@@ -8,7 +8,7 @@ import { createCommerce, buildCartItem, CommerceError } from '../scripts/commerc
 import { buildAcoHeaders, slugChain, isPlaceholder } from '../scripts/commerce/aco.js';
 import {
   normaliseAcoProduct, normaliseAcoProductSummary, normaliseAcoCategory, normaliseAcoSearchPage,
-  normaliseAcoNavigation, acoPrice, isMagentoOptionUid, acoProductType,
+  normaliseAcoNavigation, acoPrice, acoPriceWithTax, isMagentoOptionUid, acoProductType,
 } from '../scripts/commerce/aco-normalise.js';
 import { createPriceBookResolver, priceBookCacheKey } from '../scripts/commerce/price-book.js';
 
@@ -461,4 +461,33 @@ test('paas-core backend: catalogue and cart both on the core endpoint with Store
 test('unknown backend is a config error, aco without endpoint falls back to fixtures', () => {
   assert.throws(() => createCommerce({ backend: 'nope', store: 'fr' }), (e) => e.code === 'CONFIG_ERROR');
   assert.equal(createCommerce({ backend: 'aco', store: 'fr' }).backend, 'fixture');
+});
+
+test('ACO price with tax: rounded to the cent, untouched without a rate', () => {
+  const price = acoPrice({ regular: money(1165.83), final: money(832.5) });
+  const ttc = acoPriceWithTax(price, 0.2);
+  assert.equal(ttc.final.value, 999);
+  assert.equal(ttc.regular.value, 1399);
+  assert.equal(ttc.final.currency, 'EUR');
+  assert.equal(ttc.discounted, true);
+  assert.equal(acoPriceWithTax(acoPrice({ final: money(6.33) }), 0.2).final.value, 7.6);
+  assert.equal(acoPriceWithTax(price, 0), price);
+  assert.equal(acoPriceWithTax(null, 0.2), null);
+});
+
+test('aco.taxRate turns ACO prices (excl. tax) into displayed prices incl. tax', async () => {
+  const { fetchImpl } = fakeBackends({
+    acoData: {
+      AcoProductByUrlKey: () => {
+        const view = { ...SIMPLE, price: { regular: money(832.5), final: money(832.5) } };
+        return { productSearch: { items: [{ productView: view }] } };
+      },
+      AcoSearch: () => ({ productSearch: { total_count: 1, items: [{ productView: COMPLEX }] } }),
+    },
+  });
+  const api = acoApi(fetchImpl, { aco: { viewId: 'VIEW-1', priceBookId: 'demo_site', taxRate: 0.2 } });
+  assert.equal((await api.getProduct('demo-cream')).price.final.value, 999);
+  assert.equal((await api.search('demo')).items[0].price.final.value, 960);
+  const plain = acoApi(fetchImpl);
+  assert.equal((await plain.getProduct('demo-cream')).price.final.value, 832.5);
 });

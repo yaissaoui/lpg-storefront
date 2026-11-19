@@ -234,7 +234,12 @@ function cartPayload(cart) {
     product: {
       sku: i.sku, name: i.name, url_key: i.url_key, small_image: i.small_image,
     },
-    prices: { row_total: money(Math.round(i.unit * i.quantity * 100) / 100, cart.currency) },
+    prices: {
+      price: money(i.unit, cart.currency),
+      price_including_tax: money(i.unit, cart.currency),
+      row_total: money(Math.round(i.unit * i.quantity * 100) / 100, cart.currency),
+      row_total_including_tax: money(Math.round(i.unit * i.quantity * 100) / 100, cart.currency),
+    },
     configurable_options: i.options,
   }));
   const total = Math.round(cart.items.reduce((s, i) => s + i.unit * i.quantity, 0) * 100) / 100;

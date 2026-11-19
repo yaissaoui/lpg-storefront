@@ -60,7 +60,7 @@ const BACKENDS = ['aco', 'paas-core', 'fixture'];
  *   set, fixture otherwise.
  * - commerce-endpoint: catalogue GraphQL (the ACO Merchandising URL for aco).
  * - commerce-core-endpoint: PaaS core GraphQL (cart, account, checkout, price book id).
- * - aco: { viewId, priceBookId, locale, policies }, merged top level < site < locale.
+ * - aco: { viewId, priceBookId, locale, policies, taxRate }, merged top level < site < locale.
  *
  * A view on "aco" without an aco.viewId key is not exported to ACO and stays on paas-core.
  * A view on paas-core reads its catalogue from commerce-core-endpoint.
