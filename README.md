@@ -1,6 +1,6 @@
 # LPG storefront on Edge Delivery Services (lab)
 
-EDS storefront for the LPG migration lab. One code base serves two sites: the institutional LPG catalogue and the Wellbox shop. Commerce features use the Adobe drop-ins, wired like the Adobe commerce boilerplate (`hlxsites/aem-boilerplate-commerce`). The drop-ins are pinned to Adobe's June 2026 release, the one tested with the Compatibility Package installed on the sandbox (see "Drop-in versions"). The catalogue comes from Adobe Commerce Optimizer (ACO). The cart runs on the PaaS 2.4.7 core GraphQL of the sandbox `lpg-migration`. The plan behind it is in `../docs/PLAN.en.md`, sections 4 and 6.
+EDS storefront for the LPG migration lab. One code base serves two sites: the institutional LPG catalogue and the Wellbox shop. Commerce features use the Adobe drop-ins, wired like the Adobe commerce boilerplate (`hlxsites/aem-boilerplate-commerce`). The drop-ins are pinned to Adobe's April 2026 suite, whose GraphQL operations all validate against the sandbox (see "Drop-in versions"). The catalogue comes from Adobe Commerce Optimizer (ACO). The cart runs on the PaaS 2.4.7 core GraphQL of the sandbox `lpg-migration`. The plan behind it is in `../docs/PLAN.en.md`, sections 4 and 6.
 
 The code started from `adobe/aem-boilerplate` (Apache-2.0, commit `599a356`). `scripts/aem.js` is vendored from it and must not be edited. The drop-ins are vendored in `scripts/__dropins__` and must not be edited either.
 
@@ -54,36 +54,55 @@ The 63 Wellbox product pages, the three Wellbox category pages and the search pa
 
 The sandbox `lpg-migration` runs Adobe Commerce 2.4.7-p10 with the Storefront Compatibility Package 4.7.13. It cannot go higher: with our Composer keys, repo.magento.com lists 4.7.0 to 4.7.13 and 4.8.0 to 4.8.8 only. Adobe publishes 4.7.14 to 4.7.20 for merchants with an ACO licence, and our keys do not see them.
 
-The drop-in release tested with 4.7.13 on Commerce 2.4.7 is the June 2026 suite (source below). Newer drop-ins query GraphQL fields that 4.7.13 does not add. For example `storefront-cart` 3.4.1 selects `Cart.has_available_free_gifts`, `CartItemInterface.is_free_gift` and `CartItemInterface.is_salable`, and the sandbox rejected every cart call. The 3.3.x cart tarballs do not reference these fields. So this storefront pins the June suite, taking the latest patch on npm within each range:
+This storefront uses the April 2026 suite (tested by Adobe with Compatibility Package 4.7.12 on Commerce 2.4.7). The June 2026 suite was tried first, because Adobe lists it as tested with 4.7.13. Its order 4.0.x, account 4.0.0 and auth 4.0.x drop-ins query seller-assisted buying fields that the sandbox does not have (K1 in "Known issues"). Later suites also query cart fields that 4.7.13 does not add (K8). The versions are those of the boilerplate lock file at the merge of its `release/suite8` branch (commit `6fe10508`, 30 April 2026), which match the release notes:
 
-| Package | June 2026 range | Pinned |
+| Package | April 2026 suite | Pinned |
 |---|---|---|
-| `@dropins/tools` (Drop-in SDK) | 1.9.x | 1.9.0 |
-| `@dropins/storefront-auth` | ~4.0.0 | 4.0.1 |
-| `@dropins/storefront-cart` | ~3.3.0 | 3.3.1 |
-| `@dropins/storefront-pdp` | ~3.2.0 | 3.2.0 |
-| `@dropins/storefront-product-discovery` | ~3.1.1 | 3.1.3 |
-| `@dropins/storefront-checkout` | ~3.3.0 | 3.3.1 |
-| `@dropins/storefront-order` | ~4.0.0 | 4.0.1 |
-| `@dropins/storefront-account` | ~4.0.0 | 4.0.0 |
-| `@dropins/build-tools` (dev) | boilerplate of June 2026 | 1.2.0 |
+| `@dropins/tools` (Drop-in SDK) | ~1.8.1 | 1.8.1 |
+| `@dropins/storefront-auth` | ~3.2.0 | 3.2.0 |
+| `@dropins/storefront-cart` | ~3.2.0 | 3.2.0 |
+| `@dropins/storefront-checkout` | ~3.2.1 | 3.2.1 |
+| `@dropins/storefront-order` | ~3.3.0 | 3.3.0 |
+| `@dropins/storefront-account` | ~3.3.0 | 3.3.0 |
+| `@dropins/storefront-pdp` | ~3.0.3 | 3.0.3 |
+| `@dropins/storefront-product-discovery` | ~3.1.0 | 3.1.0 |
+| `@dropins/build-tools` (dev) | ~1.1.0 | 1.1.0 |
 
-The suite also lists payment-services ~3.1.2 (LPG does not use it), recommendations ~4.0.4 and wishlist ~3.3.0, which this lab does not use.
+The suite also lists payment-services ~3.1.0 (LPG does not use it), personalization ~3.1.1, recommendations ~4.0.1 and wishlist ~3.2.0, which this lab does not use.
 
-Every GraphQL operation shipped in the vendored drop-ins can be checked against the sandbox schema with `node tools/validate-dropin-graphql.mjs scripts/__dropins__ <core endpoint> wellbox_fr storefront-cart storefront-auth storefront-checkout storefront-order storefront-account`. The script appends an unused fragment so the server rejects each document at validation time and never executes it, mutations included. Results on 20 November 2026 are in "Known issues" (K1).
+The project code (`scripts/commerce.js`, `scripts/initializers/`, the commerce blocks, `head.html`) follows the boilerplate at commit `6fe10508`. The differences are listed in "Customer, checkout and order pages" and in the comments of each file.
 
-These versions come with some caveats:
+`tools/validate-dropin-graphql.mjs` sends every GraphQL operation shipped in the vendored drop-ins to a GraphQL server without running it. It appends an unused fragment, so the server rejects each document at validation time, mutations included. Extra headers go in `GRAPHQL_HEADERS` (JSON). Result on 20 November 2026:
 
-- `storefront-auth` 4.0.1 and `storefront-cart` 3.3.1 were published on 29 July 2026, and `storefront-product-discovery` 3.1.2 and 3.1.3 in September and October. The boilerplate shipped them next to `@dropins/tools` 2.x and 3.x. They are patch releases inside the June ranges. Every import they make from `@dropins/tools` exists in 1.9.0 (checked by script), and the pages below work with them. If one misbehaves, the exact June builds are auth 4.0.0, cart 3.3.0 and product-discovery 3.1.1.
-- The project code (`scripts/commerce.js`, `scripts/initializers/`, the commerce blocks, `head.html`) follows the boilerplate as it was on 11 June 2026 (commit `f00f929e`, "bump all drop-in packages to stable"). Two exceptions: no free-gift flag on the cart initializer, and the module preloads that tools 1.9.0 actually ships.
+| Drop-in | Endpoint | Operations | Failing |
+|---|---|---|---|
+| cart 3.2.0 | PaaS `wellbox_fr` | 15 | 0 |
+| auth 3.2.0 | PaaS `wellbox_fr` | 15 | 0 |
+| account 3.3.0 | PaaS `wellbox_fr` | 16 | 0 |
+| order 3.3.0 | PaaS `wellbox_fr` | 19 | 1, B2B only: `PLACE_NEGOTIABLE_QUOTE_ORDER_MUTATION` (internal server error, negotiable quotes are B2B) |
+| checkout 3.2.1 | PaaS `wellbox_fr` | 20 | 7, B2B only: `getCompanyCredit` (`exceed_limit`), and `getNegotiableQuote`, `setBillingAddressOnQuote`, `setPaymentMethodOnQuote`, `setShippingAddressOnQuote`, `setShippingAddressOnQuoteAndUseAsBilling`, `setShippingMethodsOnQuote` (`custom_attributes` on `NegotiableQuoteBillingAddress`) |
+| pdp 3.0.3 | ACO, Wellbox FR view | 3 | 0 |
+| product-discovery 3.1.0 | ACO, Wellbox FR view | 1 | 0 |
 
-To move to the latest suite once Compatibility Package 4.7.14 or later is installable (ACO licence keys on repo.magento.com):
+The B2B operations are only called for companies and negotiable quotes, which the LPG storefront does not use.
+
+```sh
+node tools/validate-dropin-graphql.mjs scripts/__dropins__ \
+  https://wellbox.lpg-migration-6j6zloi-37xbp5mgn7pn2.eu-4.magentosite.cloud/graphql wellbox_fr \
+  storefront-cart storefront-auth storefront-checkout storefront-order storefront-account
+GRAPHQL_HEADERS='{"AC-View-ID":"8aabd439-f2ab-4d91-a9b1-548fe45b389e","AC-Price-Book-ID":"wellbox"}' \
+  node tools/validate-dropin-graphql.mjs scripts/__dropins__ \
+  https://na1-sandbox.api.commerce.adobe.com/QD1T4hbz1zGxLHYpp8cyPy/graphql wellbox_fr \
+  storefront-pdp storefront-product-discovery
+```
+
+To move to a later suite once a Compatibility Package that provides its fields is installable (4.7.14 or later needs ACO licence keys on repo.magento.com):
 
 1. Install the package on the PaaS (`composer require` of the Storefront Compatibility Package in the lpg-ops overlay), deploy it to `lpg-migration` and check that the cart query of the target cart version validates. Run `CART_FRAGMENT` from `scripts/__dropins__/storefront-cart/fragments.js` against `/graphql` with a guest cart id.
 2. Read the release notes of the target suite on the Adobe storefront releases page and copy its versions into `package.json`. Copy `build.mjs` from the boilerplate commit of that release.
 3. Run `npm install` then `npm run install:dropins` in the container, and commit `scripts/__dropins__`.
 4. Diff `scripts/commerce.js`, `scripts/initializers/*`, `head.html` and the commerce blocks against the boilerplate at that release (`git log --until=<release date>` in a clone) and port the API changes. For example, recent releases add `features.isFreeGiftsCartPriceRulesEnabled` to the cart initializer and a `commerce/customer-context` event.
-5. Re-run `tools/validate-dropin-graphql.mjs` and the checks of "Known issues". Some of them are fixed in later suites. For example `storefront-pdp` 3.4.0 renders the product name as an `h1`, which 3.2.0 does not.
+5. Re-run `tools/validate-dropin-graphql.mjs` and the checks of "Known issues". Some of them are fixed in later suites. For example `storefront-pdp` 3.4.0 renders the product name as an `h1`, which 3.0.3 does not. Run the validation script on the target versions before switching, because Adobe's compatibility table did not match this sandbox for the June suite (K1).
 6. Run `npm run lint`, `npm test` and the pages of "Pages to try" on local and on the branch preview.
 
 ## Structure
@@ -128,7 +147,7 @@ UE can now select every block. Selections showed "Failed to fetch details" becau
 
 ## Customer, checkout and order pages
 
-The blocks come from the boilerplate as it was on 11 June 2026 and use storefront-auth, storefront-account, storefront-checkout and storefront-order. Paths sit under the store root, built with `rootLink()` like the boilerplate: `/wellbox/fr/...` on Wellbox (aem.page) and `/fr/...` on LPG, where the header button says "Espace Pro".
+The blocks come from the boilerplate at commit `6fe10508` (April 2026 suite) and use storefront-auth, storefront-account, storefront-checkout and storefront-order. Paths sit under the store root, built with `rootLink()` like the boilerplate: `/wellbox/fr/...` on Wellbox (aem.page) and `/fr/...` on LPG, where the header button says "Espace Pro".
 
 | Path | Blocks |
 |---|---|
@@ -150,7 +169,8 @@ The blocks come from the boilerplate as it was on 11 June 2026 and use storefron
 `drafts/` holds one `.plain.html` per page and site, in DA markup: the block table, `section-metadata` for the column width and gap of the account pages, and a `metadata` table (title, `Template: My Account, Columns` on account pages, `Robots: noindex, nofollow`). Upload them to DA under the same paths. `/checkout` and `/cart` exist for Wellbox only.
 
 Changes from the boilerplate blocks:
-- No Payment Services. `PaymentMethods` lists the methods the PaaS returns.
+- No Payment Services. `PaymentMethods` is rendered without method slots, so it lists the methods the PaaS returns. An offline method such as `checkmo` (Check / Money order) needs no slot: the container selects it and calls `setPaymentMethodOnCart` with the code (auto sync), and the order drop-in places the order. The Adyen methods of the sandbox also appear and cannot be paid without the Adyen web components.
+- Guest checkout: the checkout drop-in reads `is_guest_checkout_enabled` but does not act on it. When the store view has it off and the shopper is not signed in, the checkout block redirects to `/customer/login?redirect=<checkout path>`, and the login block comes back to that path after sign in (only paths under the store root are accepted, `safeRedirectPath` in `scripts/commerce-utils.js`).
 - The checkout agreements come from the PaaS (`CGV Wellbox FR`, manual consent). The boilerplate's extra "default" agreement is not added.
 - The order initializer compares paths with `rootLink()`, because the boilerplate compares `/order-details` with the full path and never matches under a store root.
 - Visible strings that the boilerplate hardcodes in English (welcome messages, "Continue shopping", "Need help?", checkout title, order search labels) come from `placeholders/{lang}/global.json`.
@@ -219,13 +239,13 @@ Each initializer passes `langDefinitions` built from placeholders, like the boil
 
 ## History of the work-arounds
 
-Re-checked on 20 November 2026 with the June 2026 suite, locally and on the branch preview.
+Re-checked on 20 November 2026 with the April 2026 suite (code reading and GraphQL, no browser).
 
 The current list of open issues is in "Known issues" below.
 
 Kept because of ACO data:
 
-- The price visibility transformer (`pdpPriceVisibilityTransformer` in `scripts/commerce-utils.js`, passed as a PDP model transformer). This is a data issue, not a drop-in bug. ACO returns `roles: []` on `priceRange.minimum` and `priceRange.maximum` of configurable products, while simple products carry `["visible"]`. `storefront-pdp` shows a price only when its roles contain `visible`, which is correct behaviour. Without the transformer, WELLBOX 2 shows no price until a colour is chosen (checked again with pdp 3.2.0). The transformer marks the range visible only when ACO sent an empty list, and a `hidden` role still hides it. The fix belongs to the catalogue data, through the ACO connector or the price feed. Once the data carries `visible`, delete the transformer. To reproduce:
+- The price visibility transformer (`pdpPriceVisibilityTransformer` in `scripts/commerce-utils.js`, passed as a PDP model transformer). This is a data issue, not a drop-in bug. ACO returns `roles: []` on `priceRange.minimum` and `priceRange.maximum` of configurable products, while simple products carry `["visible"]`. `storefront-pdp` shows a price only when its roles contain `visible`, which is correct behaviour. Without the transformer, WELLBOX 2 shows no price until a colour is chosen (checked again with pdp 3.2.0 and 3.0.3, same `visible` role test in the price mapping). The transformer marks the range visible only when ACO sent an empty list, and a `hidden` role still hides it. The fix belongs to the catalogue data, through the ACO connector or the price feed. Once the data carries `visible`, delete the transformer. To reproduce:
 
   ```sh
   curl -s https://na1-sandbox.api.commerce.adobe.com/QD1T4hbz1zGxLHYpp8cyPy/graphql \
@@ -237,7 +257,7 @@ Kept because of ACO data:
 
 Removed:
 
-- The `beforeHook` that stripped `has_available_free_gifts`, `is_free_gift` and `is_salable` from cart queries. This was a version gap. `storefront-cart` 3.3.1 does not query these fields, and its cart fragment validates against the sandbox as is.
+- The `beforeHook` that stripped `has_available_free_gifts`, `is_free_gift` and `is_salable` from cart queries. This was a version gap. `storefront-cart` 3.3.1 and 3.2.0 do not query these fields, and their operations validate against the sandbox as is.
 - The cart page wait for `cart/initialized` before mounting `CartSummaryList`. The cart block now mounts the containers the way the boilerplate does. The display problem it hid is still there (K4).
 - The `commerce/customer-context` refetch on the PDP, and the free-gift flag on the cart initializer. Both belong to later boilerplate versions.
 
@@ -247,14 +267,14 @@ Status on 20 November 2026. Root cause categories: Adobe drop-in, Adobe backend 
 
 | # | Symptom | Where | Root cause | Proof | What fixes it | Status |
 |---|---|---|---|---|---|---|
-| K1 | Placing an order, the orders list and order details fail with `Cannot query field "admin_assisted_order" on type "CustomerOrder"`. Sign-up and account pages get `Cannot query field "shopping_assistance_enabled" on type "StoreConfig"` from their store config query | `/checkout` (place order), `/customer/orders`, `/customer/account`, `/customer/order-details`, `/order-details`, `/customer/create` | Adobe backend version. storefront-order 4.0.x, storefront-account 4.0.0 and storefront-auth 4.0.x (June 2026, seller-assisted buying) select fields that the sandbox schema with Compatibility Package 4.7.13 does not have. The June release notes list 4.7.13 as tested with these versions, which this sandbox does not confirm | `node tools/validate-dropin-graphql.mjs scripts/__dropins__ https://wellbox.lpg-migration-6j6zloi-37xbp5mgn7pn2.eu-4.magentosite.cloud/graphql wellbox_fr storefront-order storefront-account storefront-auth`: 8 order operations (including `PLACE_ORDER_MUTATION`), `GET_CUSTOMER_ORDERS_LIST`, `GET_ADMIN_ASSISTANCE_ACTIONS` and both `GET_STORE_CONFIG` fail validation. The same check on the April 2026 suite (order 3.3.0, account 3.3.0, auth 3.2.0, cart 3.2.0, checkout 3.2.1) finds no error on B2C operations | A Compatibility Package that adds the seller-assisted buying fields (needs ACO licence keys, see "Drop-in versions"), or the whole storefront on the April 2026 suite (tested by Adobe with 4.7.12). No drop-in patch | Open, decision for the owner |
-| K2 | No payment method can complete an order | `/checkout` | Sandbox limit and our scope. The PaaS only offers Adyen methods, which need the Adyen web components. LPG does not use Payment Services | `cart { available_payment_methods }` returns 130 `adyen_*` codes and no offline method | Enable an offline method (`checkmo` or `banktransfer`) on `wellbox_fr` in the sandbox admin for tests, then build the Adyen integration as LPG business code | Open |
-| K3 | Guest checkout impossible | `/checkout` | Sandbox config (`is_guest_checkout_enabled = false`, same as production) | `storeConfig { is_guest_checkout_enabled }`, and `setGuestEmailOnCart` answers "Guest checkout is not allowed" | None needed: the checkout shows the sign-in form. Change the store setting if guests must order | By design |
-| K4 | Cart page row totals excluding tax (832,50 €) under a "TTC" label. A free gift line shows 125,00 € instead of 0. The order summary shows the subtotal excluding tax | `/wellbox/fr/cart` | Adobe drop-in (storefront-cart 3.3.1 and 3.4.1). `CartSummaryList` and `OrderSummary` read the tax display settings (`shoppingCartDisplaySetting`, from `storeConfig`) at their first render. When the cart comes from the session cache before `storeConfig` has loaded, they keep the "excluding tax" branch | `storeConfig` with `Store: wellbox_fr` returns `shopping_cart_display_price: 2`, `shopping_cart_display_subtotal: 2` (including tax). The same cart through GraphQL has `row_total_including_tax: 999`. In the same page, `MiniCart`, opened later, shows `including-tax-item-total` 999,00 €. Rendering the cart block after the `cart/initialized` event shows the right values | Adobe fix. No work-around kept (owner rule). Our block is the June boilerplate block, with the same options as the boilerplate `/cart` page | Open, to report to Adobe |
-| K5 | Struck-through line price 1 165,83 € (excluding tax) next to 999,00 € (including tax) | Mini cart and cart page, WELLBOX 2 white | Adobe drop-in plus Magento schema. In "including tax" mode the struck total is `prices.original_row_total`, which Magento only returns excluding tax | Cart query: `original_row_total 1165.83`, `row_total_including_tax 999`, `price_including_tax 999` | Adobe fix (needs an "original row total including tax" value) | Open, to report to Adobe |
+| K1 | June 2026 suite release notes say tested with 4.7.13, but order 4.0.x, account 4.0.x and auth 4.0.x query `admin_assisted_order` and `shopping_assistance_enabled`, absent from 4.7.13. Place order, the orders list, order details and the sign-up store config failed | `/checkout`, `/customer/orders`, `/customer/account`, `/customer/order-details`, `/order-details`, `/customer/create` (June suite only) | Adobe documentation mismatch, to report | GraphQL errors `Cannot query field "admin_assisted_order" on type "CustomerOrder"` and `Cannot query field "shopping_assistance_enabled" on type "StoreConfig"` on the sandbox (`tools/validate-dropin-graphql.mjs` on order 4.0.1, account 4.0.0, auth 4.0.1: 8 order operations including `PLACE_ORDER_MUTATION`, `GET_CUSTOMER_ORDERS_LIST`, `GET_ADMIN_ASSISTANCE_ACTIONS`, both `GET_STORE_CONFIG`) | April 2026 suite (no B2C operation fails, see "Drop-in versions"), or a Compatibility Package that adds these fields | Mitigated by the April 2026 suite |
+| K2 | No payment method can complete an order until `checkmo` is enabled | `/checkout` | Sandbox limit and our scope. The PaaS offers Adyen methods only, which need the Adyen web components, and LPG does not use Payment Services | `cart { available_payment_methods }` on a Wellbox guest cart returned 126 `adyen_*` codes and no `checkmo` on 20 November 2026 (`checkmo` absent) | The owner enables `checkmo` (Check / Money order) on the Wellbox website for sandbox test orders. The checkout lists it with no extra code. Production needs the Adyen integration as LPG code | Open until `checkmo` is enabled |
+| K3 | Guest checkout impossible | `/checkout` | Sandbox config (`is_guest_checkout_enabled = false`, same as production) | `storeConfig { is_guest_checkout_enabled }`, and `setGuestEmailOnCart` answers "Guest checkout is not allowed" | The checkout block sends a guest to `/customer/login?redirect=...`, and the login block comes back to the checkout after sign in | By design, handled |
+| K4 | Cart page row totals excluding tax (832,50 €) under a "TTC" label. A free gift line shows 125,00 € instead of 0. The order summary shows the subtotal excluding tax | `/wellbox/fr/cart` | Adobe drop-in (seen with storefront-cart 3.3.1 and 3.4.1, same code in 3.2.0). `CartSummaryList` and `OrderSummary` read the tax display settings (`config.shoppingCartDisplaySetting`, from `storeConfig`) when they render. When the cart comes from the session cache before `storeConfig` has loaded, they keep the "excluding tax" branch | `storeConfig` with `Store: wellbox_fr` returns `shopping_cart_display_price: 2`, `shopping_cart_display_subtotal: 2` (including tax). The same cart through GraphQL has `row_total_including_tax: 999`. In the same page, `MiniCart`, opened later, shows `including-tax-item-total` 999,00 €. Rendering the cart block after the `cart/initialized` event shows the right values. Cart 3.2.0 (`chunks/CartSummaryList.js`) reads the setting the same way | Adobe fix. No work-around (owner rule). Our block is the boilerplate block of the April suite | Open, expected unchanged with 3.2.0 (code reading). To confirm in the browser and report to Adobe |
+| K5 | Struck-through line price 1 165,83 € (excluding tax) next to 999,00 € (including tax) | Mini cart and cart page, WELLBOX 2 white | Adobe drop-in plus Magento schema. In "including tax" mode the struck total is `prices.original_row_total`, which Magento only returns excluding tax. Same branch in cart 3.2.0 | Cart query: `original_row_total 1165.83`, `row_total_including_tax 999`, `price_including_tax 999`. Cart 3.2.0 `chunks/CartSummaryList.js` uses `t.total` (original row total) as the struck amount in the including-tax branch | Adobe fix (needs an "original row total including tax" value) | Open, unchanged with 3.2.0 (code reading) |
 | K6 | WELLBOX 2 shows no price before a colour is chosen without our transformer | PDP of configurable products | ACO data. Configurable price ranges carry `roles: []` while simple products carry `["visible"]` | `curl` in "What remains custom" below | Fix the data (connector or price feed), then delete `pdpPriceVisibilityTransformer` | Work-around kept (data issue) |
-| K7 | No `h1` on product pages | PDP | Adobe drop-in version gap. `ProductHeader` of storefront-pdp 3.2.0 renders the name in a `div`. 3.4.0 renders an `h1` | DOM of `/wellbox/fr/products/wellbox-2-wellbox-2` | Later suite, or the BYOM product page provides the `h1` | Open |
-| K8 | Newer drop-ins break the cart (`has_available_free_gifts`, `is_free_gift`, `is_salable` unknown) | Every cart call with storefront-cart 3.4.x | Adobe backend version: Compatibility Package 4.7.13, and 4.7.14+ needs ACO licence keys on repo.magento.com | `tools/validate-dropin-graphql.mjs` on cart 3.4.1 | Stay on the June suite, or get 4.7.14+ | Mitigated by pinning |
+| K7 | No `h1` on product pages | PDP | Adobe drop-in version gap. `ProductHeader` of storefront-pdp 3.0.3 (and 3.2.0) renders the name in `div.pdp-header__title`. 3.4.0 renders an `h1` | `scripts/__dropins__/storefront-pdp/containers/ProductHeader.js` contains `"div",{className:"pdp-header__title"` | Later suite, or the BYOM product page provides the `h1` | Open, unchanged with 3.0.3 |
+| K8 | Newer drop-ins break the cart (`has_available_free_gifts`, `is_free_gift`, `is_salable` unknown) | Every cart call with storefront-cart 3.4.x | Adobe backend version: Compatibility Package 4.7.13, and 4.7.14+ needs ACO licence keys on repo.magento.com | `tools/validate-dropin-graphql.mjs` on cart 3.4.1 | Stay on the April suite, or get a Compatibility Package that adds the fields | Mitigated by pinning |
 | K9 | `/config.json` answers 404 | Every page | Our config: the site config service has no `public` section and the lab cannot write it | `curl -I https://dropins--lpg-storefront--yaissaoui.aem.page/config.json` | Put `config/site-config.public.json` in the config service | Fallback in place |
 | K10 | Placeholders and the DA pages of `/cart`, `/checkout` and `/customer/*` do not exist in DA yet | aem.page preview | Content not created yet | `curl` on the preview answers 404 | Upload the drafts and create placeholder sheets in DA | Open |
 | K12 | A new account cannot sign in until it is confirmed | `/customer/create`, then sign in | Sandbox config: `create_account_confirmation` is true on `wellbox_fr`, and outbound e-mail is off in the sandbox (rule 8 of `../AGENTS.md`), so the confirmation link never arrives | `storeConfig { create_account_confirmation }` returns true | Confirm the test customer in the sandbox admin, or use an existing test customer. Passwords need 10 characters and 3 character classes (`minimum_password_length`, `required_character_classes_number`) | By design |
@@ -305,7 +325,7 @@ The ITF licence allows self-hosting through `@font-face` for the licensee's own 
 
 ## Sources
 
-- https://github.com/hlxsites/aem-boilerplate-commerce (local clone, state of commit `f00f929e` of 11 June 2026)
+- https://github.com/hlxsites/aem-boilerplate-commerce (local clone, commit `6fe10508` of 30 April 2026, merge of `release/suite8`)
 - https://github.com/aemsites/da-block-collection (local clone, `ue/` folder)
 - https://docs.da.live/developers/reference/universal-editor
 - https://experienceleague.adobe.com/en/tools/commerce-storefront/releases/2026-04/
