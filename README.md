@@ -1,148 +1,142 @@
 # LPG storefront on Edge Delivery Services (lab)
 
-First version of the EDS storefront for the LPG migration lab. It covers two sites from one code base: the institutional LPG catalogue and the Wellbox shop. It reads the catalogue from Adobe Commerce Optimizer (ACO) or from the PaaS 2.4.7 core GraphQL, and does cart, account and checkout on the PaaS core GraphQL. It uses custom blocks only. The plan behind it is in `../docs/PLAN.en.md`, sections 4 and 6.
+EDS storefront for the LPG migration lab. One code base serves two sites: the institutional LPG catalogue and the Wellbox shop. Commerce features use the Adobe drop-ins, wired like the Adobe commerce boilerplate (`hlxsites/aem-boilerplate-commerce` v12.0.0). The catalogue comes from Adobe Commerce Optimizer (ACO). The cart runs on the PaaS 2.4.7 core GraphQL of the sandbox `lpg-migration`. The plan behind it is in `../docs/PLAN.en.md`, sections 4 and 6.
 
-The code starts from `adobe/aem-boilerplate` (Apache-2.0, commit `599a356`). `scripts/aem.js` is vendored from it and must not be edited.
+The code started from `adobe/aem-boilerplate` (Apache-2.0, commit `599a356`). `scripts/aem.js` is vendored from it and must not be edited. The drop-ins are vendored in `scripts/__dropins__` and must not be edited either.
 
 Any document or screenshot from this repository that goes to the client needs a human review first.
 
 ## Rules that apply here
 
-- The repository must stay private. It contains LPG brand assets (`icons/lpg-logo.svg`, `icons/wellbox-logo.svg`, downloaded from the production sites on 19 Nov 2026) and the General Sans font files. Making it public needs LPG's agreement and a new check of the font licence.
-- No `@dropins/*` package in this repository (rule 5 of `../AGENTS.md`). The Storefront Compatibility Package is installed on the PaaS side (`lpg-migration`) since the ACO connector work, but the storefront does not depend on it. See the last section.
-- No real customer or product data. Fixtures use DEMO skus, fake prices and placeholder SVGs.
-- Pushes go only to the private repository `yaissaoui/lpg-storefront` (remote `origin`).
+- Drop-ins are allowed because the lab uses Commerce Optimizer, whose licence covers them (decision of 20 November 2026, `../docs/ACO-PAAS.md` section 11). Production needs the client's own ACO licence.
+- Code under `scripts/__dropins__` is never edited. Extensions go through slots, events, configuration (including model transformers) and our own `FetchGraphQL` hooks, like the boilerplate.
+- No real customer data. Drafts point at sandbox products only.
+- The repository `yaissaoui/lpg-storefront` is public since 20 November 2026 (internal demo). It still holds LPG brand assets and the General Sans fonts, see "Styles and fonts".
 
 ## Run it locally
 
 Everything runs in the lab container (`make up` from the repository root starts it).
 
 ```sh
-# from the repository root
-docker compose --env-file .env -f env/docker-compose.yml exec -T toolchain \
-  bash -c 'cd storefront && aem up --no-open --addr "*" --html-folder drafts --html-mount /'
+docker exec -d -w /workspace/storefront lpg-dev-toolchain-1 \
+  sh -c 'aem up --no-open --addr "*" --html-folder drafts --html-mount / > /tmp/aem.log 2>&1'
 ```
 
-Then open <http://localhost:3000/fr/index>.
+Then open <http://localhost:3000/wellbox/fr/products/wellbox-2-wellbox-2>.
 
-`--html-mount /` matters. Without it the CLI serves the drafts under `/drafts/...`, and the locale and site detection, which read the first path segment, would see `drafts` instead of `fr`. The existing `make preview` target does not pass these flags, so it shows no local content.
+`--html-mount /` matters. Without it the CLI serves the drafts under `/drafts/...` and the store root (`/wellbox/fr/`) is not found.
 
-Install and check:
+Install, copy the drop-ins, check:
 
 ```sh
-docker compose --env-file .env -f env/docker-compose.yml exec -T -u "$(id -u):$(id -g)" -e HOME=/tmp/h toolchain \
-  bash -c 'cd storefront && npm install && npm run lint && npm test'
+docker exec -u "$(id -u):$(id -g)" -e HOME=/tmp/h -w /workspace/storefront lpg-dev-toolchain-1 \
+  sh -c 'npm ci && npm run install:dropins && npm run lint && npm test'
 ```
 
-The `-u` flag is there because the container user is uid 1000 and the files on the host may belong to another uid. Without it `npm install` cannot write `node_modules`.
+`.npmrc` sets `ignore-scripts=true` like the boilerplate, so `npm ci` does not run the postinstall step. `npm run install:dropins` runs `build.mjs` (GraphQL fragment overrides, none today) and `postinstall.js`, which copies the `@dropins/*` packages listed in `dependencies` to `scripts/__dropins__`. That folder is committed. Source maps are neither committed (`.gitignore`) nor served (`.hlxignore`). After a version change, run the script and commit the folder.
 
-### Pages available in `drafts/`
+The `-u` flag is there because the container user is uid 1000 and the files on the host may belong to another uid.
 
-| URL | Content |
+### Pages to try
+
+| URL | What it shows |
 |---|---|
-| `/fr/index` | LPG home: hero, reinsurance row, teasers, expertise cards, figures, testimonials |
-| `/fr/expertise-esthetique/cosmetiques/cosmetiques-visage` | LPG product list (8 fixture products, sort, pagination with `?page=`) |
-| `/fr/products/demo-serum-a` | LPG product page, no price, "Où trouver ce produit" |
-| `/fr/search?q=demo` | Search results |
-| `/wellbox/fr/index` | Wellbox home |
-| `/wellbox/fr/products/demo-device-w` | Wellbox product page with price, colour choice, add to cart and mini cart |
+| `/wellbox/fr/products/wellbox-2-wellbox-2` | PDP: gallery, colour options, price per variant including VAT, quantity, add to cart |
+| `/wellbox/fr/accessoires-wellbox`, `/wellbox/fr/cosmetiques`, `/wellbox/fr/wellbox-produits` | PLP with sort and pagination |
+| `/wellbox/fr/search?q=tete` | Search results |
+| `/wellbox/fr/cart` | Cart page (local draft only, see "Not done yet") |
+| `/fr/products/the-bio-minceur-express-j14-102359502` | LPG showcase PDP: no price, "Trouver un centre" and the pro shop link (local draft) |
+| `/fr/search?q=creme` | LPG showcase search: no price, "Découvrir" |
 
-`?site=wellbox` on any page forces the Wellbox theme and store view. `?site=auto` removes the override.
+The 63 Wellbox product pages, the three Wellbox category pages and the search pages exist in DA.live (`https://da.live/#/yaissaoui/lpg-storefront`). Code Sync publishes each branch at `https://{branch}--lpg-storefront--yaissaoui.aem.page/`.
 
 ## Structure
 
 ```text
 blocks/
-  header/          logo, category menu (getCategoryTree, static fallback), search, account, mini cart
+  header/          logo, category menu (ACO navigation), search box, account, drop-in MiniCart
   footer/          4 columns from the {locale}/footer fragment, language switcher
-  hero/            full-width image or video, uppercase title
-  cards/           expertise cards, variants reinsurance and stats
-  teaser/          image and text side by side
-  testimonials/    simplified slider (scroll snap and two buttons)
-  product-list/    PLP, variant compact for related products
-  product-details/ PDP: gallery, options, tabs, price and cart only on selling views
-  search/          search results
-  columns/ fragment/ widget/   kept from the boilerplate
-config/sites.json  sites, locales, store view codes, sells flag, backends, ACO view ids
+  product-details/ PDP on storefront-pdp, showcase mode on views that do not sell
+  product-list/    PLP on storefront-product-discovery, variant compact for related products
+  search/          search results on storefront-product-discovery
+  commerce-cart/   cart page on storefront-cart
+  hero/ cards/ teaser/ testimonials/ columns/ fragment/ widget/   content blocks
+config/
+  site-config.public.json  boilerplate "public" config: endpoints, Store header, ACO view and price book
+  sites.json               presentation: theme, logo, menu fallback, selling or showcase mode, tax display
 scripts/
-  scripts.js       boilerplate loader, sets body.site-lpg or body.site-wellbox and html lang
+  scripts.js       boilerplate loader, initialises commerce, sets body.site-lpg or body.site-wellbox
+  commerce.js      the two GraphQL clients, config loading, sku resolution, placeholders
+  commerce-utils.js pure helpers: VAT and price transformers, product path, config fallback, cart field filter
+  initializers/    auth, cart, pdp, search (one per drop-in, like the boilerplate)
+  product-discovery.js shared PLP and search rendering
   site-config.js   site and locale resolution (pure functions, tested)
-  commerce/        the data module, see scripts/commerce/README.md
-  product-ui.js    shared rendering helpers (cards, prices, sanitising)
-  i18n.js          UI strings (fr, en, English fallback)
-styles/            styles.css (themes), fonts.css (after LCP), product-card.css (on demand)
+  __dropins__/     vendored drop-ins, never edited
+placeholders/      drop-in labels, fr and en (fallback while DA holds none)
+styles/            styles.css (themes and drop-in design tokens), product-discovery.css, fonts.css
 drafts/            local content as .plain.html files (ignored by .hlxignore)
-tools/             dev-graphql-proxy.mjs (ignored by .hlxignore)
 test/              node:test unit tests
 ```
 
 ## Sites and locales
 
-`config/sites.json` holds the whole mapping. The browser fetches it once per page.
+The site comes from the hostname. A host containing `wellbox` selects Wellbox, anything else selects LPG. On dev hosts (`localhost`, `127.0.0.1`, `*.aem.page`) three overrides apply, in this order: `?site=<key>` (kept in `localStorage`), the site's `devPathPrefix` (`/wellbox/...`), then the stored value. Production hosts ignore them. The locale is the first path segment after that prefix.
 
-The site comes from the hostname. A host containing `wellbox` selects Wellbox, anything else selects LPG. On dev hosts (`localhost`, `127.0.0.1`, `*.aem.page`) three overrides apply, in this order: `?site=<key>` (kept in `localStorage`), the site's `devPathPrefix` (`/wellbox/...`), then the stored value. Production hosts ignore them.
+| Site | Folder | Store view | Sells | ACO view |
+|---|---|---|---|---|
+| lpg | `fr`, `en` | same code | no | yes |
+| lpg | `es`, `it`, `de`, `nl`, `us` | same code | no | no, falls back to the default (LPG fr) |
+| lpg | `pro-fr`, `pro-en` | `pro_fr`, `pro_en` | yes | no |
+| wellbox | `fr`, `en` | `wellbox_fr`, `wellbox_en` | yes | yes |
 
-The locale is the first path segment. EDS folder names use hyphens and Commerce store view codes keep underscores, and each locale maps them explicitly:
+`sells` in `config/sites.json` decides whether prices, quantity, add to cart and the mini cart appear. On 19 Nov 2026 the institutional LPG site showed no price and no cart, while Wellbox showed prices and a black "Ajouter au panier" button.
 
-| Site | Folder | Store view | Sells |
+## Commerce with the drop-ins
+
+### Configuration
+
+`config/site-config.public.json` has the shape the boilerplate reads from `/config.json`: a `public` object with a `default` entry and one entry per store root (`/fr/`, `/en/`, `/wellbox/fr/`, `/wellbox/en/`). Each holds `commerce-endpoint` (ACO), `commerce-core-endpoint` (PaaS), `adobe-commerce-optimizer: true`, `headers.all.Store` and `headers.cs` with `AC-View-ID` and `AC-Price-Book-ID`. The drop-in resolver (`@dropins/tools/lib/aem/configs.js`) picks the longest matching root and merges it over `default`. Only keys the boilerplate uses are present, and a test checks it.
+
+`scripts/commerce.js` fetches `/config.json` first. On 20 November 2026 that URL answers 404 on `*.aem.page`, because the configuration service of the site holds no `public` section and this lab has no write access to it. The script then reads the committed `/config/site-config.public.json`. Once someone puts the same JSON in the config service, the fallback is no longer used and can be deleted. The result is cached in `sessionStorage` for two hours, like the boilerplate.
+
+On aem.page Wellbox lives under `/wellbox/fr/`. On a future Wellbox host it would live under `/fr/`, which the LPG entry also matches. Two aem.live sites (one per host) with their own config each solve that. The resolver also accepts a custom `match` function if one site must serve both.
+
+`config/sites.json` keeps the presentation settings only (theme, logo, menu fallback, `sells`, `taxRate`).
+
+### Clients and headers
+
+| Client | Endpoint | Headers | Used by |
 |---|---|---|---|
-| lpg | `fr`, `en`, `es`, `it`, `de`, `nl`, `us` | same code | no |
-| lpg | `pro-fr`, `pro-en` | `pro_fr`, `pro_en` | yes |
-| wellbox | `fr`, `en` | `wellbox_fr`, `wellbox_en` | yes |
+| `CS_FETCH_GRAPHQL` | ACO Merchandising GraphQL, `?cb=` hash of the headers | `AC-View-ID`, `AC-Price-Book-ID`, `Store` | storefront-pdp, storefront-product-discovery, menu, category heading, sku lookup |
+| `CORE_FETCH_GRAPHQL` | PaaS core GraphQL of the site (main host or `wellbox.` host) | `Store` | storefront-auth, storefront-cart |
 
-`sells` decides whether prices, quantity and the add to cart button appear. On 19 Nov 2026 the institutional LPG site showed no price and no cart, while Wellbox showed prices and a black "Ajouter au panier" button. The pro views are set to sell because they serve professionals. That is an assumption from the brief, not something observed. `miniCart` defaults to `sells`.
+The auth drop-in runs with `adobeCommerceOptimizer: true`. It reads `commerceOptimizer { priceBookId }` from PaaS (the guest book `wellbox::b6589f…` on Wellbox) and the initializer sets it as `AC-Price-Book-ID`. Until then the base book from the config (`wellbox`, `lpg_group`) applies.
 
-Each request to the PaaS core GraphQL carries the header `Store: <store view code>`. Requests to ACO carry `AC-View-ID` and `AC-Price-Book-ID` instead.
+The boilerplate also copies `AC-View-ID` and `AC-Price-Book-ID` onto core requests (for ACCS in CCDM mode). The PaaS sandbox does not need them and its CORS answer does not allow them, so this lab leaves that hook out.
 
-## Data module
+### Product URLs and sku
 
-Blocks call `getProduct`, `listCategory`, `search`, `getCategoryTree` and `cart.create`, `cart.add`, `cart.get`. They never call GraphQL. The contract, the shapes and the queries are documented in `scripts/commerce/README.md`.
+The boilerplate expects `/products/{urlKey}/{sku}` or `<meta name="sku">`. The DA pages of this lab sit at `/wellbox/fr/products/{urlKey}` with an empty `product-details` block. `scripts/commerce.js` reads the sku in this order: `<meta name="sku">`, then a sku segment after the url key, then one ACO query `productSearch(filter: url_key)` cached per view in `sessionStorage`. Product links built by the drop-ins (`getProductLink`) keep `/products/{urlKey}` so they land on the existing pages. The extra query costs one round trip on the first visit of a product. When BYOM or JSON2HTML renders product pages, it should write `<meta name="sku">` and the lookup stops.
 
-The module has a catalogue client and a core client, like the Adobe commerce boilerplate. The catalogue backend is chosen per store view with `catalog-backend` in `config/sites.json`:
+### VAT and price visibility
 
-| Value | Catalogue from | Cart, account, checkout |
-|---|---|---|
-| `aco` | ACO Merchandising GraphQL on `commerce-endpoint` | PaaS core GraphQL on `commerce-core-endpoint` |
-| `paas-core` | PaaS core GraphQL on `commerce-core-endpoint` | same |
-| `fixture` | `scripts/commerce/fixtures.js` | fixtures |
+ACO prices exclude tax. Wellbox shows prices including 20 % VAT (999.00 TTC for WELLBOX 2 white, 832.50 in ACO). Each view that shows tax sets `taxRate` in `config/sites.json` (0.2 on `wellbox_fr` and `wellbox_en`, nothing elsewhere). The pdp and search initializers pass a model transformer (`models.ProductDetails.transformer`, `models.Product.transformer`). Both drop-ins call it with the raw ACO `ProductView` and deep merge the result into their model, so the transformers in `scripts/commerce-utils.js` read raw fields and return only price fields with the tax added, rounded to the cent. One rate per view ignores product tax classes and the shopper's address, which is acceptable for a French B2C shop and checked against PaaS on several SKUs (118.80 for 99.00, 999.00 for 832.50).
 
-Only `fr`, `en`, `wellbox_fr` and `wellbox_en` are exported to ACO. The other views stay on `paas-core` even when the site is switched to `aco`.
+ACO also returns `roles: []` on the price range of configurable products, while simple products carry `["visible"]`. The PDP drop-in hides a price without the `visible` role, so WELLBOX 2 showed no price. A second transformer marks such ranges visible. A `hidden` role still hides the price.
 
-## Fixture mode
+### Cart on PaaS 2.4.7
 
-`catalog-backend` is `fixture` in `config/sites.json`, so the module runs on fixtures. Product and list pages show a small blue notice on dev hosts so nobody mistakes demo data for the sandbox.
+`storefront-cart` 3.4.1 always selects `Cart.has_available_free_gifts`, `CartItemInterface.is_free_gift` and `CartItemInterface.is_salable`. The sandbox (2.4.7-p10 with the Storefront Compatibility Package 4.7.13) has none of them, so every cart call failed. `build.mjs` can only add fields or drop whole fragments, so a `beforeHook` on `CORE_FETCH_GRAPHQL` removes these three scalars from POST bodies. The drop-in treats the missing values as "not a free gift" and falls back from `is_salable` to `is_available`. A newer compatibility package may add the fields, in which case the hook can go.
 
-## Switching to ACO
+The cart page waits for the `cart/initialized` event before it mounts `CartSummaryList`. Mounted earlier, the container rendered row totals excluding tax under a "TTC" label.
 
-The ACO catalogue views are being created in Optimizer Studio. Once their ids are known:
+### Showcase mode (LPG fr and en)
 
-1. Put each id in `config/sites.json`, in the `aco.viewId` of the matching locale (`fr`, `en` under `lpg`, `fr`, `en` under `wellbox`). They currently hold `TODO-...-catalog-view-id`.
-2. Set the top-level `catalog-backend` to `aco`.
-3. Run `npm test`. The test `backends: fixture in the committed config` will then fail on purpose and must be updated.
+Views with `sells: false` render the PDP without `ProductPrice`, `ProductQuantity` or the add to cart button. The block adds a "Trouver un centre" button and a link to the same product in the pro store. Lists empty the `ProductPrice` slot and put a "Découvrir" link in `ProductActions`. The cart drop-in is not initialised and the header has no mini cart. All of this is block code, slots and configuration. No drop-in file changes.
 
-To try ACO on a dev host without touching the file, set `localStorage` keys `catalog-backend` to `aco` and `commerce-core-endpoint` to `http://localhost:3001/graphql` (the proxy below). The view ids still have to be real.
+### Labels
 
-ACO answers CORS for `http://localhost:3000`. Since 20 November 2026 the sandbox `lpg-migration` answers CORS on `/graphql` too, for `http://localhost:3000` and `https://*--lpg-storefront--yaissaoui.aem.page` (and `.aem.live`). It comes from a sandbox-only module, `Sqli_LabCors`, kept in `lpg-ops/sandbox/overlay`. The dev proxy is no longer needed. Production should prefer a CDN route from the storefront host to `/graphql` (same origin).
-
-Known gap before Wellbox goes on ACO: ACO prices are tax excluded while Wellbox shows prices including VAT. Details in `scripts/commerce/README.md`.
-
-## Pointing at the PaaS sandbox
-
-The sandbox is `lpg-migration` (`https://lpg-migration-6j6zloi-37xbp5mgn7pn2.eu-4.magentosite.cloud`). With `SANDBOX_DEFAULT_URL` set in the root `.env`:
-
-1. Start the proxy with `make graphql-proxy`. It forwards `http://localhost:3001/graphql` to `$SANDBOX_DEFAULT_URL/graphql`. Another URL can be given with `make graphql-proxy COMMERCE_GRAPHQL_URL=https://<host>/graphql`.
-2. In the browser console on `http://localhost:3000`, run `localStorage.setItem('commerce-endpoint', 'http://localhost:3001/graphql')` and reload. `localStorage.removeItem('commerce-endpoint')` goes back to fixtures. This override only works on dev hosts.
-3. For a shared preview on PaaS only, set `catalog-backend` to `paas-core` in `config/sites.json`. The `commerce-core-endpoint` of each site already points to the sandbox. A direct call from `*.aem.page` to the sandbox works since the CORS module above.
-
-The proxy only exists for local development. It allows the origin `http://localhost:3000` only, forwards the `Store` header, never forwards cookies and logs no request body. The Adobe documentation prefers same-origin delivery (a CDN route from the EDS host to `/graphql`) and treats CORS as a last resort. That decision belongs to the delivery set-up of phase B (API Mesh) or to the CDN configuration.
-
-## Content
-
-Real content will come from DA.live. Until then `drafts/` holds `.plain.html` files with EDS semantic markup (sections as top-level `div`, blocks as `div` tables). `aem up --html-folder` wraps them with `head.html` and serves them like delivered pages. The raw file stays available at `<path>.plain.html`, which is how the footer fragment loads.
-
-The boilerplate's current `aem.js` no longer reads `section-metadata` blocks in the browser (my reading of the code, the delivery pipeline now handles them). The drafts therefore put section styles straight on the section `div`, for example `<div class="grey centered">`.
-
-Production product and category pages must come from BYOM or JSON2HTML, not from folder mapping, which the documentation discourages for SEO. Locally, the product-details block reads the `url_key` from the last path segment, and one draft page per test product is enough. The product-list block reads the category from its `category` row or from the path after the locale.
+Each initializer passes `langDefinitions` built from placeholders, like the boilerplate. The boilerplate reads them from DA at `{root}placeholders/{file}.json`. DA has none for this lab yet, so `fetchPlaceholders` falls back to `/placeholders/{lang}/{file}.json` in this repository (French translations of the visible PDP, cart and search labels, and `Global.*` keys used by the blocks). Moving them to DA sheets only needs the same keys.
 
 ## Styles and fonts
 
@@ -160,32 +154,26 @@ The ITF licence allows self-hosting through `@font-face` for the licensee's own 
 
 ## Tests and lint
 
-`npm test` runs `node --test` on `test/`. The tests cover the store mapping and site resolution, backend selection, PaaS and ACO normalisation, ACO headers, price book resolution and fallback, routing (catalogue to ACO, cart and price book to PaaS), add to cart for configurable products, fixture mode (catalogue, sort, pagination, cart), the GET or POST choice with the `Store` header, and the dev proxy. ACO payloads in `test/aco.test.js` are fake and follow the documented schema. `npm run lint` runs ESLint (airbnb-base) and Stylelint from the boilerplate.
+`npm test` runs `node --test` on `test/`. The tests cover the VAT and price visibility transformers on fake ACO payloads, the product path parsing, the config loading and its fallback, the cart field filter, the public config resolved by the drop-in's own resolver (store header, view id and price book for each root, no secret), and the site and locale resolution. `npm run lint` runs ESLint (airbnb-base, with the rule relaxations of the commerce boilerplate) and Stylelint. Both ignore `scripts/__dropins__`.
 
 ## Not done yet
 
-- Checkout, payment and order confirmation.
-- Customer account, login and the pro area behind "Espace Pro". The link points to a page that does not exist.
-- BYOM or JSON2HTML for product and category pages.
-- The multi-site set-up on aem.live (one code repository, two sites) and the configuration in the Admin API.
-- Content in DA.live, navigation and footer authored there, and the other locales.
-- The store locator, the newsletter form, cookie consent and analytics.
-- Structured data (JSON-LD) for products, which belongs in the server-side rendering anyway.
-- The business rule from `Lpg_Checkout` that hides the mini cart for guests on `pro_fr`, `pro_en`, `fr` and `en`.
-
-## Why drop-ins are not used
-
-This section predates the ACO decision. ACO now brings the drop-in and Storefront Compatibility Package licence, and the package is installed on `lpg-migration`. The repository still keeps custom blocks behind the data module, as `../AGENTS.md` requires, and the module follows the boilerplate split so a later move to drop-ins stays possible.
-
-Adobe licenses the commerce drop-ins (`@dropins/*`) for Commerce as a Cloud Service and Commerce Optimizer. A PaaS licence alone does not include them, and the Storefront Compatibility Package needed to connect them to PaaS is described as unavailable without Optimizer. The npm packages download without an account, but the licence forbids that use, and the drop-in agreement also binds the integrator. This storefront therefore uses custom blocks behind the data module (route A of the plan). The full reasoning and the questions for Adobe are in `../docs/PLAN.en.md` and `../docs/ADOBE-QUESTIONS.md`.
+- DA pages for `/wellbox/fr/cart` and the LPG product pages. The cart and LPG PDP drafts exist only in `drafts/`, so the aem.page preview answers 404 there until someone creates them in DA.live (one `commerce-cart` block, one empty `product-details` block).
+- Checkout, payment and order confirmation. The mini cart and the cart page have no checkout button.
+- Customer account and login. The auth drop-in is initialised for the price book only. Sign in must call nothing extra: the drop-in emits the customer price book itself.
+- Facets: the ACO views expose no facetable attribute, so the filter panel is empty.
+- LPG categories: `fr` and `en` have no categories in ACO, so LPG category pages list nothing and the menu uses `fallbackNav`.
+- The views not exported to ACO (es, it, de, nl, us, pro-fr, pro-en) fall back to the LPG fr catalogue view. They need their own ACO views or a PaaS catalogue route.
+- BYOM or JSON2HTML for product and category pages, with `<meta name="sku">`.
+- The order summary on the cart page shows the subtotal excluding tax, then the VAT, then the total. The PaaS setting asks for subtotals including tax. Not investigated further.
+- Store locator, newsletter, cookie consent and analytics. The drop-ins run with `acdl: false` and no event collector, so the sandbox sends no data to Adobe.
 
 ## Sources
 
+- https://github.com/hlxsites/aem-boilerplate-commerce (v12.0.0, local clone used as reference)
 - https://github.com/adobe/aem-boilerplate
+- https://experienceleague.adobe.com/developer/commerce/storefront/
 - https://www.aem.live/docs/
-- https://www.aem.live/developer/keeping-it-100
-- https://www.fontshare.com/licenses/itf-ffl
 - https://developer.adobe.com/commerce/services/optimizer/merchandising-services/using-the-api/
-- https://developer.adobe.com/commerce/services/reference/graphql/
 - https://experienceleague.adobe.com/en/docs/commerce/aco-optimizer-connector/headless-storefront
-- https://experienceleague.adobe.com/en/docs/commerce/aco-optimizer-connector/reference/field-mapping
+- https://www.fontshare.com/licenses/itf-ffl
