@@ -25,9 +25,9 @@
       "storeLocatorPath": "/trouver-un-centre",
       "fallbackNav": {
         "fr": [
-          {"label": "Expertise esthétique", "path": "/expertise-esthetique"},
-          {"label": "Cosmétiques visage", "path": "/expertise-esthetique/cosmetiques/cosmetiques-visage"},
-          {"label": "Expertise médicale", "path": "/expertise-medicale"},
+          {"label": "Esthétique médicale", "path": "/expertise-medicale/esthetique-medicale"},
+          {"label": "Cellu M6 Alliance", "path": "/expertise-medicale/technologies-medicales/cellu-m6-alliance-medical"},
+          {"label": "Produits pro", "path": "/search"},
           {"label": "Groupe LPG", "path": "/groupe-lpg"}
         ],
         "en": [
