@@ -505,7 +505,7 @@ body.site-wellbox main .section.centered h2::after {
 
 /*
  * "Columns" template of the account pages, from aem-boilerplate-commerce styles.css
- * (June 2026 state, Apache-2.0). Sections carry --column-width and --gap
+ * (April 2026 suite state, Apache-2.0). Sections carry --column-width and --gap
  * (scripts/commerce.js applyTemplates).
  */
 body.columns main {

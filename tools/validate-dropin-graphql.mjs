@@ -7,6 +7,8 @@
  *   node tools/validate-dropin-graphql.mjs scripts/__dropins__ \
  *     https://wellbox.lpg-migration-6j6zloi-37xbp5mgn7pn2.eu-4.magentosite.cloud/graphql \
  *     wellbox_fr storefront-cart storefront-checkout storefront-order
+ *   Extra request headers (ACO catalogue) go in GRAPHQL_HEADERS as JSON, for example
+ *   GRAPHQL_HEADERS='{"AC-View-ID":"...","AC-Price-Book-ID":"wellbox"}'.
  *
  * Each operation is sent with the fragments it uses plus one unused fragment. GraphQL
  * rejects a document with an unused fragment at validation time, so the server never runs
@@ -17,6 +19,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const UNUSED = 'fragment ZZ_NEVER_USED on Query { __typename }';
+const EXTRA_HEADERS = JSON.parse(process.env.GRAPHQL_HEADERS || '{}');
 
 const walk = (dir) => fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
   if (e.isDirectory()) return walk(path.join(dir, e.name));
@@ -77,7 +80,7 @@ async function validate(endpoint, store, doc) {
   try {
     const resp = await fetch(endpoint, {
       method: 'POST',
-      headers: { 'content-type': 'application/json', Store: store },
+      headers: { 'content-type': 'application/json', Store: store, ...EXTRA_HEADERS },
       body: JSON.stringify({ query: doc }),
     });
     const json = await resp.json();

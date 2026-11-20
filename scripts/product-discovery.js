@@ -1,6 +1,6 @@
 /*
  * Product list and search results on the storefront-product-discovery drop-in, after
- * blocks/product-list-page of aem-boilerplate-commerce (June 2026 state) (wishlist left out).
+ * blocks/product-list-page of aem-boilerplate-commerce (April 2026 suite state), without wishlist.
  * Used by blocks/product-list (category pages, variant "compact" for related products)
  * and blocks/search (search page, ?q=).
  *
@@ -123,7 +123,6 @@ export default async function renderProductDiscovery(block, {
         children: addToCartLabel,
         icon: Icon({ source: 'Cart' }),
         variant: 'primary',
-        disabled: !product.inStock,
         onClick: async () => {
           const cartApi = await import('@dropins/storefront-cart/api.js');
           await cartApi.addProductsToCart([{ sku: product.sku, quantity: 1 }]);

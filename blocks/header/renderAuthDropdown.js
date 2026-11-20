@@ -1,6 +1,6 @@
 /*
  * "Mon compte" / "Espace Pro" in the header, after blocks/header/renderAuthDropdown.js of
- * aem-boilerplate-commerce (June 2026 state). Signed out: the button opens a panel with the
+ * aem-boilerplate-commerce (April 2026 suite state). Signed out: the button opens a panel with the
  * storefront-auth SignIn container. Signed in: the panel links to the account and signs out.
  * Labels come from placeholders (Global.*), the button keeps the site label.
  */

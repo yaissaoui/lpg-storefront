@@ -1,7 +1,7 @@
 /*
  * Product details (PDP) on the storefront-pdp drop-in, after blocks/product-details of
- * aem-boilerplate-commerce (June 2026 state). Wishlist, gift card and customizable options
- * are left out.
+ * aem-boilerplate-commerce (April 2026 suite state). Wishlist, gift card and customizable
+ * options are left out.
  *
  * Catalogue: ACO through scripts/initializers/pdp.js (sku from <meta name="sku">,
  * /products/{urlKey}/{sku} or an ACO lookup of the url_key of /products/{urlKey}).
@@ -160,7 +160,6 @@ export default async function decorate(block) {
   }
 
   let inlineAlert = null;
-  let isOutOfStock = product.inStock === false;
   const label = labels.Global?.AddProductToCart || 'Add to cart';
   const getProductName = () => product?.name || product?.sku;
 
@@ -181,7 +180,6 @@ export default async function decorate(block) {
     'aria-label': `${label} ${getProductName()}`,
     children: label,
     icon: h(Icon, { source: 'Cart' }),
-    disabled: isOutOfStock,
     onClick: async () => {
       const busy = labels.Global?.AddingToCart || label;
       try {
@@ -200,7 +198,8 @@ export default async function decorate(block) {
         await showAlert('error', 'Error', error.message);
         $alert.scrollIntoView({ behavior: 'smooth', block: 'center' });
       } finally {
-        addToCart.setProps((prev) => ({ ...prev, children: label, disabled: isOutOfStock }));
+        // Re-enable button (boilerplate April 2026: no stock check here)
+        addToCart.setProps((prev) => ({ ...prev, children: label, disabled: false }));
         $status.textContent = '';
       }
     },
@@ -209,11 +208,9 @@ export default async function decorate(block) {
   events.on('pdp/data', (data) => {
     product = data?.sku ? data : product;
     applyMeta(product);
-    isOutOfStock = data?.inStock === false;
-    addToCart.setProps((prev) => ({ ...prev, disabled: isOutOfStock }));
   }, { eager: true });
 
   events.on('pdp/valid', (valid) => {
-    addToCart.setProps((prev) => ({ ...prev, disabled: isOutOfStock || !valid }));
+    addToCart.setProps((prev) => ({ ...prev, disabled: !valid }));
   }, { eager: true });
 }

@@ -1,6 +1,6 @@
 /*
  * Global drop-in set-up, adapted from scripts/initializers/index.js of
- * aem-boilerplate-commerce, state of the June 2026 release (commit f00f929e, v9.0.0).
+ * aem-boilerplate-commerce, state of the April 2026 suite release (commit 6fe10508, v8.0.0).
  *
  * Kept from the boilerplate: auth headers, the guest price book from the auth drop-in
  * (event auth/adobe-commerce-optimizer, read from PaaS `commerceOptimizer { priceBookId }`),

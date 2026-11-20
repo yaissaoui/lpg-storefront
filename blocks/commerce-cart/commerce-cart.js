@@ -1,6 +1,6 @@
 /*
  * Cart page on the storefront-cart drop-in, ported from blocks/commerce-cart of
- * aem-boilerplate-commerce (June 2026 state, commit f00f929e).
+ * aem-boilerplate-commerce (April 2026 suite state, commit 6fe10508).
  * Left out: wishlist (not used by LPG), the mini PDP edit modal (enable-updating-product)
  * and the shopping cart view event (no data collection in the lab).
  *
@@ -158,6 +158,7 @@ export default async function decorate(block) {
     provider.render(GiftOptions, {
       view: 'order',
       dataSource: 'cart',
+      routeProduct: createProductLink,
       slots: {
         SwatchImage: swatchImageSlot,
       },
