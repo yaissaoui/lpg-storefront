@@ -1,48 +1,102 @@
-// Validates every GraphQL operation shipped in the vendored drop-ins against the PaaS schema.
-// An unused fragment is appended so the server rejects the document at validation time and
-// never executes it (no side effects, even for mutations).
+/*
+ * Validates every GraphQL operation shipped in vendored drop-ins against a Commerce GraphQL
+ * schema, without executing anything.
+ *
+ * Usage:
+ *   node tools/validate-dropin-graphql.mjs <dropins dir> <graphql endpoint> <store code> <pkg>...
+ *   node tools/validate-dropin-graphql.mjs scripts/__dropins__ \
+ *     https://wellbox.lpg-migration-6j6zloi-37xbp5mgn7pn2.eu-4.magentosite.cloud/graphql \
+ *     wellbox_fr storefront-cart storefront-checkout storefront-order
+ *
+ * Each operation is sent with the fragments it uses plus one unused fragment. GraphQL
+ * rejects a document with an unused fragment at validation time, so the server never runs
+ * it (mutations included) and still reports every other validation error, for example
+ * "Cannot query field X on type Y". Introspection is not needed (it fails on the sandbox).
+ */
 import fs from 'node:fs';
 import path from 'node:path';
-const [root, endpoint, store, ...pkgs] = process.argv.slice(2);
-const walk = (d) => fs.readdirSync(d, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(path.join(d, e.name)) : e.name.endsWith('.js') ? [path.join(d, e.name)] : []));
-const strip = (s) => s.replace(/\$\{[^}]*\}/g, ' ').replace(/\\n/g, '\n');
-for (const pkg of pkgs) {
-  const docs = new Set();
-  for (const f of walk(path.join(root, pkg))) {
-    const src = fs.readFileSync(f, 'utf8');
-    for (const m of src.matchAll(/`([^`]*)`/g)) {
-      const s = strip(m[1]);
-      if (/^\s*(query|mutation|fragment)\s+[A-Za-z_]/.test(s) || /\n\s*(query|mutation)\s+[A-Za-z_]/.test(s)) docs.add(s);
+
+const UNUSED = 'fragment ZZ_NEVER_USED on Query { __typename }';
+
+const walk = (dir) => fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
+  if (e.isDirectory()) return walk(path.join(dir, e.name));
+  return e.name.endsWith('.js') ? [path.join(dir, e.name)] : [];
+});
+
+const stripInterpolations = (s) => s.replace(/\$\{[^}]*\}/g, ' ').replace(/\\n/g, '\n');
+
+/** Text from `start` to the brace that closes the first `{` at or after `from`. */
+function balanced(text, start, from = start) {
+  const open = text.indexOf('{', from);
+  let depth = 0;
+  let end = open;
+  while (end < text.length) {
+    if (text[end] === '{') depth += 1;
+    if (text[end] === '}') {
+      depth -= 1;
+      if (!depth) break;
     }
+    end += 1;
   }
-  const fragments = new Map();
-  const ops = [];
-  for (const d of docs) {
-    for (const m of d.matchAll(/fragment\s+([A-Za-z_0-9]+)\s+on\s+[A-Za-z_0-9]+\s*\{/g)) {
-      // extract balanced fragment body
-      let i = d.indexOf('{', m.index); let depth = 0; let j = i;
-      for (; j < d.length; j += 1) { if (d[j] === '{') depth += 1; else if (d[j] === '}') { depth -= 1; if (!depth) break; } }
-      fragments.set(m[1], d.slice(m.index, j + 1));
-    }
-    for (const m of d.matchAll(/(query|mutation)\s+([A-Za-z_0-9]+)\s*(\([^)]*\))?\s*\{/g)) {
-      let i = d.indexOf('{', m.index + m[0].length - 1); let depth = 0; let j = i;
-      for (; j < d.length; j += 1) { if (d[j] === '{') depth += 1; else if (d[j] === '}') { depth -= 1; if (!depth) break; } }
-      ops.push({ name: m[2], text: d.slice(m.index, j + 1) });
-    }
-  }
-  const uniq = new Map(ops.map((o) => [o.name, o]));
-  const problems = [];
-  for (const op of uniq.values()) {
-    const needed = new Set();
-    const add = (t) => { for (const m of t.matchAll(/\.\.\.\s*([A-Za-z_0-9]+)/g)) { if (m[1] !== 'on' && !needed.has(m[1]) && fragments.has(m[1])) { needed.add(m[1]); add(fragments.get(m[1])); } } };
-    add(op.text);
-    const doc = `${op.text}\n${[...needed].map((n) => fragments.get(n)).join('\n')}\nfragment ZZ_NEVER_USED on Query { __typename }`;
-    // eslint-disable-next-line no-await-in-loop
-    const r = await fetch(endpoint, { method: 'POST', headers: { 'content-type': 'application/json', Store: store }, body: JSON.stringify({ query: doc }) }).then((x) => x.json()).catch((e) => ({ errors: [{ message: e.message }] }));
-    const msgs = (r.errors || []).map((e) => e.message).filter((m) => !/ZZ_NEVER_USED/.test(m));
-    if (r.data) problems.push(`${op.name}: EXECUTED?!`);
-    if (msgs.length) problems.push(`${op.name}: ${[...new Set(msgs)].join(' | ')}`);
-  }
-  console.log(`== ${pkg}: ${uniq.size} operations, ${fragments.size} fragments, ${problems.length} with errors`);
-  problems.forEach((p) => console.log(`  ${p}`));
+  return text.slice(start, end + 1);
 }
+
+function collectDocuments(pkgDir) {
+  const docs = new Set();
+  walk(pkgDir).forEach((file) => {
+    [...fs.readFileSync(file, 'utf8').matchAll(/`([^`]*)`/g)].forEach((m) => {
+      const s = stripInterpolations(m[1]);
+      if (/(^|\n)\s*(query|mutation|fragment)\s+[A-Za-z_]/.test(s)) docs.add(s);
+    });
+  });
+  const fragments = new Map();
+  const operations = new Map();
+  docs.forEach((d) => {
+    // the selection set starts at the brace that ends the match (variable defaults can hold braces)
+    [...d.matchAll(/fragment\s+(\w+)\s+on\s+\w+\s*\{/g)]
+      .forEach((m) => fragments.set(m[1], balanced(d, m.index, m.index + m[0].length - 1)));
+    [...d.matchAll(/(query|mutation)\s+(\w+)\s*(\([^)]*\))?\s*\{/g)]
+      .forEach((m) => operations.set(m[2], balanced(d, m.index, m.index + m[0].length - 1)));
+  });
+  return { fragments, operations };
+}
+
+function withFragments(text, fragments) {
+  const needed = new Set();
+  const add = (t) => [...t.matchAll(/\.\.\.\s*(\w+)/g)].forEach(([, name]) => {
+    if (name !== 'on' && fragments.has(name) && !needed.has(name)) {
+      needed.add(name);
+      add(fragments.get(name));
+    }
+  });
+  add(text);
+  return [text, ...[...needed].map((n) => fragments.get(n)), UNUSED].join('\n');
+}
+
+async function validate(endpoint, store, doc) {
+  try {
+    const resp = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', Store: store },
+      body: JSON.stringify({ query: doc }),
+    });
+    const json = await resp.json();
+    if (json.data) return ['EXECUTED (unexpected)'];
+    return [...new Set((json.errors || []).map((e) => e.message))]
+      .filter((msg) => !msg.includes('ZZ_NEVER_USED'));
+  } catch (e) {
+    return [e.message];
+  }
+}
+
+const [root, endpoint, store, ...pkgs] = process.argv.slice(2);
+await pkgs.reduce(async (previous, pkg) => {
+  await previous;
+  const { fragments, operations } = collectDocuments(path.join(root, pkg));
+  const results = await Promise.all([...operations].map(async ([name, text]) => [
+    name, await validate(endpoint, store, withFragments(text, fragments)),
+  ]));
+  const failing = results.filter(([, errors]) => errors.length);
+  console.log(`== ${pkg}: ${operations.size} operations, ${fragments.size} fragments, ${failing.length} with errors`);
+  failing.forEach(([name, errors]) => console.log(`  ${name}: ${errors.join(' | ')}`));
+}, Promise.resolve());
