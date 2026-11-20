@@ -226,9 +226,11 @@ export async function fetchPlaceholders(path) {
   if (!path) return window.placeholders._merged;
   if (window.placeholders._pending[path]) return window.placeholders._pending[path];
 
-  const load = async (url) => {
+  // DA sheets are read with ?sheet=data like the boilerplate. The committed files are plain
+  // single-sheet JSON: the EDS JSON pipeline answers 404 to ?sheet=data on them.
+  const load = async (url, sheet = true) => {
     try {
-      const resp = await fetch(`${url}?sheet=data`, { cache: 'force-cache' });
+      const resp = await fetch(sheet ? `${url}?sheet=data` : url, { cache: 'force-cache' });
       if (!resp.ok) return null;
       const json = await resp.json();
       return json?.data?.length ? json : null;
@@ -241,8 +243,8 @@ export async function fetchPlaceholders(path) {
     const ctx = await getSiteContext();
     const file = path.replace(/^placeholders\//, '');
     const json = await load(getRootPath().replace(/\/$/, `/${path}`))
-      || await load(`/placeholders/${ctx.lang}/${file}`)
-      || await load(`/placeholders/en/${file}`);
+      || await load(`/placeholders/${ctx.lang}/${file}`, false)
+      || await load(`/placeholders/en/${file}`, false);
     if (!json) {
       console.warn(`No placeholders for ${path}`);
       return window.placeholders._merged;
