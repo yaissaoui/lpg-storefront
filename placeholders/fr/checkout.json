@@ -1,7 +1,7 @@
 {
-  "total": 135,
+  "total": 134,
   "offset": 0,
-  "limit": 135,
+  "limit": 134,
   "data": [
     {
       "Key": "Checkout.AddressValidation.title",
@@ -246,10 +246,6 @@
     {
       "Key": "Checkout.Quote.dataError",
       "Value": "Le devis n'a pas pu être chargé. Réessayez plus tard."
-    },
-    {
-      "Key": "Checkout.ShippingMethods.accessibleOptionLabel",
-      "Value": "Mode de livraison"
     },
     {
       "Key": "Checkout.ShippingMethods.cartSyncError",

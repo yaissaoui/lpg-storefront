@@ -1,12 +1,8 @@
 {
-  "total": 135,
+  "total": 134,
   "offset": 0,
-  "limit": 135,
+  "limit": 134,
   "data": [
-    {
-      "Key": "Checkout.title",
-      "Value": "Checkout"
-    },
     {
       "Key": "Checkout.AddressValidation.title",
       "Value": "Verify your address"
@@ -252,10 +248,6 @@
       "Value": "We were unable to retrieve the quote data. Please try again later."
     },
     {
-      "Key": "Checkout.ShippingMethods.accessibleOptionLabel",
-      "Value": "Shipping option"
-    },
-    {
       "Key": "Checkout.ShippingMethods.cartSyncError",
       "Value": "We were unable to save your changes. Please try again later."
     },
@@ -294,6 +286,10 @@
     {
       "Key": "Checkout.TermsAndConditions.label",
       "Value": "I have read and accept the terms and conditions of sale."
+    },
+    {
+      "Key": "Checkout.title",
+      "Value": "Checkout"
     },
     {
       "Key": "Dropin.Pagination.backwardButton.ariaLabel",

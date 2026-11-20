@@ -1,7 +1,7 @@
 {
-  "total": 225,
+  "total": 200,
   "offset": 0,
-  "limit": 225,
+  "limit": 200,
   "data": [
     {
       "Key": "Account.minifiedView.CustomerInformation.containerTitle",
@@ -248,10 +248,6 @@
       "Value": "Placed on"
     },
     {
-      "Key": "Account.minifiedView.OrdersList.OrdersListCard.placedByAdministrator",
-      "Value": "Placed by an administrator"
-    },
-    {
       "Key": "Account.minifiedView.OrdersList.OrdersListSelectDate.pastSixMonths",
       "Value": "Past 6 months"
     },
@@ -404,10 +400,6 @@
       "Value": "Placed on"
     },
     {
-      "Key": "Account.fullSizeView.OrdersList.OrdersListCard.placedByAdministrator",
-      "Value": "Placed by an administrator"
-    },
-    {
       "Key": "Account.fullSizeView.OrdersList.OrdersListSelectDate.pastSixMonths",
       "Value": "Past 6 months"
     },
@@ -522,98 +514,6 @@
     {
       "Key": "Account.AddressValidation.originalAddress",
       "Value": "Original Address"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingSettings.checkboxLabel",
-      "Value": "Enable seller assisted purchasing"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingSettings.checkboxTooltip",
-      "Value": "This allows merchants to \"see what you see\" and take actions on your behalf in order to provide better assistance."
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingSettings.alertMessage",
-      "Value": "Seller assisted purchasing is currently disabled. New sessions cannot be started."
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingSettings.featureDisabledMessage",
-      "Value": "Seller assisted purchasing is unavailable. This feature has been disabled by the store administrator."
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.tableHeaders.action",
-      "Value": "Action"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.tableHeaders.date",
-      "Value": "Date"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.tableHeaders.details",
-      "Value": "Details"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.actionTypes.place_order",
-      "Value": "Order Placed"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.actionTypes.add_to_cart",
-      "Value": "Added to Cart"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.actionTypes.remove_from_cart",
-      "Value": "Removed from Cart"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.actionTypes.remove_cart_item",
-      "Value": "Cart Item Removed"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.actionTypes.update_qty",
-      "Value": "Quantity Updated"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.actionTypes.apply_coupon",
-      "Value": "Coupon Applied"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.actionTypes.remove_coupon",
-      "Value": "Coupon Removed"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.actionTypes.update_address",
-      "Value": "Address Updated"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.actionTypes.update_payment",
-      "Value": "Payment Method Updated"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.actionTypes.update_shipping",
-      "Value": "Shipping Method Updated"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.actionTypes.add_product_note",
-      "Value": "Product Note Added"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.actionTypes.update_customer_info",
-      "Value": "Customer Info Updated"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.actionTypes.save",
-      "Value": "Saved"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.emptyStateMessage",
-      "Value": "No administrator-assisted actions yet."
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.errorMessage",
-      "Value": "Couldn't load administrator-assisted actions. Please try again later."
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.featureDisabledMessage",
-      "Value": "Seller assisted activity log is unavailable. This feature has been disabled by the store administrator."
     },
     {
       "Key": "Account.Payments.containerTitle",

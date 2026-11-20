@@ -1,56 +1,8 @@
 {
-  "total": 236,
+  "total": 227,
   "offset": 0,
-  "limit": 236,
+  "limit": 227,
   "data": [
-    {
-      "Key": "Dropin.Incrementer.label",
-      "Value": "Quantité"
-    },
-    {
-      "Key": "Dropin.Incrementer.decreaseLabel",
-      "Value": "Diminuer la quantité"
-    },
-    {
-      "Key": "Dropin.Incrementer.increaseLabel",
-      "Value": "Augmenter la quantité"
-    },
-    {
-      "Key": "Dropin.Incrementer.errorMessage",
-      "Value": "Saisissez une quantité valide"
-    },
-    {
-      "Key": "Dropin.PriceRange.from.label",
-      "Value": "De"
-    },
-    {
-      "Key": "Dropin.PriceRange.to.label",
-      "Value": "à"
-    },
-    {
-      "Key": "Dropin.PriceRange.asLowAs.label",
-      "Value": "À partir de"
-    },
-    {
-      "Key": "Dropin.InlineAlert.dismissLabel",
-      "Value": "Fermer le message"
-    },
-    {
-      "Key": "Dropin.Swatches.outOfStock.label",
-      "Value": "option épuisée"
-    },
-    {
-      "Key": "Dropin.Swatches.selected.label",
-      "Value": "option sélectionnée"
-    },
-    {
-      "Key": "Dropin.Swatches.swatch.label",
-      "Value": "option"
-    },
-    {
-      "Key": "Dropin.Modal.Close.label",
-      "Value": "Fermer"
-    },
     {
       "Key": "Cart.Cart.heading",
       "Value": "Panier ({count})"
@@ -68,10 +20,6 @@
       "Value": "Voir plus"
     },
     {
-      "Key": "Cart.Cart.loadingLabel",
-      "Value": "Chargement du panier"
-    },
-    {
       "Key": "Cart.CartSummaryTable.item",
       "Value": "Article"
     },
@@ -85,6 +33,18 @@
     },
     {
       "Key": "Cart.CartSummaryTable.subtotal",
+      "Value": "Sous-total"
+    },
+    {
+      "Key": "Cart.CartSummaryTable.mobilePrice",
+      "Value": "Prix"
+    },
+    {
+      "Key": "Cart.CartSummaryTable.mobileQty",
+      "Value": "Qté"
+    },
+    {
+      "Key": "Cart.CartSummaryTable.mobileSubtotal",
       "Value": "Sous-total"
     },
     {
@@ -108,14 +68,6 @@
       "Value": "Commander"
     },
     {
-      "Key": "Cart.MiniCart.loadingLabel",
-      "Value": "Chargement du panier"
-    },
-    {
-      "Key": "Cart.MiniCart.cartUpdated",
-      "Value": "Panier mis à jour, {count} articles"
-    },
-    {
       "Key": "Cart.EmptyCart.heading",
       "Value": "Votre panier est vide"
     },
@@ -136,412 +88,12 @@
       "Value": "Récapitulatif"
     },
     {
-      "Key": "Cart.PriceSummary.loadingLabel",
-      "Value": "Chargement du récapitulatif"
-    },
-    {
-      "Key": "Cart.PriceSummary.subTotal.label",
-      "Value": "Sous-total"
-    },
-    {
-      "Key": "Cart.PriceSummary.subTotal.withTaxes",
-      "Value": "TTC"
-    },
-    {
-      "Key": "Cart.PriceSummary.subTotal.withoutTaxes",
-      "Value": "HT"
-    },
-    {
-      "Key": "Cart.PriceSummary.shipping.label",
-      "Value": "Livraison"
-    },
-    {
-      "Key": "Cart.PriceSummary.shipping.estimated",
-      "Value": "Livraison estimée"
-    },
-    {
-      "Key": "Cart.PriceSummary.shipping.withTaxes",
-      "Value": "TTC"
-    },
-    {
-      "Key": "Cart.PriceSummary.shipping.withoutTaxes",
-      "Value": "HT"
-    },
-    {
-      "Key": "Cart.PriceSummary.taxes.total",
-      "Value": "Total TVA"
-    },
-    {
-      "Key": "Cart.PriceSummary.taxes.totalOnly",
-      "Value": "TVA"
-    },
-    {
-      "Key": "Cart.PriceSummary.taxes.breakdown",
-      "Value": "TVA"
-    },
-    {
-      "Key": "Cart.PriceSummary.taxes.showBreakdown",
-      "Value": "Afficher le détail de la TVA"
-    },
-    {
-      "Key": "Cart.PriceSummary.taxes.hideBreakdown",
-      "Value": "Masquer le détail de la TVA"
-    },
-    {
-      "Key": "Cart.PriceSummary.taxes.estimated",
-      "Value": "TVA estimée"
-    },
-    {
-      "Key": "Cart.PriceSummary.total.estimated",
-      "Value": "Total estimé"
-    },
-    {
-      "Key": "Cart.PriceSummary.total.free",
-      "Value": "Gratuit"
-    },
-    {
-      "Key": "Cart.PriceSummary.total.label",
-      "Value": "Total"
-    },
-    {
-      "Key": "Cart.PriceSummary.total.withoutTax",
-      "Value": "Total HT"
-    },
-    {
-      "Key": "Cart.PriceSummary.total.saved",
-      "Value": "Économie totale"
-    },
-    {
-      "Key": "Cart.PriceSummary.freeShipping",
-      "Value": "Gratuite"
-    },
-    {
-      "Key": "Cart.PriceSummary.coupon.applyAction",
-      "Value": "Appliquer"
-    },
-    {
-      "Key": "Cart.PriceSummary.coupon.applyActionAriaLabel",
-      "Value": "Appliquer le code promo"
-    },
-    {
-      "Key": "Cart.PriceSummary.coupon.placeholder",
-      "Value": "Saisissez votre code promo"
-    },
-    {
-      "Key": "Cart.PriceSummary.coupon.title",
-      "Value": "Code promo"
-    },
-    {
-      "Key": "Cart.PriceSummary.coupon.ariaLabelRemove",
-      "Value": "Retirer le code promo"
-    },
-    {
-      "Key": "Cart.CartItem.discountedPrice",
-      "Value": "Prix remisé"
-    },
-    {
-      "Key": "Cart.CartItem.regularPrice",
-      "Value": "Prix habituel"
-    },
-    {
-      "Key": "Cart.CartItem.lowInventory",
-      "Value": "Plus que {count} en stock"
-    },
-    {
-      "Key": "Cart.CartItem.insufficientQuantity",
-      "Value": "Seulement {inventory} sur {count} en stock"
-    },
-    {
-      "Key": "Cart.CartItem.insufficientQuantityGeneral",
-      "Value": "Quantité indisponible"
-    },
-    {
-      "Key": "Cart.CartItem.notAvailableMessage",
-      "Value": "Quantité demandée indisponible"
-    },
-    {
-      "Key": "Cart.CartItem.discountPercentage",
-      "Value": "-{discount} %"
-    },
-    {
-      "Key": "Cart.CartItem.savingsAmount",
-      "Value": "Économie"
-    },
-    {
-      "Key": "Cart.CartItem.includingTax",
-      "Value": "TTC"
-    },
-    {
-      "Key": "Cart.CartItem.excludingTax",
-      "Value": "HT"
-    },
-    {
-      "Key": "Cart.CartItem.itemBeingRemoved",
-      "Value": "« {product} » est en cours de suppression"
-    },
-    {
-      "Key": "Cart.CartItem.itemRemoved",
-      "Value": "« {product} » a été retiré"
-    },
-    {
-      "Key": "Cart.CartItem.undoAction",
-      "Value": "Annuler"
-    },
-    {
-      "Key": "Cart.CartItem.dismissAction",
-      "Value": "Fermer"
-    },
-    {
-      "Key": "Cart.CartItem.confirmDeleteHeading",
-      "Value": "Retirer « {product} » du panier ?"
-    },
-    {
-      "Key": "Cart.CartItem.confirmAction",
-      "Value": "Retirer"
-    },
-    {
-      "Key": "Cart.CartItem.cancelAction",
-      "Value": "Annuler"
-    },
-    {
-      "Key": "Cart.OutOfStockMessage.heading",
-      "Value": "Votre panier contient des articles en stock limité"
-    },
-    {
-      "Key": "Cart.OutOfStockMessage.message",
-      "Value": "Ajustez les quantités pour continuer"
-    },
-    {
-      "Key": "Cart.OutOfStockMessage.alert",
-      "Value": "En rupture de stock"
-    },
-    {
-      "Key": "Cart.OutOfStockMessage.action",
-      "Value": "Retirer les articles en rupture du panier"
-    },
-    {
-      "Key": "Dropin.CartItem.each.label",
-      "Value": "l'unité"
-    },
-    {
-      "Key": "Dropin.CartItem.pricePerItem.label",
-      "Value": "prix unitaire"
-    },
-    {
-      "Key": "Dropin.CartItem.quantity.label",
-      "Value": "Quantité"
-    },
-    {
-      "Key": "Dropin.CartItem.remove.label",
-      "Value": "Retirer {product} du panier"
-    },
-    {
-      "Key": "Dropin.CartItem.removeDefault.label",
-      "Value": "Retirer l'article du panier"
-    },
-    {
-      "Key": "Dropin.CartItem.taxIncluded.label",
-      "Value": "TTC"
-    },
-    {
-      "Key": "Dropin.CartItem.taxExcluded.label",
-      "Value": "HT"
-    },
-    {
-      "Key": "Dropin.CartItem.updating.label",
-      "Value": "{product} en cours de mise à jour"
-    },
-    {
-      "Key": "Dropin.PriceSummary.subTotal.label",
-      "Value": "Sous-total"
-    },
-    {
-      "Key": "Dropin.PriceSummary.subTotal.withTaxes",
-      "Value": "TTC"
-    },
-    {
-      "Key": "Dropin.PriceSummary.subTotal.withoutTaxes",
-      "Value": "HT"
-    },
-    {
-      "Key": "Dropin.PriceSummary.total.label",
-      "Value": "Total"
-    },
-    {
-      "Key": "Dropin.PriceSummary.total.estimated",
-      "Value": "Total estimé"
-    },
-    {
-      "Key": "Dropin.PriceSummary.total.withoutTax",
-      "Value": "Total HT"
-    },
-    {
-      "Key": "Dropin.ProgressSpinner.updating.label",
-      "Value": "Mise à jour de l'article"
-    },
-    {
-      "Key": "Dropin.Pagination.backwardButton.ariaLabel",
-      "Value": "Page précédente"
-    },
-    {
-      "Key": "Dropin.Pagination.forwardButton.ariaLabel",
-      "Value": "Page suivante"
-    },
-    {
-      "Key": "Dropin.Incrementer.minQuantityMessage",
-      "Value": "Saisissez au moins {{minQuantity}}"
-    },
-    {
-      "Key": "Dropin.Incrementer.maxQuantityMessage",
-      "Value": "Quantité maximale : {{maxQuantity}}"
-    },
-    {
-      "Key": "Dropin.InputPassword.placeholder",
-      "Value": "Mot de passe"
-    },
-    {
-      "Key": "Dropin.InputPassword.floatingLabel",
-      "Value": "Mot de passe"
-    },
-    {
-      "Key": "Dropin.InputPassword.buttonShowTitle",
-      "Value": "Afficher le mot de passe"
-    },
-    {
-      "Key": "Dropin.InputPassword.buttonHideTitle",
-      "Value": "Masquer le mot de passe"
-    },
-    {
-      "Key": "Dropin.PasswordStatusIndicator.chartTwoSymbols",
-      "Value": "Utilisez des lettres et des chiffres ou des symboles"
-    },
-    {
-      "Key": "Dropin.PasswordStatusIndicator.chartThreeSymbols",
-      "Value": "Utilisez des lettres, des chiffres et des symboles"
-    },
-    {
-      "Key": "Dropin.PasswordStatusIndicator.chartFourSymbols",
-      "Value": "Utilisez des majuscules, des minuscules, des chiffres et des symboles"
-    },
-    {
-      "Key": "Dropin.PasswordStatusIndicator.messageLengthPassword",
-      "Value": "Au moins {minLength} caractères"
-    },
-    {
-      "Key": "Dropin.PriceSummary.shipping.label",
-      "Value": "Livraison"
-    },
-    {
-      "Key": "Dropin.PriceSummary.shipping.editZipAction",
-      "Value": "Appliquer"
-    },
-    {
-      "Key": "Dropin.PriceSummary.shipping.estimated",
-      "Value": "Livraison estimée"
-    },
-    {
-      "Key": "Dropin.PriceSummary.shipping.estimatedDestination",
-      "Value": "Livraison estimée vers "
-    },
-    {
-      "Key": "Dropin.PriceSummary.shipping.destinationLinkAriaLabel",
-      "Value": "Changer de destination"
-    },
-    {
-      "Key": "Dropin.PriceSummary.shipping.zipPlaceholder",
-      "Value": "Code postal"
-    },
-    {
-      "Key": "Dropin.PriceSummary.shipping.withTaxes",
-      "Value": "TTC"
-    },
-    {
-      "Key": "Dropin.PriceSummary.shipping.withoutTaxes",
-      "Value": "HT"
-    },
-    {
-      "Key": "Dropin.PriceSummary.shipping.alternateField.zip",
-      "Value": "Estimer avec le pays et le code postal"
-    },
-    {
-      "Key": "Dropin.PriceSummary.shipping.alternateField.state",
-      "Value": "Estimer avec le pays et la région"
-    },
-    {
-      "Key": "Dropin.PriceSummary.taxes.total",
-      "Value": "Total TVA"
-    },
-    {
-      "Key": "Dropin.PriceSummary.taxes.totalOnly",
-      "Value": "TVA"
-    },
-    {
-      "Key": "Dropin.PriceSummary.taxes.breakdown",
-      "Value": "TVA"
-    },
-    {
-      "Key": "Dropin.PriceSummary.taxes.showBreakdown",
-      "Value": "Afficher le détail de la TVA"
-    },
-    {
-      "Key": "Dropin.PriceSummary.taxes.hideBreakdown",
-      "Value": "Masquer le détail de la TVA"
-    },
-    {
-      "Key": "Dropin.PriceSummary.taxes.estimated",
-      "Value": "TVA estimée"
-    },
-    {
-      "Key": "Dropin.ProgressSpinner.updatingChildren.label",
-      "Value": "Mise à jour des articles"
-    },
-    {
-      "Key": "Dropin.Accordion.open.label",
-      "Value": "Ouvrir"
-    },
-    {
-      "Key": "Dropin.Accordion.close.label",
-      "Value": "Fermer"
-    },
-    {
-      "Key": "Dropin.InputDate.picker",
-      "Value": "Choisir une date"
-    },
-    {
-      "Key": "Dropin.Table.sortedAscending",
-      "Value": "Trier par {label}, croissant"
-    },
-    {
-      "Key": "Dropin.Table.sortedDescending",
-      "Value": "Trier par {label}, décroissant"
-    },
-    {
-      "Key": "Dropin.Table.sortBy",
-      "Value": "Trier par {label}"
-    },
-    {
-      "Key": "Cart.CartSummaryTable.mobilePrice",
-      "Value": "Prix"
-    },
-    {
-      "Key": "Cart.CartSummaryTable.mobileQty",
-      "Value": "Qté"
-    },
-    {
-      "Key": "Cart.CartSummaryTable.mobileSubtotal",
-      "Value": "Sous-total"
-    },
-    {
       "Key": "Cart.PriceSummary.giftCard.label",
       "Value": "Carte cadeau"
     },
     {
       "Key": "Cart.PriceSummary.giftCard.applyAction",
       "Value": "Appliquer"
-    },
-    {
-      "Key": "Cart.PriceSummary.giftCard.applyActionAriaLabel",
-      "Value": "Appliquer la carte cadeau"
     },
     {
       "Key": "Cart.PriceSummary.giftCard.ariaLabel",
@@ -612,8 +164,28 @@
       "Value": "HT"
     },
     {
+      "Key": "Cart.PriceSummary.subTotal.label",
+      "Value": "Sous-total"
+    },
+    {
+      "Key": "Cart.PriceSummary.subTotal.withTaxes",
+      "Value": "TTC"
+    },
+    {
+      "Key": "Cart.PriceSummary.subTotal.withoutTaxes",
+      "Value": "HT"
+    },
+    {
+      "Key": "Cart.PriceSummary.shipping.label",
+      "Value": "Livraison"
+    },
+    {
       "Key": "Cart.PriceSummary.shipping.editZipAction",
       "Value": "Appliquer"
+    },
+    {
+      "Key": "Cart.PriceSummary.shipping.estimated",
+      "Value": "Livraison estimée"
     },
     {
       "Key": "Cart.PriceSummary.shipping.estimatedDestination",
@@ -628,12 +200,64 @@
       "Value": "Code postal"
     },
     {
+      "Key": "Cart.PriceSummary.shipping.withTaxes",
+      "Value": "TTC"
+    },
+    {
+      "Key": "Cart.PriceSummary.shipping.withoutTaxes",
+      "Value": "HT"
+    },
+    {
       "Key": "Cart.PriceSummary.shipping.alternateField.zip",
       "Value": "Estimer avec le pays et le code postal"
     },
     {
       "Key": "Cart.PriceSummary.shipping.alternateField.state",
       "Value": "Estimer avec le pays et la région"
+    },
+    {
+      "Key": "Cart.PriceSummary.taxes.total",
+      "Value": "Total TVA"
+    },
+    {
+      "Key": "Cart.PriceSummary.taxes.totalOnly",
+      "Value": "TVA"
+    },
+    {
+      "Key": "Cart.PriceSummary.taxes.breakdown",
+      "Value": "TVA"
+    },
+    {
+      "Key": "Cart.PriceSummary.taxes.showBreakdown",
+      "Value": "Afficher le détail de la TVA"
+    },
+    {
+      "Key": "Cart.PriceSummary.taxes.hideBreakdown",
+      "Value": "Masquer le détail de la TVA"
+    },
+    {
+      "Key": "Cart.PriceSummary.taxes.estimated",
+      "Value": "TVA estimée"
+    },
+    {
+      "Key": "Cart.PriceSummary.total.estimated",
+      "Value": "Total estimé"
+    },
+    {
+      "Key": "Cart.PriceSummary.total.free",
+      "Value": "Gratuit"
+    },
+    {
+      "Key": "Cart.PriceSummary.total.label",
+      "Value": "Total"
+    },
+    {
+      "Key": "Cart.PriceSummary.total.withoutTax",
+      "Value": "Total HT"
+    },
+    {
+      "Key": "Cart.PriceSummary.total.saved",
+      "Value": "Économie totale"
     },
     {
       "Key": "Cart.PriceSummary.estimatedShippingForm.country.placeholder",
@@ -652,8 +276,28 @@
       "Value": "Appliquer"
     },
     {
-      "Key": "Cart.PriceSummary.estimatedShippingForm.apply.ariaLabel",
-      "Value": "Appliquer la destination"
+      "Key": "Cart.PriceSummary.freeShipping",
+      "Value": "Gratuite"
+    },
+    {
+      "Key": "Cart.PriceSummary.coupon.applyAction",
+      "Value": "Appliquer"
+    },
+    {
+      "Key": "Cart.PriceSummary.coupon.placeholder",
+      "Value": "Saisissez votre code promo"
+    },
+    {
+      "Key": "Cart.PriceSummary.coupon.title",
+      "Value": "Code promo"
+    },
+    {
+      "Key": "Cart.PriceSummary.coupon.ariaLabelRemove",
+      "Value": "Retirer le code promo"
+    },
+    {
+      "Key": "Cart.CartItem.discountedPrice",
+      "Value": "Prix remisé"
     },
     {
       "Key": "Cart.CartItem.download",
@@ -668,6 +312,10 @@
       "Value": "À"
     },
     {
+      "Key": "Cart.CartItem.regularPrice",
+      "Value": "Prix habituel"
+    },
+    {
       "Key": "Cart.CartItem.sender",
       "Value": "De"
     },
@@ -680,8 +328,56 @@
       "Value": "{count} fichiers"
     },
     {
+      "Key": "Cart.CartItem.lowInventory",
+      "Value": "Plus que {count} en stock"
+    },
+    {
+      "Key": "Cart.CartItem.insufficientQuantity",
+      "Value": "Seulement {inventory} sur {count} en stock"
+    },
+    {
+      "Key": "Cart.CartItem.insufficientQuantityGeneral",
+      "Value": "Quantité indisponible"
+    },
+    {
+      "Key": "Cart.CartItem.notAvailableMessage",
+      "Value": "Quantité demandée indisponible"
+    },
+    {
+      "Key": "Cart.CartItem.discountPercentage",
+      "Value": "-{discount} %"
+    },
+    {
+      "Key": "Cart.CartItem.savingsAmount",
+      "Value": "Économie"
+    },
+    {
+      "Key": "Cart.CartItem.includingTax",
+      "Value": "TTC"
+    },
+    {
+      "Key": "Cart.CartItem.excludingTax",
+      "Value": "HT"
+    },
+    {
+      "Key": "Cart.CartItem.itemBeingRemoved",
+      "Value": "« {product} » est en cours de suppression"
+    },
+    {
+      "Key": "Cart.CartItem.itemRemoved",
+      "Value": "« {product} » a été retiré"
+    },
+    {
       "Key": "Cart.CartItem.itemRemovedDescription",
       "Value": "Vous avez changé d'avis ? Vous pouvez annuler."
+    },
+    {
+      "Key": "Cart.CartItem.undoAction",
+      "Value": "Annuler"
+    },
+    {
+      "Key": "Cart.CartItem.dismissAction",
+      "Value": "Fermer"
     },
     {
       "Key": "Cart.EstimateShipping.label",
@@ -724,12 +420,20 @@
       "Value": "Estimer avec le pays et la région"
     },
     {
-      "Key": "Cart.GiftOptions.accordionAriaLabel",
-      "Value": "{title} pour {product}"
+      "Key": "Cart.OutOfStockMessage.heading",
+      "Value": "Votre panier contient des articles en stock limité"
     },
     {
-      "Key": "Cart.GiftOptions.giftOptionsApplied",
-      "Value": "Appliqué"
+      "Key": "Cart.OutOfStockMessage.message",
+      "Value": "Ajustez les quantités pour continuer"
+    },
+    {
+      "Key": "Cart.OutOfStockMessage.alert",
+      "Value": "En rupture de stock"
+    },
+    {
+      "Key": "Cart.OutOfStockMessage.action",
+      "Value": "Retirer les articles en rupture du panier"
     },
     {
       "Key": "Cart.GiftOptions.formText.requiredFieldError",
@@ -758,6 +462,18 @@
     {
       "Key": "Cart.GiftOptions.modal.modalCancelButton",
       "Value": "Annuler"
+    },
+    {
+      "Key": "Cart.GiftOptions.modal.ariaLabelModal",
+      "Value": "Fenêtre cadeau"
+    },
+    {
+      "Key": "Cart.GiftOptions.modal.ariaLabelModalOpen",
+      "Value": "ouvrir"
+    },
+    {
+      "Key": "Cart.GiftOptions.modal.ariaLabelModalClose",
+      "Value": "fermer"
     },
     {
       "Key": "Cart.GiftOptions.modal.ariaLabelWrapping",
@@ -946,6 +662,254 @@
     {
       "Key": "Cart.GiftOptions.product.readOnlyFormView.message",
       "Value": "Message :"
+    },
+    {
+      "Key": "Dropin.Pagination.backwardButton.ariaLabel",
+      "Value": "Page précédente"
+    },
+    {
+      "Key": "Dropin.Pagination.forwardButton.ariaLabel",
+      "Value": "Page suivante"
+    },
+    {
+      "Key": "Dropin.Incrementer.decreaseLabel",
+      "Value": "Diminuer la quantité"
+    },
+    {
+      "Key": "Dropin.Incrementer.increaseLabel",
+      "Value": "Augmenter la quantité"
+    },
+    {
+      "Key": "Dropin.Incrementer.label",
+      "Value": "Quantité"
+    },
+    {
+      "Key": "Dropin.Incrementer.errorMessage",
+      "Value": "Saisissez une quantité valide"
+    },
+    {
+      "Key": "Dropin.Incrementer.minQuantityMessage",
+      "Value": "Saisissez au moins {{minQuantity}}"
+    },
+    {
+      "Key": "Dropin.Incrementer.maxQuantityMessage",
+      "Value": "Quantité maximale : {{maxQuantity}}"
+    },
+    {
+      "Key": "Dropin.Modal.Close.label",
+      "Value": "Fermer"
+    },
+    {
+      "Key": "Dropin.InputPassword.placeholder",
+      "Value": "Mot de passe"
+    },
+    {
+      "Key": "Dropin.InputPassword.floatingLabel",
+      "Value": "Mot de passe"
+    },
+    {
+      "Key": "Dropin.InputPassword.buttonShowTitle",
+      "Value": "Afficher le mot de passe"
+    },
+    {
+      "Key": "Dropin.InputPassword.buttonHideTitle",
+      "Value": "Masquer le mot de passe"
+    },
+    {
+      "Key": "Dropin.PasswordStatusIndicator.chartTwoSymbols",
+      "Value": "Utilisez des lettres et des chiffres ou des symboles"
+    },
+    {
+      "Key": "Dropin.PasswordStatusIndicator.chartThreeSymbols",
+      "Value": "Utilisez des lettres, des chiffres et des symboles"
+    },
+    {
+      "Key": "Dropin.PasswordStatusIndicator.chartFourSymbols",
+      "Value": "Utilisez des majuscules, des minuscules, des chiffres et des symboles"
+    },
+    {
+      "Key": "Dropin.PasswordStatusIndicator.messageLengthPassword",
+      "Value": "Au moins {minLength} caractères"
+    },
+    {
+      "Key": "Dropin.InlineAlert.dismissLabel",
+      "Value": "Fermer le message"
+    },
+    {
+      "Key": "Dropin.PriceSummary.subTotal.label",
+      "Value": "Sous-total"
+    },
+    {
+      "Key": "Dropin.PriceSummary.subTotal.withTaxes",
+      "Value": "TTC"
+    },
+    {
+      "Key": "Dropin.PriceSummary.subTotal.withoutTaxes",
+      "Value": "HT"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.label",
+      "Value": "Livraison"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.editZipAction",
+      "Value": "Appliquer"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.estimated",
+      "Value": "Livraison estimée"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.estimatedDestination",
+      "Value": "Livraison estimée vers "
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.destinationLinkAriaLabel",
+      "Value": "Changer de destination"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.zipPlaceholder",
+      "Value": "Code postal"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.withTaxes",
+      "Value": "TTC"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.withoutTaxes",
+      "Value": "HT"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.alternateField.zip",
+      "Value": "Estimer avec le pays et le code postal"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.alternateField.state",
+      "Value": "Estimer avec le pays et la région"
+    },
+    {
+      "Key": "Dropin.PriceSummary.taxes.total",
+      "Value": "Total TVA"
+    },
+    {
+      "Key": "Dropin.PriceSummary.taxes.totalOnly",
+      "Value": "TVA"
+    },
+    {
+      "Key": "Dropin.PriceSummary.taxes.breakdown",
+      "Value": "TVA"
+    },
+    {
+      "Key": "Dropin.PriceSummary.taxes.showBreakdown",
+      "Value": "Afficher le détail de la TVA"
+    },
+    {
+      "Key": "Dropin.PriceSummary.taxes.hideBreakdown",
+      "Value": "Masquer le détail de la TVA"
+    },
+    {
+      "Key": "Dropin.PriceSummary.taxes.estimated",
+      "Value": "TVA estimée"
+    },
+    {
+      "Key": "Dropin.PriceSummary.total.estimated",
+      "Value": "Total estimé"
+    },
+    {
+      "Key": "Dropin.PriceSummary.total.label",
+      "Value": "Total"
+    },
+    {
+      "Key": "Dropin.PriceSummary.total.withoutTax",
+      "Value": "Total HT"
+    },
+    {
+      "Key": "Dropin.ProgressSpinner.updating.label",
+      "Value": "Mise à jour de l'article"
+    },
+    {
+      "Key": "Dropin.ProgressSpinner.updatingChildren.label",
+      "Value": "Mise à jour des articles"
+    },
+    {
+      "Key": "Dropin.PriceRange.from.label",
+      "Value": "De"
+    },
+    {
+      "Key": "Dropin.PriceRange.to.label",
+      "Value": "à"
+    },
+    {
+      "Key": "Dropin.PriceRange.asLowAs.label",
+      "Value": "À partir de"
+    },
+    {
+      "Key": "Dropin.Swatches.outOfStock.label",
+      "Value": "option épuisée"
+    },
+    {
+      "Key": "Dropin.Swatches.selected.label",
+      "Value": "option sélectionnée"
+    },
+    {
+      "Key": "Dropin.Swatches.swatch.label",
+      "Value": "option"
+    },
+    {
+      "Key": "Dropin.Accordion.open.label",
+      "Value": "Ouvrir"
+    },
+    {
+      "Key": "Dropin.Accordion.close.label",
+      "Value": "Fermer"
+    },
+    {
+      "Key": "Dropin.CartItem.each.label",
+      "Value": "l'unité"
+    },
+    {
+      "Key": "Dropin.CartItem.pricePerItem.label",
+      "Value": "prix unitaire"
+    },
+    {
+      "Key": "Dropin.CartItem.quantity.label",
+      "Value": "Quantité"
+    },
+    {
+      "Key": "Dropin.CartItem.remove.label",
+      "Value": "Retirer {product} du panier"
+    },
+    {
+      "Key": "Dropin.CartItem.removeDefault.label",
+      "Value": "Retirer l'article du panier"
+    },
+    {
+      "Key": "Dropin.CartItem.taxIncluded.label",
+      "Value": "TTC"
+    },
+    {
+      "Key": "Dropin.CartItem.taxExcluded.label",
+      "Value": "HT"
+    },
+    {
+      "Key": "Dropin.CartItem.updating.label",
+      "Value": "{product} en cours de mise à jour"
+    },
+    {
+      "Key": "Dropin.InputDate.picker",
+      "Value": "Choisir une date"
+    },
+    {
+      "Key": "Dropin.Table.sortedAscending",
+      "Value": "Trier par {label}, croissant"
+    },
+    {
+      "Key": "Dropin.Table.sortedDescending",
+      "Value": "Trier par {label}, décroissant"
+    },
+    {
+      "Key": "Dropin.Table.sortBy",
+      "Value": "Trier par {label}"
     }
   ],
   ":type": "sheet"

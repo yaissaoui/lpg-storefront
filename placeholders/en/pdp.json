@@ -4,64 +4,16 @@
   "limit": 93,
   "data": [
     {
-      "Key": "PDP.Product.AddToCart.label",
-      "Value": "Add to cart"
-    },
-    {
-      "Key": "Dropin.Incrementer.label",
-      "Value": "Quantity"
-    },
-    {
-      "Key": "Dropin.Incrementer.decreaseLabel",
-      "Value": "Decrease Quantity"
-    },
-    {
-      "Key": "Dropin.Incrementer.increaseLabel",
-      "Value": "Increase Quantity"
-    },
-    {
-      "Key": "Dropin.Incrementer.errorMessage",
-      "Value": "Enter a valid quantity"
-    },
-    {
-      "Key": "Dropin.PriceRange.from.label",
-      "Value": "From"
-    },
-    {
-      "Key": "Dropin.PriceRange.to.label",
-      "Value": "to"
-    },
-    {
-      "Key": "Dropin.PriceRange.asLowAs.label",
-      "Value": "As low as"
-    },
-    {
-      "Key": "Dropin.InlineAlert.dismissLabel",
-      "Value": "Dismiss Alert"
-    },
-    {
-      "Key": "Dropin.Swatches.outOfStock.label",
-      "Value": "out of stock swatch"
-    },
-    {
-      "Key": "Dropin.Swatches.selected.label",
-      "Value": "swatch selected"
-    },
-    {
-      "Key": "Dropin.Swatches.swatch.label",
-      "Value": "swatch"
-    },
-    {
-      "Key": "Dropin.Modal.Close.label",
-      "Value": "Close"
-    },
-    {
       "Key": "PDP.Product.Incrementer.label",
       "Value": "Item Quantity"
     },
     {
       "Key": "PDP.Product.OutOfStock.label",
       "Value": "Out of Stock"
+    },
+    {
+      "Key": "PDP.Product.AddToCart.label",
+      "Value": "Add to Cart"
     },
     {
       "Key": "PDP.Product.Details.label",
@@ -88,12 +40,60 @@
       "Value": "{product} Image {key} of {total}"
     },
     {
+      "Key": "PDP.Product.GiftCardOptions.ChooseAmount.label",
+      "Value": "Choose amount"
+    },
+    {
+      "Key": "PDP.Product.GiftCardOptions.OtherAmount.label",
+      "Value": "Other amount"
+    },
+    {
+      "Key": "PDP.Product.GiftCardOptions.RequiredFieldError.label",
+      "Value": "This field is required"
+    },
+    {
+      "Key": "PDP.Product.GiftCardOptions.NumberError.label",
+      "Value": "Please enter a valid number"
+    },
+    {
+      "Key": "PDP.Product.GiftCardOptions.MinError.label",
+      "Value": "Minimum value is {min}"
+    },
+    {
+      "Key": "PDP.Product.GiftCardOptions.MaxError.label",
+      "Value": "Maximum value is {max}"
+    },
+    {
+      "Key": "PDP.Product.GiftCardOptions.MinLengthError.label",
+      "Value": "Minimum length is {min_length} characters"
+    },
+    {
+      "Key": "PDP.Product.GiftCardOptions.MaxLengthError.label",
+      "Value": "Maximum length is {max_length} characters"
+    },
+    {
+      "Key": "PDP.Product.GiftCardOptions.EmailError.label",
+      "Value": "Please enter a valid email address"
+    },
+    {
+      "Key": "PDP.Product.GiftCardOptions.InvalidValueError.label",
+      "Value": "Please select one of the allowed values: {values}"
+    },
+    {
       "Key": "PDP.Swatches.Required.label",
       "Value": "Required"
     },
     {
       "Key": "PDP.Swatches.ChooseOption.label",
       "Value": "Choose an option"
+    },
+    {
+      "Key": "PDP.DownloadableOptions.Sample.label",
+      "Value": "Sample"
+    },
+    {
+      "Key": "PDP.DownloadableOptions.ViewSample.label",
+      "Value": "View sample for {label}"
     },
     {
       "Key": "PDP.Carousel.label",
@@ -136,12 +136,32 @@
       "Value": "Go to next page"
     },
     {
+      "Key": "Dropin.Incrementer.decreaseLabel",
+      "Value": "Decrease Quantity"
+    },
+    {
+      "Key": "Dropin.Incrementer.increaseLabel",
+      "Value": "Increase Quantity"
+    },
+    {
+      "Key": "Dropin.Incrementer.label",
+      "Value": "Quantity"
+    },
+    {
+      "Key": "Dropin.Incrementer.errorMessage",
+      "Value": "Enter a valid quantity"
+    },
+    {
       "Key": "Dropin.Incrementer.minQuantityMessage",
       "Value": "Enter at least {{minQuantity}}"
     },
     {
       "Key": "Dropin.Incrementer.maxQuantityMessage",
       "Value": "Maximum quantity is {{maxQuantity}}"
+    },
+    {
+      "Key": "Dropin.Modal.Close.label",
+      "Value": "Close"
     },
     {
       "Key": "Dropin.InputPassword.placeholder",
@@ -174,6 +194,10 @@
     {
       "Key": "Dropin.PasswordStatusIndicator.messageLengthPassword",
       "Value": "At least {minLength} characters long"
+    },
+    {
+      "Key": "Dropin.InlineAlert.dismissLabel",
+      "Value": "Dismiss Alert"
     },
     {
       "Key": "Dropin.PriceSummary.subTotal.label",
@@ -272,6 +296,30 @@
       "Value": "Items are updating"
     },
     {
+      "Key": "Dropin.PriceRange.from.label",
+      "Value": "From"
+    },
+    {
+      "Key": "Dropin.PriceRange.to.label",
+      "Value": "to"
+    },
+    {
+      "Key": "Dropin.PriceRange.asLowAs.label",
+      "Value": "As low as"
+    },
+    {
+      "Key": "Dropin.Swatches.outOfStock.label",
+      "Value": "out of stock swatch"
+    },
+    {
+      "Key": "Dropin.Swatches.selected.label",
+      "Value": "swatch selected"
+    },
+    {
+      "Key": "Dropin.Swatches.swatch.label",
+      "Value": "swatch"
+    },
+    {
       "Key": "Dropin.Accordion.open.label",
       "Value": "Open"
     },
@@ -326,54 +374,6 @@
     {
       "Key": "Dropin.Table.sortBy",
       "Value": "Sort by {label}"
-    },
-    {
-      "Key": "PDP.Product.GiftCardOptions.ChooseAmount.label",
-      "Value": "Choose amount"
-    },
-    {
-      "Key": "PDP.Product.GiftCardOptions.OtherAmount.label",
-      "Value": "Other amount"
-    },
-    {
-      "Key": "PDP.Product.GiftCardOptions.RequiredFieldError.label",
-      "Value": "This field is required"
-    },
-    {
-      "Key": "PDP.Product.GiftCardOptions.NumberError.label",
-      "Value": "Please enter a valid number"
-    },
-    {
-      "Key": "PDP.Product.GiftCardOptions.MinError.label",
-      "Value": "Minimum value is {min}"
-    },
-    {
-      "Key": "PDP.Product.GiftCardOptions.MaxError.label",
-      "Value": "Maximum value is {max}"
-    },
-    {
-      "Key": "PDP.Product.GiftCardOptions.MinLengthError.label",
-      "Value": "Minimum length is {min_length} characters"
-    },
-    {
-      "Key": "PDP.Product.GiftCardOptions.MaxLengthError.label",
-      "Value": "Maximum length is {max_length} characters"
-    },
-    {
-      "Key": "PDP.Product.GiftCardOptions.EmailError.label",
-      "Value": "Please enter a valid email address"
-    },
-    {
-      "Key": "PDP.Product.GiftCardOptions.InvalidValueError.label",
-      "Value": "Please select one of the allowed values: {values}"
-    },
-    {
-      "Key": "PDP.DownloadableOptions.Sample.label",
-      "Value": "Sample"
-    },
-    {
-      "Key": "PDP.DownloadableOptions.ViewSample.label",
-      "Value": "View sample for {label}"
     }
   ],
   ":type": "sheet"

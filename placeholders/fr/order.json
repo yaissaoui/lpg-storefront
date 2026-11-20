@@ -1,7 +1,7 @@
 {
-  "total": 288,
+  "total": 287,
   "offset": 0,
-  "limit": 288,
+  "limit": 287,
   "data": [
     {
       "Key": "Order.CreateReturn.headerText",
@@ -478,10 +478,6 @@
     {
       "Key": "Order.OrderStatusContent.noInfoTitle",
       "Value": "Revenez plus tard pour plus de détails."
-    },
-    {
-      "Key": "Order.OrderStatusContent.adminAssistedLabel",
-      "Value": "Commande passée par un conseiller"
     },
     {
       "Key": "Order.OrderStatusContent.returnMessage",

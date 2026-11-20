@@ -1,7 +1,7 @@
 {
-  "total": 225,
+  "total": 200,
   "offset": 0,
-  "limit": 225,
+  "limit": 200,
   "data": [
     {
       "Key": "Account.minifiedView.CustomerInformation.containerTitle",
@@ -248,10 +248,6 @@
       "Value": "Passée le"
     },
     {
-      "Key": "Account.minifiedView.OrdersList.OrdersListCard.placedByAdministrator",
-      "Value": "Passée par un conseiller"
-    },
-    {
       "Key": "Account.minifiedView.OrdersList.OrdersListSelectDate.pastSixMonths",
       "Value": "6 derniers mois"
     },
@@ -404,10 +400,6 @@
       "Value": "Passée le"
     },
     {
-      "Key": "Account.fullSizeView.OrdersList.OrdersListCard.placedByAdministrator",
-      "Value": "Passée par un conseiller"
-    },
-    {
       "Key": "Account.fullSizeView.OrdersList.OrdersListSelectDate.pastSixMonths",
       "Value": "6 derniers mois"
     },
@@ -522,98 +514,6 @@
     {
       "Key": "Account.AddressValidation.originalAddress",
       "Value": "Adresse saisie"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingSettings.checkboxLabel",
-      "Value": "Autoriser l'assistance d'un conseiller"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingSettings.checkboxTooltip",
-      "Value": "Le service client peut alors voir ce que vous voyez et agir pour votre compte afin de mieux vous aider."
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingSettings.alertMessage",
-      "Value": "L'assistance d'un conseiller est désactivée. Aucune nouvelle session ne peut démarrer."
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingSettings.featureDisabledMessage",
-      "Value": "L'assistance d'un conseiller n'est pas disponible sur cette boutique."
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.tableHeaders.action",
-      "Value": "Action"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.tableHeaders.date",
-      "Value": "Date"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.tableHeaders.details",
-      "Value": "Détails"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.actionTypes.place_order",
-      "Value": "Commande passée"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.actionTypes.add_to_cart",
-      "Value": "Ajouté au panier"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.actionTypes.remove_from_cart",
-      "Value": "Retiré du panier"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.actionTypes.remove_cart_item",
-      "Value": "Article retiré du panier"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.actionTypes.update_qty",
-      "Value": "Quantité modifiée"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.actionTypes.apply_coupon",
-      "Value": "Code promo appliqué"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.actionTypes.remove_coupon",
-      "Value": "Code promo retiré"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.actionTypes.update_address",
-      "Value": "Adresse modifiée"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.actionTypes.update_payment",
-      "Value": "Moyen de paiement modifié"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.actionTypes.update_shipping",
-      "Value": "Mode de livraison modifié"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.actionTypes.add_product_note",
-      "Value": "Note produit ajoutée"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.actionTypes.update_customer_info",
-      "Value": "Informations client modifiées"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.actionTypes.save",
-      "Value": "Enregistré"
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.emptyStateMessage",
-      "Value": "Aucune action d'un conseiller pour le moment."
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.errorMessage",
-      "Value": "Les actions des conseillers n'ont pas pu être chargées. Réessayez plus tard."
-    },
-    {
-      "Key": "Account.sellerAssistedBuyingActivity.featureDisabledMessage",
-      "Value": "L'historique de l'assistance n'est pas disponible sur cette boutique."
     },
     {
       "Key": "Account.Payments.containerTitle",

@@ -1,7 +1,7 @@
 {
-  "total": 288,
+  "total": 287,
   "offset": 0,
-  "limit": 288,
+  "limit": 287,
   "data": [
     {
       "Key": "Order.CreateReturn.headerText",
@@ -478,10 +478,6 @@
     {
       "Key": "Order.OrderStatusContent.noInfoTitle",
       "Value": "Check back later for more details."
-    },
-    {
-      "Key": "Order.OrderStatusContent.adminAssistedLabel",
-      "Value": "Order placed by an administrator"
     },
     {
       "Key": "Order.OrderStatusContent.returnMessage",
