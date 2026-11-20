@@ -1,6 +1,6 @@
 /*
  * Cart page on the storefront-cart drop-in, after blocks/commerce-cart of
- * aem-boilerplate-commerce v12.0.0. Left out: wishlist, gift options, gift cards and the
+ * aem-boilerplate-commerce (June 2026 state). Left out: wishlist, gift options, gift cards and the
  * mini PDP edit modal. Checkout is not part of this lab, so no checkout route is given.
  *
  * Block options (key / value rows, all optional), same names as the boilerplate:
@@ -55,13 +55,6 @@ export default async function decorate(block) {
   block.replaceChildren(fragment);
 
   const createProductLink = (item) => getProductLink(item.url?.urlKey, item.topLevelSku);
-
-  // CartSummaryList reads the tax display settings (storeConfig) once, when it mounts.
-  // Mounted before the cart drop-in has loaded them, it shows row totals excluding tax
-  // under a "TTC" label (seen on 20 November 2026). Wait for cart/initialized first.
-  await new Promise((resolve) => {
-    events.on('cart/initialized', resolve, { eager: true });
-  });
 
   await Promise.all([
     provider.render(CartSummaryList, {
