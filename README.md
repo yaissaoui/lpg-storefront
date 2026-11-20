@@ -1,6 +1,6 @@
 # LPG storefront on Edge Delivery Services (lab)
 
-EDS storefront for the LPG migration lab. One code base serves two sites: the institutional LPG catalogue and the Wellbox shop. Commerce features use the Adobe drop-ins, wired like the Adobe commerce boilerplate (`hlxsites/aem-boilerplate-commerce` v12.0.0). The catalogue comes from Adobe Commerce Optimizer (ACO). The cart runs on the PaaS 2.4.7 core GraphQL of the sandbox `lpg-migration`. The plan behind it is in `../docs/PLAN.en.md`, sections 4 and 6.
+EDS storefront for the LPG migration lab. One code base serves two sites: the institutional LPG catalogue and the Wellbox shop. Commerce features use the Adobe drop-ins, wired like the Adobe commerce boilerplate (`hlxsites/aem-boilerplate-commerce`). The drop-ins are pinned to Adobe's June 2026 release, the one tested with the Compatibility Package installed on the sandbox (see "Drop-in versions"). The catalogue comes from Adobe Commerce Optimizer (ACO). The cart runs on the PaaS 2.4.7 core GraphQL of the sandbox `lpg-migration`. The plan behind it is in `../docs/PLAN.en.md`, sections 4 and 6.
 
 The code started from `adobe/aem-boilerplate` (Apache-2.0, commit `599a356`). `scripts/aem.js` is vendored from it and must not be edited. The drop-ins are vendored in `scripts/__dropins__` and must not be edited either.
 
@@ -9,7 +9,7 @@ Any document or screenshot from this repository that goes to the client needs a 
 ## Rules that apply here
 
 - Drop-ins are allowed because the lab uses Commerce Optimizer, whose licence covers them (decision of 20 November 2026, `../docs/ACO-PAAS.md` section 11). Production needs the client's own ACO licence.
-- Code under `scripts/__dropins__` is never edited. Extensions go through slots, events, configuration (including model transformers) and our own `FetchGraphQL` hooks, like the boilerplate.
+- Drop-ins are used as Adobe ships them. Code under `scripts/__dropins__` is never edited and we write no work-around over drop-in behaviour. Our own code is LPG business logic (VAT display, showcase mode), done with slots, events and model transformers, and later App Builder modules.
 - No real customer data. Drafts point at sandbox products only.
 - The repository `yaissaoui/lpg-storefront` is public since 20 November 2026 (internal demo). It still holds LPG brand assets and the General Sans fonts, see "Styles and fonts".
 
@@ -49,6 +49,37 @@ The `-u` flag is there because the container user is uid 1000 and the files on t
 | `/fr/search?q=creme` | LPG showcase search: no price, "Découvrir" |
 
 The 63 Wellbox product pages, the three Wellbox category pages and the search pages exist in DA.live (`https://da.live/#/yaissaoui/lpg-storefront`). Code Sync publishes each branch at `https://{branch}--lpg-storefront--yaissaoui.aem.page/`.
+
+## Drop-in versions
+
+The sandbox `lpg-migration` runs Adobe Commerce 2.4.7-p10 with the Storefront Compatibility Package 4.7.13. It cannot go higher: with our Composer keys, repo.magento.com lists 4.7.0 to 4.7.13 and 4.8.0 to 4.8.8 only. Adobe publishes 4.7.14 to 4.7.20 for merchants with an ACO licence, and our keys do not see them.
+
+The drop-in release tested with 4.7.13 on Commerce 2.4.7 is the June 2026 suite (source below). Newer drop-ins query GraphQL fields that 4.7.13 does not add. For example `storefront-cart` 3.4.1 selects `Cart.has_available_free_gifts`, `CartItemInterface.is_free_gift` and `CartItemInterface.is_salable`, and the sandbox rejected every cart call. The 3.3.x cart tarballs do not reference these fields. So this storefront pins the June suite, taking the latest patch on npm within each range:
+
+| Package | June 2026 range | Pinned |
+|---|---|---|
+| `@dropins/tools` (Drop-in SDK) | 1.9.x | 1.9.0 |
+| `@dropins/storefront-auth` | ~4.0.0 | 4.0.1 |
+| `@dropins/storefront-cart` | ~3.3.0 | 3.3.1 |
+| `@dropins/storefront-pdp` | ~3.2.0 | 3.2.0 |
+| `@dropins/storefront-product-discovery` | ~3.1.1 | 3.1.3 |
+| `@dropins/build-tools` (dev) | boilerplate of June 2026 | 1.2.0 |
+
+The suite also lists checkout ~3.3.0, order ~4.0.0, account ~4.0.0, recommendations ~4.0.4 and wishlist ~3.3.0, which this lab does not use yet.
+
+These versions come with some caveats:
+
+- `storefront-auth` 4.0.1 and `storefront-cart` 3.3.1 were published on 29 July 2026, and `storefront-product-discovery` 3.1.2 and 3.1.3 in September and October. The boilerplate shipped them next to `@dropins/tools` 2.x and 3.x. They are patch releases inside the June ranges. Every import they make from `@dropins/tools` exists in 1.9.0 (checked by script), and the pages below work with them. If one misbehaves, the exact June builds are auth 4.0.0, cart 3.3.0 and product-discovery 3.1.1.
+- The project code (`scripts/commerce.js`, `scripts/initializers/`, the commerce blocks, `head.html`) follows the boilerplate as it was on 11 June 2026 (commit `f00f929e`, "bump all drop-in packages to stable"). Two exceptions: no free-gift flag on the cart initializer, and the module preloads that tools 1.9.0 actually ships.
+
+To move to the latest suite once Compatibility Package 4.7.14 or later is installable (ACO licence keys on repo.magento.com):
+
+1. Install the package on the PaaS (`composer require` of the Storefront Compatibility Package in the lpg-ops overlay), deploy it to `lpg-migration` and check that the cart query of the target cart version validates. Run `CART_FRAGMENT` from `scripts/__dropins__/storefront-cart/fragments.js` against `/graphql` with a guest cart id.
+2. Read the release notes of the target suite on the Adobe storefront releases page and copy its versions into `package.json`. Copy `build.mjs` from the boilerplate commit of that release.
+3. Run `npm install` then `npm run install:dropins` in the container, and commit `scripts/__dropins__`.
+4. Diff `scripts/commerce.js`, `scripts/initializers/*`, `head.html` and the commerce blocks against the boilerplate at that release (`git log --until=<release date>` in a clone) and port the API changes. For example, recent releases add `features.isFreeGiftsCartPriceRulesEnabled` to the cart initializer and a `commerce/customer-context` event.
+5. Re-run the checks of "Known issues and what remains custom". Some of them are fixed in later suites. For example `storefront-pdp` 3.4.0 renders the product name as an `h1`, which 3.2.0 does not.
+6. Run `npm run lint`, `npm test` and the pages of "Pages to try" on local and on the branch preview.
 
 ## Structure
 
@@ -122,13 +153,7 @@ The boilerplate expects `/products/{urlKey}/{sku}` or `<meta name="sku">`. The D
 
 ACO prices exclude tax. Wellbox shows prices including 20 % VAT (999.00 TTC for WELLBOX 2 white, 832.50 in ACO). Each view that shows tax sets `taxRate` in `config/sites.json` (0.2 on `wellbox_fr` and `wellbox_en`, nothing elsewhere). The pdp and search initializers pass a model transformer (`models.ProductDetails.transformer`, `models.Product.transformer`). Both drop-ins call it with the raw ACO `ProductView` and deep merge the result into their model, so the transformers in `scripts/commerce-utils.js` read raw fields and return only price fields with the tax added, rounded to the cent. One rate per view ignores product tax classes and the shopper's address, which is acceptable for a French B2C shop and checked against PaaS on several SKUs (118.80 for 99.00, 999.00 for 832.50).
 
-ACO also returns `roles: []` on the price range of configurable products, while simple products carry `["visible"]`. The PDP drop-in hides a price without the `visible` role, so WELLBOX 2 showed no price. A second transformer marks such ranges visible. A `hidden` role still hides the price.
-
-### Cart on PaaS 2.4.7
-
-`storefront-cart` 3.4.1 always selects `Cart.has_available_free_gifts`, `CartItemInterface.is_free_gift` and `CartItemInterface.is_salable`. The sandbox (2.4.7-p10 with the Storefront Compatibility Package 4.7.13) has none of them, so every cart call failed. `build.mjs` can only add fields or drop whole fragments, so a `beforeHook` on `CORE_FETCH_GRAPHQL` removes these three scalars from POST bodies. The drop-in treats the missing values as "not a free gift" and falls back from `is_salable` to `is_available`. A newer compatibility package may add the fields, in which case the hook can go.
-
-The cart page waits for the `cart/initialized` event before it mounts `CartSummaryList`. Mounted earlier, the container rendered row totals excluding tax under a "TTC" label.
+The VAT transformer is LPG business logic: Wellbox shows prices including tax, and ACO serves prices excluding tax. The PDP gets a second transformer, for price visibility, because of ACO data. See "Known issues and what remains custom".
 
 ### Showcase mode (LPG fr and en)
 
@@ -137,6 +162,40 @@ Views with `sells: false` render the PDP without `ProductPrice`, `ProductQuantit
 ### Labels
 
 Each initializer passes `langDefinitions` built from placeholders, like the boilerplate. The boilerplate reads them from DA at `{root}placeholders/{file}.json`. DA has none for this lab yet, so `fetchPlaceholders` falls back to `/placeholders/{lang}/{file}.json` in this repository (French translations of the visible PDP, cart and search labels, and `Global.*` keys used by the blocks). Moving them to DA sheets only needs the same keys.
+
+## Known issues and what remains custom
+
+Re-checked on 20 November 2026 with the June 2026 suite, locally and on the branch preview.
+
+Kept because it is LPG business logic:
+
+- The VAT transformer for the Wellbox views (`taxRate` in `config/sites.json`, see "VAT and price visibility").
+- Showcase mode on LPG `fr` and `en` (see above).
+
+Kept because of ACO data:
+
+- The price visibility transformer (`pdpPriceVisibilityTransformer` in `scripts/commerce-utils.js`, passed as a PDP model transformer). This is a data issue, not a drop-in bug. ACO returns `roles: []` on `priceRange.minimum` and `priceRange.maximum` of configurable products, while simple products carry `["visible"]`. `storefront-pdp` shows a price only when its roles contain `visible`, which is correct behaviour. Without the transformer, WELLBOX 2 shows no price until a colour is chosen (checked again with pdp 3.2.0). The transformer marks the range visible only when ACO sent an empty list, and a `hidden` role still hides it. The fix belongs to the catalogue data, through the ACO connector or the price feed. Once the data carries `visible`, delete the transformer. To reproduce:
+
+  ```sh
+  curl -s https://na1-sandbox.api.commerce.adobe.com/QD1T4hbz1zGxLHYpp8cyPy/graphql \
+    -H 'content-type: application/json' \
+    -H 'AC-View-ID: 8aabd439-f2ab-4d91-a9b1-548fe45b389e' -H 'AC-Price-Book-ID: wellbox' \
+    -d '{"query":"{ products(skus:[\"wellbox-2\",\"102036800\"]) { sku ... on SimpleProductView { price { roles } } ... on ComplexProductView { priceRange { minimum { roles } maximum { roles } } } } }"}'
+  # wellbox-2 (configurable): roles [] on minimum and maximum. 102036800 (simple): roles ["visible"]
+  ```
+
+Removed:
+
+- The `beforeHook` that stripped `has_available_free_gifts`, `is_free_gift` and `is_salable` from cart queries. This was a version gap. `storefront-cart` 3.3.1 does not query these fields, and its cart fragment validates against the sandbox as is.
+- The cart page wait for `cart/initialized` before mounting `CartSummaryList`. The cart block now mounts the containers the way the boilerplate does. The display problem it hid is still there (issue 1 below).
+- The `commerce/customer-context` refetch on the PDP, and the free-gift flag on the cart initializer. Both belong to later boilerplate versions.
+
+Open, not worked around. These are suspected Adobe drop-in bugs, not reported to Adobe yet:
+
+1. Cart page row totals excluding tax under a "TTC" label (`storefront-cart` 3.3.1 and 3.4.1). The sandbox sets `shopping_cart_display_price = 2` (including tax) on `wellbox_fr`. On `/wellbox/fr/cart`, `CartSummaryList` renders `data-testid="regular-item-total"` with `row_total` (832,50 €) and a "TTC" label. A free gift line shows its `original_row_total` (125,00 €) instead of 0. The `MiniCart` opened later on the same page renders `including-tax-item-total` with 999,00 €. The behaviour suggests the container reads the tax display setting from the cart state at its first render (`config.shoppingCartDisplaySetting`) before the cart has loaded `storeConfig`, and keeps that branch. Minimal reproduction: on a PaaS store with "Display Cart Prices: Including Tax", add a discounted product to a guest cart, then load a page whose only commerce block is the boilerplate `commerce-cart`. Waiting for the `cart/initialized` event before rendering the container makes it correct, which supports the timing explanation.
+2. Struck-through price mixes tax bases (`storefront-cart` 3.3.1 and 3.4.1). In "including tax" mode the struck line total is `prices.original_row_total`, which Magento returns excluding tax (1 165,83 €), next to the discounted `row_total_including_tax` (999,00 €). The expected value is 1 399,00 €. Visible in the mini cart and on the cart page for WELLBOX 2 white. The same cart through PaaS GraphQL returns `price_including_tax 999`, `row_total_including_tax 999` and `original_row_total 1165.83`. Magento has no "original row total including tax" field, so the fix may need a schema change as well as a drop-in change.
+3. Order summary subtotal excluding tax (832,50 €, then VAT 166,50 €, total 999,00 €), while `shopping_cart_display_subtotal = 2`. Not investigated further. It may come from the same cause as issue 1.
+4. The PDP has no `h1` with `storefront-pdp` 3.2.0. `ProductHeader` renders the name in a `div`, and 3.4.0 renders an `h1`. This is a version gap. Server-side rendering (BYOM) of product pages should provide the `h1` for SEO.
 
 ## Styles and fonts
 
@@ -154,7 +213,7 @@ The ITF licence allows self-hosting through `@font-face` for the licensee's own 
 
 ## Tests and lint
 
-`npm test` runs `node --test` on `test/`. The tests cover the VAT and price visibility transformers on fake ACO payloads, the product path parsing, the config loading and its fallback, the cart field filter, the public config resolved by the drop-in's own resolver (store header, view id and price book for each root, no secret), and the site and locale resolution. `npm run lint` runs ESLint (airbnb-base, with the rule relaxations of the commerce boilerplate) and Stylelint. Both ignore `scripts/__dropins__`.
+`npm test` runs `node --test` on `test/`. The tests cover the VAT and price visibility transformers on fake ACO payloads, the product path parsing, the config loading and its fallback, the public config resolved by the drop-in's own resolver (store header, view id and price book for each root, no secret), and the site and locale resolution. `npm run lint` runs ESLint (airbnb-base, with the rule relaxations of the commerce boilerplate) and Stylelint. Both ignore `scripts/__dropins__`.
 
 ## Not done yet
 
@@ -165,12 +224,12 @@ The ITF licence allows self-hosting through `@font-face` for the licensee's own 
 - LPG categories: `fr` and `en` have no categories in ACO, so LPG category pages list nothing and the menu uses `fallbackNav`.
 - The views not exported to ACO (es, it, de, nl, us, pro-fr, pro-en) fall back to the LPG fr catalogue view. They need their own ACO views or a PaaS catalogue route.
 - BYOM or JSON2HTML for product and category pages, with `<meta name="sku">`.
-- The order summary on the cart page shows the subtotal excluding tax, then the VAT, then the total. The PaaS setting asks for subtotals including tax. Not investigated further.
 - Store locator, newsletter, cookie consent and analytics. The drop-ins run with `acdl: false` and no event collector, so the sandbox sends no data to Adobe.
 
 ## Sources
 
-- https://github.com/hlxsites/aem-boilerplate-commerce (v12.0.0, local clone used as reference)
+- https://github.com/hlxsites/aem-boilerplate-commerce (local clone, state of commit `f00f929e` of 11 June 2026)
+- https://experienceleague.adobe.com/en/tools/commerce-storefront/releases/2026-06/
 - https://github.com/adobe/aem-boilerplate
 - https://experienceleague.adobe.com/developer/commerce/storefront/
 - https://www.aem.live/docs/
