@@ -348,9 +348,20 @@ export const renderPaymentMethods = async (container) => renderContainer(
  */
 export const renderTermsAndConditions = async (container) => renderContainer(
   CONTAINERS.TERMS_AND_CONDITIONS,
-  // The agreements come from the PaaS (checkoutAgreements, "CGV Wellbox FR" on wellbox_fr).
-  // The boilerplate adds a "default" agreement for stores without one: not needed here.
-  async () => CheckoutProvider.render(TermsAndConditions, {})(container),
+  // The container only shows the agreements appended through its Agreements slot, like
+  // the boilerplate does with a fixed "default" agreement. Here the slot appends the
+  // agreements of the store view from the checkout API (checkoutAgreements: "CGV Wellbox FR",
+  // manual consent, on wellbox_fr), with their own text.
+  async () => CheckoutProvider.render(TermsAndConditions, {
+    slots: {
+      Agreements: async (ctx) => {
+        const agreements = await checkoutApi.getCheckoutAgreements();
+        agreements.forEach(({ name, mode, text }) => {
+          ctx.appendAgreement(() => ({ name, mode, text }));
+        });
+      },
+    },
+  })(container),
 );
 
 /**
