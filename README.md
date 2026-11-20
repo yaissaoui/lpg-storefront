@@ -122,7 +122,7 @@ The ACO catalogue views are being created in Optimizer Studio. Once their ids ar
 
 To try ACO on a dev host without touching the file, set `localStorage` keys `catalog-backend` to `aco` and `commerce-core-endpoint` to `http://localhost:3001/graphql` (the proxy below). The view ids still have to be real.
 
-ACO answers CORS for `http://localhost:3000`. The PaaS does not, so cart calls and the price book lookup need the dev proxy locally, and a CDN route or CORS on the PaaS for `*.aem.page`.
+ACO answers CORS for `http://localhost:3000`. Since 20 November 2026 the sandbox `lpg-migration` answers CORS on `/graphql` too, for `http://localhost:3000` and `https://*--lpg-storefront--yaissaoui.aem.page` (and `.aem.live`). It comes from a sandbox-only module, `Sqli_LabCors`, kept in `lpg-ops/sandbox/overlay`. The dev proxy is no longer needed. Production should prefer a CDN route from the storefront host to `/graphql` (same origin).
 
 Known gap before Wellbox goes on ACO: ACO prices are tax excluded while Wellbox shows prices including VAT. Details in `scripts/commerce/README.md`.
 
@@ -132,7 +132,7 @@ The sandbox is `lpg-migration` (`https://lpg-migration-6j6zloi-37xbp5mgn7pn2.eu-
 
 1. Start the proxy with `make graphql-proxy`. It forwards `http://localhost:3001/graphql` to `$SANDBOX_DEFAULT_URL/graphql`. Another URL can be given with `make graphql-proxy COMMERCE_GRAPHQL_URL=https://<host>/graphql`.
 2. In the browser console on `http://localhost:3000`, run `localStorage.setItem('commerce-endpoint', 'http://localhost:3001/graphql')` and reload. `localStorage.removeItem('commerce-endpoint')` goes back to fixtures. This override only works on dev hosts.
-3. For a shared preview on PaaS only, set `catalog-backend` to `paas-core` in `config/sites.json`. The `commerce-core-endpoint` of each site already points to the sandbox. A direct call from `*.aem.page` to the sandbox needs CORS on the Commerce side.
+3. For a shared preview on PaaS only, set `catalog-backend` to `paas-core` in `config/sites.json`. The `commerce-core-endpoint` of each site already points to the sandbox. A direct call from `*.aem.page` to the sandbox works since the CORS module above.
 
 The proxy only exists for local development. It allows the origin `http://localhost:3000` only, forwards the `Store` header, never forwards cookies and logs no request body. The Adobe documentation prefers same-origin delivery (a CDN route from the EDS host to `/graphql`) and treats CORS as a last resort. That decision belongs to the delivery set-up of phase B (API Mesh) or to the CDN configuration.
 

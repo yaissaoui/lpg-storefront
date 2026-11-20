@@ -171,4 +171,4 @@ Facts observed on the sandbox on 19 November 2026 are marked as such. The rest i
 - Observed: LPG `fr` and `en` have no categories in ACO, so `getCategoryTree()` returns an empty list there and the header uses `fallbackNav`. `listCategory` on LPG paths returns `null`.
 - Inference: `aco.locale` is not needed when a view has a single source. To check with the first real view id.
 - `getProduct` by url key relies on `url_key` being filterable in `productSearch`. It is on the Wellbox sandbox data. The sku route (`products(skus:)`) has no such dependency.
-- The PaaS core endpoint sends no CORS headers for `http://localhost:3000` (preflight answered 204 without `Access-Control-Allow-Origin`). In the browser the price book call fails and the base book is used, and the cart needs the dev proxy (`commerce-core-endpoint` override set to `http://localhost:3001/graphql`).
+- Until 20 November 2026 the PaaS core endpoint sent no CORS headers. The sandbox now allows `http://localhost:3000` and the `*--lpg-storefront--yaissaoui.aem.page` and `.aem.live` previews (module `Sqli_LabCors`, sandbox only). The dev proxy is kept for other PaaS hosts.
