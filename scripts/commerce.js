@@ -39,7 +39,7 @@ export const IS_DA = new URL(window.location.href).searchParams.has('dapreview')
 export const IS_UE = /\.(stage-ue|ue)\.da\.live$/.test(window.location.hostname);
 
 // PATHS (relative to the store root, see rootLink). Same values as the boilerplate.
-export const SUPPORT_PATH = '/support';
+export const SUPPORT_PATH = '/contact';
 export const PRIVACY_POLICY_PATH = '/donnees-personnelles';
 
 // GUEST PATHS
@@ -337,6 +337,7 @@ function detectPageType() {
   if (document.body.querySelector('main .product-details')) return 'Product';
   if (document.body.querySelector('main .product-list')) return 'Category';
   if (document.body.querySelector('main .commerce-cart')) return 'Cart';
+  if (document.body.querySelector('main .commerce-checkout')) return 'Checkout';
   return 'CMS';
 }
 

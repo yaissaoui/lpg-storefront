@@ -3,6 +3,9 @@ import {
   loadFooter,
   decorateIcons,
   decorateBlocks,
+  readBlockConfig,
+  toCamelCase,
+  toClassName,
   decorateTemplateAndTheme,
   waitForFirstImage,
   loadSection,
@@ -116,7 +119,8 @@ function buildAutoBlocks(main) {
 }
 
 /**
- * Decorates all sections in a container element. Same as aem.js, plus the Universal Editor
+ * Decorates all sections in a container element. Same as aem.js plus section metadata, plus
+ * the Universal Editor
  * markup of *.ue.da.live: default content arrives wrapped in elements with class "richtext"
  * (data-aue-type="richtext"). They are default content, not a block, as in the
  * da-block-collection and the commerce boilerplate (otherwise UE requests
@@ -148,6 +152,22 @@ export function decorateSections(main) {
     section.classList.add('section');
     section.dataset.sectionStatus = 'initialized';
     section.style.display = 'none';
+
+    // Section metadata left in the markup (local drafts, UE preview). On aem.page the
+    // pipeline already turned it into classes and data attributes.
+    const sectionMeta = section.querySelector('div.section-metadata');
+    if (sectionMeta) {
+      const meta = readBlockConfig(sectionMeta);
+      Object.keys(meta).forEach((key) => {
+        if (key === 'style') {
+          meta.style.split(',').filter(Boolean)
+            .forEach((style) => section.classList.add(toClassName(style.trim())));
+        } else {
+          section.dataset[toCamelCase(key)] = meta[key];
+        }
+      });
+      sectionMeta.parentNode.remove();
+    }
   });
 }
 

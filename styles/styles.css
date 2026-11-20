@@ -502,3 +502,68 @@ body.site-wellbox main .section.centered h2::after {
   clip-path: inset(50%);
   white-space: nowrap;
 }
+
+/*
+ * "Columns" template of the account pages, from aem-boilerplate-commerce styles.css
+ * (June 2026 state, Apache-2.0). Sections carry --column-width and --gap
+ * (scripts/commerce.js applyTemplates).
+ */
+body.columns main {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: var(--spacing-large) var(--spacing-small);
+  box-sizing: border-box;
+}
+
+body.columns main > .section {
+  flex: 1;
+  flex-basis: 100%;
+  max-width: unset;
+  margin: unset;
+  padding: calc(var(--grid-4-gutters) / 2);
+  box-sizing: border-box;
+}
+
+body.columns main > .section:first-child {
+  padding-inline-start: 0;
+  padding-block-start: 0;
+}
+
+body.columns main > .section:last-child {
+  padding-inline-end: 0;
+  padding-block-end: 0;
+}
+
+body.columns main > .section > div {
+  max-width: unset;
+  padding: unset;
+}
+
+body.columns main > .section > div:not(:last-child) {
+  margin-bottom: var(--gap, unset);
+}
+
+body.columns main > .section:empty,
+main > .section.metadata-only {
+  display: none;
+}
+
+@media (width >= 600px) {
+  body.columns main {
+    padding: var(--spacing-large) var(--spacing-big);
+  }
+}
+
+@media (width >= 900px) {
+  body.columns main {
+    flex-flow: row wrap;
+  }
+
+  body.columns main > .section {
+    flex: 1;
+    flex-basis: var(--column-width, auto);
+  }
+}
