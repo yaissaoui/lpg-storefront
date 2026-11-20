@@ -1,0 +1,29 @@
+{
+  "definitions": [
+    {
+      "title": "Product Details",
+      "id": "product-details",
+      "model": "product-details",
+      "plugins": {
+        "da": {
+          "name": "product-details",
+          "type": "key-value-block"
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "product-details",
+      "fields": [
+        {
+          "component": "text",
+          "name": "sku",
+          "label": "SKU",
+          "description": "Optional. Otherwise the sku comes from the page metadata or the URL"
+        }
+      ]
+    }
+  ],
+  "filters": []
+}

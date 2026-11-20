@@ -1,0 +1,551 @@
+{
+  "groups": [
+    {
+      "title": "Default Content",
+      "id": "default",
+      "components": [
+        {
+          "title": "Text",
+          "id": "text",
+          "model": "text",
+          "plugins": {
+            "da": {
+              "name": "text",
+              "type": "text"
+            }
+          }
+        },
+        {
+          "title": "Image",
+          "id": "image",
+          "model": "image",
+          "plugins": {
+            "da": {
+              "name": "image",
+              "type": "image",
+              "fields": [
+                {
+                  "name": "image",
+                  "selector": "img[src]"
+                },
+                {
+                  "name": "imageAlt",
+                  "selector": "img[alt]"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "title": "Sections",
+      "id": "sections",
+      "components": [
+        {
+          "title": "Section",
+          "id": "section",
+          "plugins": {
+            "da": {
+              "unsafeHTML": "<div></div>"
+            }
+          },
+          "filter": "section",
+          "model": "section"
+        }
+      ]
+    },
+    {
+      "title": "Blocks",
+      "id": "blocks",
+      "components": [
+        {
+          "title": "Cards",
+          "id": "cards",
+          "model": "cards",
+          "filter": "cards",
+          "plugins": {
+            "da": {
+              "name": "cards",
+              "rows": 1,
+              "columns": 2
+            }
+          }
+        },
+        {
+          "title": "Card",
+          "id": "card",
+          "model": "card",
+          "plugins": {
+            "da": {
+              "rows": 1,
+              "columns": 2,
+              "fields": [
+                {
+                  "name": "image",
+                  "selector": "div:nth-child(1)>picture>img[src]"
+                },
+                {
+                  "name": "imageAlt",
+                  "selector": "div:nth-child(1)>picture>img[alt]"
+                },
+                {
+                  "name": "text",
+                  "selector": "div:nth-child(2)"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "title": "Columns",
+          "id": "columns",
+          "model": "columns",
+          "filter": "columns",
+          "plugins": {
+            "da": {
+              "name": "columns",
+              "rows": 1,
+              "columns": 2,
+              "behaviour": "columns"
+            }
+          }
+        },
+        {
+          "title": "Columns Row",
+          "id": "columns-row",
+          "model": "columns-row",
+          "filter": "columns-row",
+          "plugins": {
+            "da": {
+              "name": "columns-row",
+              "behaviour": "columns-row"
+            }
+          }
+        },
+        {
+          "title": "Columns Cell",
+          "id": "columns-cell",
+          "model": "columns-cell",
+          "filter": "columns-cell",
+          "plugins": {
+            "da": {
+              "unsafeHTML": "<div></div>",
+              "behaviour": "columns-cell"
+            }
+          }
+        },
+        {
+          "title": "Commerce Account Header",
+          "id": "commerce-account-header",
+          "model": "commerce-account-header",
+          "plugins": {
+            "da": {
+              "type": "key-value-block",
+              "name": "commerce-account-header"
+            }
+          }
+        },
+        {
+          "title": "Commerce Account Sidebar",
+          "id": "commerce-account-sidebar",
+          "model": "commerce-account-sidebar",
+          "plugins": {
+            "da": {
+              "rows": 1,
+              "columns": 1,
+              "name": "commerce-account-sidebar"
+            }
+          }
+        },
+        {
+          "title": "Commerce Addresses",
+          "id": "commerce-addresses",
+          "model": "commerce-addresses",
+          "plugins": {
+            "da": {
+              "type": "key-value-block",
+              "name": "commerce-addresses"
+            }
+          }
+        },
+        {
+          "title": "Commerce Cart",
+          "id": "commerce-cart",
+          "model": "commerce-cart",
+          "plugins": {
+            "da": {
+              "type": "key-value-block",
+              "name": "commerce-cart"
+            }
+          }
+        },
+        {
+          "title": "Commerce Checkout Success",
+          "id": "commerce-checkout-success",
+          "model": "commerce-checkout-success",
+          "plugins": {
+            "da": {
+              "rows": 1,
+              "columns": 1,
+              "name": "commerce-checkout-success"
+            }
+          }
+        },
+        {
+          "title": "Commerce Checkout",
+          "id": "commerce-checkout",
+          "model": "commerce-checkout",
+          "plugins": {
+            "da": {
+              "rows": 1,
+              "columns": 1,
+              "name": "commerce-checkout"
+            }
+          }
+        },
+        {
+          "title": "Commerce Confirm Account",
+          "id": "commerce-confirm-account",
+          "model": "commerce-confirm-account",
+          "plugins": {
+            "da": {
+              "rows": 1,
+              "columns": 1,
+              "name": "commerce-confirm-account"
+            }
+          }
+        },
+        {
+          "title": "Commerce Create Account",
+          "id": "commerce-create-account",
+          "model": "commerce-create-account",
+          "plugins": {
+            "da": {
+              "rows": 1,
+              "columns": 1,
+              "name": "commerce-create-account"
+            }
+          }
+        },
+        {
+          "title": "Commerce Create Password",
+          "id": "commerce-create-password",
+          "model": "commerce-create-password",
+          "plugins": {
+            "da": {
+              "rows": 1,
+              "columns": 1,
+              "name": "commerce-create-password"
+            }
+          }
+        },
+        {
+          "title": "Commerce Customer Details",
+          "id": "commerce-customer-details",
+          "model": "commerce-customer-details",
+          "plugins": {
+            "da": {
+              "rows": 1,
+              "columns": 1,
+              "name": "commerce-customer-details"
+            }
+          }
+        },
+        {
+          "title": "Commerce Customer Information",
+          "id": "commerce-customer-information",
+          "model": "commerce-customer-information",
+          "plugins": {
+            "da": {
+              "rows": 1,
+              "columns": 1,
+              "name": "commerce-customer-information"
+            }
+          }
+        },
+        {
+          "title": "Commerce Forgot Password",
+          "id": "commerce-forgot-password",
+          "model": "commerce-forgot-password",
+          "plugins": {
+            "da": {
+              "rows": 1,
+              "columns": 1,
+              "name": "commerce-forgot-password"
+            }
+          }
+        },
+        {
+          "title": "Commerce Login",
+          "id": "commerce-login",
+          "model": "commerce-login",
+          "plugins": {
+            "da": {
+              "rows": 1,
+              "columns": 1,
+              "name": "commerce-login"
+            }
+          }
+        },
+        {
+          "title": "Commerce Order Comments",
+          "id": "commerce-order-comments",
+          "model": "commerce-order-comments",
+          "plugins": {
+            "da": {
+              "rows": 1,
+              "columns": 1,
+              "name": "commerce-order-comments"
+            }
+          }
+        },
+        {
+          "title": "Commerce Order Cost Summary",
+          "id": "commerce-order-cost-summary",
+          "model": "commerce-order-cost-summary",
+          "plugins": {
+            "da": {
+              "rows": 1,
+              "columns": 1,
+              "name": "commerce-order-cost-summary"
+            }
+          }
+        },
+        {
+          "title": "Commerce Order Header",
+          "id": "commerce-order-header",
+          "model": "commerce-order-header",
+          "plugins": {
+            "da": {
+              "rows": 1,
+              "columns": 1,
+              "name": "commerce-order-header"
+            }
+          }
+        },
+        {
+          "title": "Commerce Order Product List",
+          "id": "commerce-order-product-list",
+          "model": "commerce-order-product-list",
+          "plugins": {
+            "da": {
+              "rows": 1,
+              "columns": 1,
+              "name": "commerce-order-product-list"
+            }
+          }
+        },
+        {
+          "title": "Commerce Order Status",
+          "id": "commerce-order-status",
+          "model": "commerce-order-status",
+          "plugins": {
+            "da": {
+              "rows": 1,
+              "columns": 1,
+              "name": "commerce-order-status"
+            }
+          }
+        },
+        {
+          "title": "Commerce Orders List",
+          "id": "commerce-orders-list",
+          "model": "commerce-orders-list",
+          "plugins": {
+            "da": {
+              "type": "key-value-block",
+              "name": "commerce-orders-list"
+            }
+          }
+        },
+        {
+          "title": "Commerce Search Order",
+          "id": "commerce-search-order",
+          "model": "commerce-search-order",
+          "plugins": {
+            "da": {
+              "rows": 1,
+              "columns": 1,
+              "name": "commerce-search-order"
+            }
+          }
+        },
+        {
+          "title": "Commerce Shipping Status",
+          "id": "commerce-shipping-status",
+          "model": "commerce-shipping-status",
+          "plugins": {
+            "da": {
+              "rows": 1,
+              "columns": 1,
+              "name": "commerce-shipping-status"
+            }
+          }
+        },
+        {
+          "title": "Fragment",
+          "id": "fragment",
+          "model": "fragment",
+          "plugins": {
+            "da": {
+              "unsafeHTML": "<div class=\"fragment\"><div><div><p><a href=\"\">Fragment URL</a></p></div></div></div>",
+              "fields": [
+                {
+                  "name": "url",
+                  "selector": "div>div>p>a[href]"
+                },
+                {
+                  "name": "urlText",
+                  "selector": "div>div>p>a"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "title": "Hero",
+          "id": "hero",
+          "model": "hero",
+          "plugins": {
+            "da": {
+              "name": "hero",
+              "rows": 2,
+              "columns": 1,
+              "fields": [
+                {
+                  "name": "image",
+                  "selector": "div:nth-child(1)>div>picture>img[src]"
+                },
+                {
+                  "name": "imageAlt",
+                  "selector": "div:nth-child(1)>div>picture>img[alt]"
+                },
+                {
+                  "name": "text",
+                  "selector": "div:nth-child(2)>div"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "title": "Metadata",
+          "id": "metadata",
+          "model": "page-metadata",
+          "plugins": {
+            "da": {
+              "name": "metadata",
+              "type": "key-value-block"
+            }
+          }
+        },
+        {
+          "title": "Product Details",
+          "id": "product-details",
+          "model": "product-details",
+          "plugins": {
+            "da": {
+              "name": "product-details",
+              "type": "key-value-block"
+            }
+          }
+        },
+        {
+          "title": "Product List",
+          "id": "product-list",
+          "model": "product-list",
+          "plugins": {
+            "da": {
+              "name": "product-list",
+              "type": "key-value-block"
+            }
+          }
+        },
+        {
+          "title": "Search",
+          "id": "search",
+          "model": "search",
+          "plugins": {
+            "da": {
+              "name": "search",
+              "type": "key-value-block"
+            }
+          }
+        },
+        {
+          "title": "Teaser",
+          "id": "teaser",
+          "model": "teaser",
+          "filter": "teaser",
+          "plugins": {
+            "da": {
+              "name": "teaser",
+              "rows": 1,
+              "columns": 2
+            }
+          }
+        },
+        {
+          "title": "Teaser item",
+          "id": "teaser-item",
+          "model": "teaser-item",
+          "plugins": {
+            "da": {
+              "rows": 1,
+              "columns": 2,
+              "fields": [
+                {
+                  "name": "image",
+                  "selector": "div:nth-child(1)>picture>img[src]"
+                },
+                {
+                  "name": "imageAlt",
+                  "selector": "div:nth-child(1)>picture>img[alt]"
+                },
+                {
+                  "name": "text",
+                  "selector": "div:nth-child(2)"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "title": "Testimonials",
+          "id": "testimonials",
+          "model": "testimonials",
+          "filter": "testimonials",
+          "plugins": {
+            "da": {
+              "name": "testimonials",
+              "rows": 1,
+              "columns": 2
+            }
+          }
+        },
+        {
+          "title": "Testimonial",
+          "id": "testimonial",
+          "model": "testimonial",
+          "plugins": {
+            "da": {
+              "rows": 1,
+              "columns": 2,
+              "fields": [
+                {
+                  "name": "quote",
+                  "selector": "div:nth-child(1)"
+                },
+                {
+                  "name": "author",
+                  "selector": "div:nth-child(2)"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

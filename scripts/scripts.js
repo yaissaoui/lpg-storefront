@@ -2,7 +2,6 @@ import {
   loadHeader,
   loadFooter,
   decorateIcons,
-  decorateSections,
   decorateBlocks,
   decorateTemplateAndTheme,
   waitForFirstImage,
@@ -13,9 +12,11 @@ import {
 } from './aem.js';
 import { getSiteContext } from './site-config.js';
 import {
+  applyTemplates,
   initializeCommerce,
   loadCommerceEager,
   getProductSku,
+  IS_UE,
 } from './commerce.js';
 
 if (window.trustedTypes && window.trustedTypes.createPolicy) {
@@ -115,6 +116,42 @@ function buildAutoBlocks(main) {
 }
 
 /**
+ * Decorates all sections in a container element. Same as aem.js, plus the Universal Editor
+ * markup of *.ue.da.live: default content arrives wrapped in elements with class "richtext"
+ * (data-aue-type="richtext"). They are default content, not a block, as in the
+ * da-block-collection and the commerce boilerplate (otherwise UE requests
+ * blocks/richtext/richtext.js).
+ * @param {Element} main The container element
+ */
+export function decorateSections(main) {
+  main.querySelectorAll(':scope > div').forEach((section) => {
+    const wrappers = [];
+    let defaultContent = false;
+    [...section.children].forEach((e) => {
+      if (e.classList.contains('richtext')) {
+        e.removeAttribute('class');
+        if (!defaultContent) {
+          const wrapper = document.createElement('div');
+          wrapper.classList.add('default-content-wrapper');
+          wrappers.push(wrapper);
+          defaultContent = true;
+        }
+      } else if (e.tagName === 'DIV' || !defaultContent) {
+        const wrapper = document.createElement('div');
+        wrappers.push(wrapper);
+        defaultContent = e.tagName !== 'DIV';
+        if (defaultContent) wrapper.classList.add('default-content-wrapper');
+      }
+      wrappers[wrappers.length - 1].append(e);
+    });
+    wrappers.forEach((wrapper) => section.append(wrapper));
+    section.classList.add('section');
+    section.dataset.sectionStatus = 'initialized';
+    section.style.display = 'none';
+  });
+}
+
+/**
  * Decorates formatted links to style them as buttons.
  * @param {HTMLElement} main The main container element
  */
@@ -195,6 +232,7 @@ async function loadEager(doc) {
       console.error('Commerce initialisation failed', e);
     }
     decorateMain(main);
+    applyTemplates(doc);
     try {
       await loadCommerceEager();
     } catch (e) {
@@ -248,6 +286,13 @@ async function loadPage() {
   await loadEager(document);
   await loadLazy(document);
   loadDelayed();
+}
+
+// Universal Editor support before page load (da-block-collection pattern): ue.js only runs
+// inside the editor (*.ue.da.live), never on aem.page or aem.live.
+if (IS_UE) {
+  // eslint-disable-next-line import/no-unresolved
+  await import(`${window.hlx.codeBasePath}/ue/scripts/ue.js`).then(({ default: ue }) => ue());
 }
 
 loadPage();

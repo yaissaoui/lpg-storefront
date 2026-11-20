@@ -1,0 +1,23 @@
+{
+  "definitions": [
+    {
+      "title": "Commerce Order Status",
+      "id": "commerce-order-status",
+      "model": "commerce-order-status",
+      "plugins": {
+        "da": {
+          "rows": 1,
+          "columns": 1,
+          "name": "commerce-order-status"
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "commerce-order-status",
+      "fields": []
+    }
+  ],
+  "filters": []
+}

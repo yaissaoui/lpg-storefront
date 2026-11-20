@@ -1,0 +1,17 @@
+{
+  "definitions": [
+    {
+      "title": "Metadata",
+      "id": "metadata",
+      "model": "page-metadata",
+      "plugins": {
+        "da": {
+          "name": "metadata",
+          "type": "key-value-block"
+        }
+      }
+    }
+  ],
+  "models": [],
+  "filters": []
+}

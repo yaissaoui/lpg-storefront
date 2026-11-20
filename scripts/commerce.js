@@ -35,6 +35,65 @@ export const CORE_FETCH_GRAPHQL = new FetchGraphQL();
 export const CS_FETCH_GRAPHQL = new FetchGraphQL();
 
 export const IS_DA = new URL(window.location.href).searchParams.has('dapreview');
+// Universal Editor on Experience Workspace content (*.ue.da.live, *.stage-ue.da.live)
+export const IS_UE = /\.(stage-ue|ue)\.da\.live$/.test(window.location.hostname);
+
+// PATHS (relative to the store root, see rootLink). Same values as the boilerplate.
+export const SUPPORT_PATH = '/support';
+export const PRIVACY_POLICY_PATH = '/donnees-personnelles';
+
+// GUEST PATHS
+export const ORDER_STATUS_PATH = '/order-status';
+export const ORDER_DETAILS_PATH = '/order-details';
+export const RETURN_DETAILS_PATH = '/return-details';
+export const CREATE_RETURN_PATH = '/create-return';
+export const SALES_GUEST_VIEW_PATH = '/sales/guest/view/';
+
+// CUSTOMER PATHS
+export const CUSTOMER_PATH = '/customer';
+export const CUSTOMER_ORDER_DETAILS_PATH = `${CUSTOMER_PATH}${ORDER_DETAILS_PATH}`;
+export const CUSTOMER_RETURN_DETAILS_PATH = `${CUSTOMER_PATH}${RETURN_DETAILS_PATH}`;
+export const CUSTOMER_CREATE_RETURN_PATH = `${CUSTOMER_PATH}${CREATE_RETURN_PATH}`;
+export const CUSTOMER_ORDERS_PATH = `${CUSTOMER_PATH}/orders`;
+export const CUSTOMER_RETURNS_PATH = `${CUSTOMER_PATH}/returns`;
+export const CUSTOMER_ADDRESS_PATH = `${CUSTOMER_PATH}/address`;
+export const CUSTOMER_LOGIN_PATH = `${CUSTOMER_PATH}/login`;
+export const CUSTOMER_ACCOUNT_PATH = `${CUSTOMER_PATH}/account`;
+export const CUSTOMER_FORGOTPASSWORD_PATH = `${CUSTOMER_PATH}/forgotpassword`;
+export const SALES_ORDER_VIEW_PATH = '/sales/order/view/';
+
+// TRACKING URL
+export const UPS_TRACKING_URL = 'https://www.ups.com/track';
+
+/**
+ * Privacy policy consent under the sign-up forms (boilerplate slot, text from placeholders
+ * Global.PrivacyConsent*, French and English in placeholders/{lang}/global.json).
+ */
+export const authPrivacyPolicyConsentSlot = {
+  PrivacyPolicyConsent: async (ctx) => {
+    const labels = window.placeholders?._merged?.Global || {};
+    const wrapper = document.createElement('span');
+    Object.assign(wrapper.style, {
+      color: 'var(--color-neutral-700)',
+      font: 'var(--type-details-caption-2-font)',
+      display: 'block',
+      marginBottom: 'var(--spacing-medium)',
+    });
+
+    const link = document.createElement('a');
+    link.href = rootLink(PRIVACY_POLICY_PATH);
+    link.target = '_blank';
+    link.textContent = labels.PrivacyPolicy || 'Privacy Policy';
+
+    wrapper.append(
+      labels.PrivacyConsentBefore || 'By creating an account, you acknowledge that you have read and agree to our ',
+      link,
+      labels.PrivacyConsentAfter || ', which outlines how we collect, use, and protect your personal data.',
+    );
+
+    ctx.appendChild(wrapper);
+  },
+};
 
 const CONFIG_SESSION_KEY = 'config';
 const CONFIG_TTL_SECONDS = 7200;
@@ -321,6 +380,30 @@ export function commerceEndpointWithQueryParams() {
   const url = new URL(getConfigValue('commerce-endpoint'));
   url.searchParams.append('cb', createHashFromObject(getHeaders('cs')));
   return url.toString();
+}
+
+/**
+ * "Columns" template of the boilerplate (account pages): sections carry a column width and
+ * a gap from their section metadata. Applied whenever such sections exist, so local drafts
+ * without the template metadata render the same way.
+ * @param {Document} doc
+ */
+export function applyTemplates(doc) {
+  const columns = doc.querySelectorAll('main > div.section[data-column-width]');
+  if (!columns.length) return;
+  doc.body.classList.add('columns');
+  columns.forEach((column) => {
+    const columnWidth = column.getAttribute('data-column-width');
+    const gap = column.getAttribute('data-gap');
+    if (columnWidth) {
+      column.style.setProperty('--column-width', columnWidth);
+      column.removeAttribute('data-column-width');
+    }
+    if (gap) {
+      column.style.setProperty('--gap', `var(--spacing-${gap.toLocaleLowerCase()})`);
+      column.removeAttribute('data-gap');
+    }
+  });
 }
 
 export function checkIsAuthenticated() {

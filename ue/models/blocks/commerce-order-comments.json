@@ -1,0 +1,23 @@
+{
+  "definitions": [
+    {
+      "title": "Commerce Order Comments",
+      "id": "commerce-order-comments",
+      "model": "commerce-order-comments",
+      "plugins": {
+        "da": {
+          "rows": 1,
+          "columns": 1,
+          "name": "commerce-order-comments"
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "commerce-order-comments",
+      "fields": []
+    }
+  ],
+  "filters": []
+}

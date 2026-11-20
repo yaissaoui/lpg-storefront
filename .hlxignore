@@ -12,3 +12,4 @@ tools/*
 build.mjs
 postinstall.js
 *.d.ts
+ue/models/*

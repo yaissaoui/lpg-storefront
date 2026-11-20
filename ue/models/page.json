@@ -1,0 +1,42 @@
+{
+  "models": [
+    {
+      "id": "page-metadata",
+      "fields": [
+        {
+          "component": "text",
+          "name": "title",
+          "label": "Title"
+        },
+        {
+          "component": "text",
+          "name": "description",
+          "label": "Description"
+        },
+        {
+          "component": "reference",
+          "name": "image",
+          "label": "Image"
+        },
+        {
+          "component": "text",
+          "name": "robots",
+          "label": "Robots",
+          "description": "Index control via robots, for example noindex, nofollow"
+        },
+        {
+          "component": "text",
+          "name": "template",
+          "label": "Template",
+          "description": "For example: My Account, Columns"
+        },
+        {
+          "component": "text",
+          "name": "sku",
+          "label": "SKU",
+          "description": "Product pages rendered by BYOM"
+        }
+      ]
+    }
+  ]
+}
