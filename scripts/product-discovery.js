@@ -1,6 +1,6 @@
 /*
  * Product list and search results on the storefront-product-discovery drop-in, after
- * blocks/product-list-page of aem-boilerplate-commerce v12.0.0 (wishlist left out).
+ * blocks/product-list-page of aem-boilerplate-commerce (June 2026 state) (wishlist left out).
  * Used by blocks/product-list (category pages, variant "compact" for related products)
  * and blocks/search (search page, ?q=).
  *

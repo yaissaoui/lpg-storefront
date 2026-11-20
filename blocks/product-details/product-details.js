@@ -1,6 +1,7 @@
 /*
  * Product details (PDP) on the storefront-pdp drop-in, after blocks/product-details of
- * aem-boilerplate-commerce v12.0.0 (wishlist, gift card and customizable options left out).
+ * aem-boilerplate-commerce (June 2026 state). Wishlist, gift card and customizable options
+ * are left out.
  *
  * Catalogue: ACO through scripts/initializers/pdp.js (sku from <meta name="sku">,
  * /products/{urlKey}/{sku} or an ACO lookup of the url_key of /products/{urlKey}).
@@ -215,14 +216,4 @@ export default async function decorate(block) {
   events.on('pdp/valid', (valid) => {
     addToCart.setProps((prev) => ({ ...prev, disabled: isOutOfStock || !valid }));
   }, { eager: true });
-
-  // The guest price book arrives after the first render: read the product again with it.
-  events.on('commerce/customer-context', async () => {
-    if (!product?.sku) return;
-    const values = pdpApi.getProductConfigurationValues();
-    const refreshed = await pdpApi.fetchProductData(product.sku, {
-      optionsUIDs: values?.optionsUIDs,
-    });
-    if (refreshed) events.emit('pdp/data', refreshed);
-  });
 }
