@@ -1,5 +1,5 @@
 {
-  "catalog-backend": "fixture",
+  "catalog-backend": "aco",
   "commerce-endpoint": "https://na1-sandbox.api.commerce.adobe.com/QD1T4hbz1zGxLHYpp8cyPy/graphql",
   "commerce-core-endpoint": "",
   "defaultSite": "lpg",
@@ -62,8 +62,8 @@
       "storeLocatorPath": "",
       "fallbackNav": {
         "fr": [
-          {"label": "Wellbox®", "path": "/appareils"},
-          {"label": "Accessoires", "path": "/accessoires"},
+          {"label": "Wellbox®", "path": "/wellbox-produits"},
+          {"label": "Accessoires", "path": "/accessoires-wellbox"},
           {"label": "Cosmétiques", "path": "/cosmetiques"}
         ],
         "en": [

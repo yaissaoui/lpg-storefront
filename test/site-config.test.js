@@ -108,16 +108,18 @@ test('backends: dev overrides for backend and core endpoint', () => {
     backendOverride: 'aco',
     coreEndpointOverride: 'http://localhost:3001/graphql',
   };
-  const ctx = resolveContext(config, env);
+  const fx = { ...config, 'catalog-backend': 'fixture' };
+  const ctx = resolveContext(fx, env);
   assert.equal(ctx.catalogBackend, 'aco');
   assert.equal(ctx.coreEndpoint, 'http://localhost:3001/graphql');
-  const prod = resolveContext(config, { ...env, hostname: 'wellbox.example.com', pathname: '/fr/' });
+  const prod = resolveContext(fx, { ...env, hostname: 'wellbox.example.com', pathname: '/fr/' });
   assert.equal(prod.catalogBackend, 'fixture', 'overrides ignored outside dev hosts');
   assert.equal(resolveCommerce({}, {}, {}, { backendOverride: 'bogus' }).catalogBackend, 'fixture');
 });
 
 test('endpoint: empty by default, dev override only on dev hosts', () => {
-  assert.equal(resolveContext(config, { hostname: 'localhost', pathname: '/fr/' }).endpoint, '');
-  assert.equal(resolveContext(config, { hostname: 'localhost', pathname: '/fr/', endpointOverride: 'http://localhost:3001/graphql' }).endpoint, 'http://localhost:3001/graphql');
-  assert.equal(resolveContext(config, { hostname: 'www.example.com', pathname: '/fr/', endpointOverride: 'http://evil.example.com' }).endpoint, '');
+  const fx = { ...config, 'catalog-backend': 'fixture', 'commerce-endpoint': '' };
+  assert.equal(resolveContext(fx, { hostname: 'localhost', pathname: '/fr/' }).endpoint, '');
+  assert.equal(resolveContext(fx, { hostname: 'localhost', pathname: '/fr/', endpointOverride: 'http://localhost:3001/graphql' }).endpoint, 'http://localhost:3001/graphql');
+  assert.equal(resolveContext(fx, { hostname: 'www.example.com', pathname: '/fr/', endpointOverride: 'http://evil.example.com' }).endpoint, '');
 });
