@@ -1,6 +1,8 @@
 import { readBlockConfig } from '../../scripts/aem.js';
 import { getSiteContext } from '../../scripts/site-config.js';
-import { getProduct, cart, getMode } from '../../scripts/commerce/index.js';
+import {
+  getProduct, getVariantPrice, cart, getMode,
+} from '../../scripts/commerce/index.js';
 import {
   el, sanitizeHtml, htmlToText, priceElement, productImage, errorMessage, fixtureNotice,
 } from '../../scripts/product-ui.js';
@@ -52,7 +54,7 @@ function gallery(product) {
   return wrap;
 }
 
-function optionPickers(product, selection, readOnly) {
+function optionPickers(product, selection, readOnly, onChange = () => {}) {
   return product.options.map((option) => {
     const group = el('fieldset', { class: 'pdp-option' }, el('legend', {}, option.label));
     option.values.forEach((value) => {
@@ -60,7 +62,10 @@ function optionPickers(product, selection, readOnly) {
       const input = el('input', {
         type: 'radio', name: option.id, id, value: value.id, disabled: readOnly,
       });
-      input.addEventListener('change', () => selection.set(option.id, value.id));
+      input.addEventListener('change', () => {
+        selection.set(option.id, value.id);
+        onChange();
+      });
       group.append(input, el('label', { for: id }, value.label));
     });
     return group;
@@ -190,13 +195,25 @@ export default async function decorate(block) {
   setMeta('og:title', product.metaTitle, 'property');
 
   const selection = new Map();
+  const priceSlot = el('div', { class: 'pdp-price' }, priceElement(product.price, ctx));
+  let priceRequest = 0;
+  // Once every option has a value, show the price of that variant instead of the parent minimum.
+  const onOptionChange = async () => {
+    if (!ctx.sells || product.options.some((o) => !selection.has(o.id))) return;
+    priceRequest += 1;
+    const current = priceRequest;
+    try {
+      const price = await getVariantPrice(product.sku, [...selection.values()]);
+      if (price && current === priceRequest) priceSlot.replaceChildren(priceElement(price, ctx));
+    } catch (e) { /* keep the parent price */ }
+  };
   const info = el(
     'div',
     { class: 'pdp-info' },
     el('h1', { class: 'pdp-title' }, product.name),
     product.shortDescription ? el('div', { class: 'pdp-short' }, sanitizeHtml(product.shortDescription)) : null,
-    ...optionPickers(product, selection, !ctx.sells),
-    priceElement(product.price, ctx),
+    ...optionPickers(product, selection, !ctx.sells, onOptionChange),
+    priceSlot,
     ctx.sells ? buyBox(product, ctx, selection) : showcaseActions(ctx),
   );
   info.dataset.sku = product.sku;

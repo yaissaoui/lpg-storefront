@@ -491,3 +491,20 @@ test('aco.taxRate turns ACO prices (excl. tax) into displayed prices incl. tax',
   const plain = acoApi(fetchImpl);
   assert.equal((await plain.getProduct('demo-cream')).price.final.value, 832.5);
 });
+
+test('getVariantPrice reads refineProduct in the session price book and adds the tax', async () => {
+  const { calls, fetchImpl } = fakeBackends({
+    acoData: {
+      AcoVariantPrice: (vars) => {
+        assert.deepEqual(vars, { sku: 'DEMO-ACO-2', optionIds: ['opt-b'] });
+        return { refineProduct: { __typename: 'SimpleProductView', sku: 'DEMO-ACO-2-B', price: { regular: money(1207.5), final: money(1207.5) } } };
+      },
+    },
+  });
+  const api = acoApi(fetchImpl, { aco: { viewId: 'VIEW-1', priceBookId: 'demo_site', taxRate: 0.2 } });
+  const price = await api.getVariantPrice('DEMO-ACO-2', ['opt-b']);
+  assert.equal(price.final.value, 1449);
+  const call = calls.find((c) => c.op === 'AcoVariantPrice');
+  assert.equal(call.headers['AC-Price-Book-ID'], GUEST_BOOK);
+  assert.equal(await api.getVariantPrice('DEMO-ACO-2', []), null);
+});

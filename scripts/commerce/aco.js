@@ -7,11 +7,11 @@
 import { CommerceError } from './client.js';
 import {
   ACO_PRODUCTS_BY_SKU, ACO_PRODUCT_BY_URL_KEY, ACO_CATEGORIES, ACO_PRODUCTS_BY_CATEGORY,
-  ACO_SEARCH, ACO_NAVIGATION, ACO_REFINE_PRODUCT, ACO_PRICES_BY_SKU, ACO_SORTS,
+  ACO_SEARCH, ACO_NAVIGATION, ACO_REFINE_PRODUCT, ACO_PRICES_BY_SKU, ACO_SORTS, ACO_VARIANT_PRICE,
 } from './aco-queries.js';
 import {
   normaliseAcoProduct, normaliseAcoCategory, normaliseAcoSearchPage, normaliseAcoNavigation,
-  acoMissingPrice, acoPriceWithTax,
+  acoMissingPrice, acoPriceWithTax, acoProductPrice,
 } from './aco-normalise.js';
 
 /** A view id that is empty or still a TODO placeholder from config/sites.json. */
@@ -154,7 +154,22 @@ export function createAcoCatalog({ run, aco = {}, priceBook }) {
     return v?.sku && v.__typename === 'SimpleProductView' ? v.sku : null;
   }
 
+  /**
+   * Price of the variant behind the selected option values, or null. Same price book and
+   * fallback as the other priced reads, tax added like the product price.
+   */
+  async function getVariantPrice(sku, optionIds = []) {
+    if (!sku || !optionIds.length) return null;
+    const data = await priced(
+      ACO_VARIANT_PRICE,
+      { sku, optionIds },
+      (d) => [d.refineProduct],
+    );
+    const price = acoProductPrice(data.refineProduct);
+    return taxRate ? acoPriceWithTax(price, taxRate) : price;
+  }
+
   return {
-    getProduct, listCategory, search, getCategoryTree, resolveVariant,
+    getProduct, listCategory, search, getCategoryTree, resolveVariant, getVariantPrice,
   };
 }

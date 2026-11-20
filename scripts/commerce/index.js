@@ -81,9 +81,11 @@ function createPaasCatalog(run) {
 
   // PaaS accepts the parent sku with selected_options, no lookup needed.
   const resolveVariant = async () => null;
+  // Not implemented on PaaS: the block keeps the price of the parent product.
+  const getVariantPrice = async () => null;
 
   return {
-    getProduct, listCategory, search, getCategoryTree, resolveVariant,
+    getProduct, listCategory, search, getCategoryTree, resolveVariant, getVariantPrice,
   };
 }
 
@@ -243,6 +245,7 @@ export function createCommerce({
     store,
     getProduct: catalog.getProduct,
     listCategory: catalog.listCategory,
+    getVariantPrice: catalog.getVariantPrice,
     search: catalog.search,
     getCategoryTree: catalog.getCategoryTree,
     /** Price book id sent to ACO (null on other backends). */
@@ -287,6 +290,8 @@ export const getBackend = async () => (await api()).backend;
 export const getProduct = async (urlKey, opts) => (await api()).getProduct(urlKey, opts);
 export const listCategory = async (urlPath, opts) => (await api()).listCategory(urlPath, opts);
 export const search = async (term, opts) => (await api()).search(term, opts);
+export const getVariantPrice = async (sku, optionIds) => (await api())
+  .getVariantPrice(sku, optionIds);
 export const getCategoryTree = async () => (await api()).getCategoryTree();
 export const resetPriceBook = async () => (await api()).resetPriceBook();
 export const cart = {

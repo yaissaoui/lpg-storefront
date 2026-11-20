@@ -111,6 +111,19 @@ export const ACO_PRICES_BY_SKU = {
 }`,
 };
 
+/* Price of the variant behind a set of option value ids, in the session price book. */
+export const ACO_VARIANT_PRICE = {
+  name: 'AcoVariantPrice',
+  method: 'GET',
+  query: `query AcoVariantPrice($sku: String!, $optionIds: [String!]!) {
+  refineProduct(sku: $sku, optionIds: $optionIds) {
+    __typename sku
+    ... on SimpleProductView { price { ${PRICE} } }
+    ... on ComplexProductView { priceRange { minimum { ${PRICE} } maximum { ${PRICE} } } }
+  }
+}`,
+};
+
 /* Resolves the simple product behind a set of option value ids. */
 export const ACO_REFINE_PRODUCT = {
   name: 'AcoRefineProduct',
