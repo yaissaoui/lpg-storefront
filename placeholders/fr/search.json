@@ -29,11 +29,11 @@
     },
     {
       "Key": "Search.SortBy.lowToHigh",
-      "Value": "croissant"
+      "Value": "par ordre croissant"
     },
     {
       "Key": "Search.SortBy.highToLow",
-      "Value": "décroissant"
+      "Value": "par ordre décroissant"
     },
     {
       "Key": "Dropin.Pagination.backwardButton.ariaLabel",

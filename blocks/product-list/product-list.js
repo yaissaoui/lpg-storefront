@@ -11,12 +11,12 @@ import { getCategory } from '../../scripts/commerce.js';
 import { getSiteContext } from '../../scripts/site-config.js';
 import renderProductDiscovery from '../../scripts/product-discovery.js';
 
-function setMeta(name, content) {
+function setMeta(name, content, attr = 'name') {
   if (!content) return;
-  let meta = document.head.querySelector(`meta[name="${name}"]`);
+  let meta = document.head.querySelector(`meta[${attr}="${name}"]`);
   if (!meta) {
     meta = document.createElement('meta');
-    meta.setAttribute('name', name);
+    meta.setAttribute(attr, name);
     document.head.append(meta);
   }
   meta.setAttribute('content', content);
@@ -30,6 +30,17 @@ export default async function decorate(block) {
   const pageSize = Math.min(48, Math.max(1, parseInt(config['page-size'] || config.pagesize, 10) || 12));
 
   const heading = compact ? null : getCategory(category).catch(() => null);
+  // Page title and description as soon as the category is known, whatever happens to the
+  // product list. Without a Title in the page metadata, EDS names the page after its first
+  // block ("Product List"); the DA page metadata is the server-side fix (SEO).
+  heading?.then((info) => {
+    if (!info) return;
+    if (info.metaTitle) {
+      document.title = info.metaTitle;
+      setMeta('og:title', info.metaTitle, 'property');
+    }
+    setMeta('description', info.metaDescription);
+  });
   await renderProductDiscovery(block, { category, pageSize, compact });
 
   const info = await heading;
@@ -43,6 +54,4 @@ export default async function decorate(block) {
     head.append(h1);
   }
   block.prepend(head);
-  if (info.metaTitle) document.title = info.metaTitle;
-  setMeta('description', info.metaDescription);
 }

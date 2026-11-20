@@ -29,11 +29,11 @@
     },
     {
       "Key": "Search.SortBy.lowToHigh",
-      "Value": "Low to High"
+      "Value": "low to high"
     },
     {
       "Key": "Search.SortBy.highToLow",
-      "Value": "High to Low"
+      "Value": "high to low"
     },
     {
       "Key": "Dropin.Pagination.backwardButton.ariaLabel",
