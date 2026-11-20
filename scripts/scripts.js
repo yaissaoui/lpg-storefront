@@ -12,6 +12,11 @@ import {
   buildBlock,
 } from './aem.js';
 import { getSiteContext } from './site-config.js';
+import {
+  initializeCommerce,
+  loadCommerceEager,
+  getProductSku,
+} from './commerce.js';
 
 if (window.trustedTypes && window.trustedTypes.createPolicy) {
   const innerTT = window.trustedTypes.createPolicy('tt-inner', {
@@ -98,6 +103,11 @@ function buildAutoBlocks(main) {
       });
     }
     buildWidgetAutoBlocks(main);
+    // auto-block PDP when the page carries <meta name="sku"> (BYOM pages), like the boilerplate
+    if (getProductSku() && !main.querySelector('.product-details')) {
+      const section = main.querySelector(':scope > div') || main.appendChild(document.createElement('div'));
+      section.prepend(buildBlock('product-details', { elems: [] }));
+    }
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Auto Blocking failed', error);
@@ -177,7 +187,20 @@ async function loadEager(doc) {
   decorateTemplateAndTheme();
   const main = doc.querySelector('main');
   if (main) {
+    try {
+      // Site config, the two GraphQL clients and the global drop-ins (auth, cart)
+      await initializeCommerce();
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error('Commerce initialisation failed', e);
+    }
     decorateMain(main);
+    try {
+      await loadCommerceEager();
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error('Commerce eager loading failed', e);
+    }
     document.body.classList.add('appear');
     await loadSection(main.querySelector('.section'), waitForFirstImage);
   }

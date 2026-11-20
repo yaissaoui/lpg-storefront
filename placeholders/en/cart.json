@@ -1,0 +1,16 @@
+{
+  "total": 2,
+  "offset": 0,
+  "limit": 2,
+  "data": [
+    {
+      "Key": "Cart.MiniCart.heading",
+      "Value": "Cart ({count})"
+    },
+    {
+      "Key": "Dropin.CartItem.taxIncluded.label",
+      "Value": "incl. VAT"
+    }
+  ],
+  ":type": "sheet"
+}

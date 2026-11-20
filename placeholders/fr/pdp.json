@@ -1,0 +1,136 @@
+{
+  "total": 32,
+  "offset": 0,
+  "limit": 32,
+  "data": [
+    {
+      "Key": "Dropin.Incrementer.label",
+      "Value": "Quantité"
+    },
+    {
+      "Key": "Dropin.Incrementer.decreaseLabel",
+      "Value": "Diminuer la quantité"
+    },
+    {
+      "Key": "Dropin.Incrementer.increaseLabel",
+      "Value": "Augmenter la quantité"
+    },
+    {
+      "Key": "Dropin.Incrementer.errorMessage",
+      "Value": "Saisissez une quantité valide"
+    },
+    {
+      "Key": "Dropin.PriceRange.from.label",
+      "Value": "De"
+    },
+    {
+      "Key": "Dropin.PriceRange.to.label",
+      "Value": "à"
+    },
+    {
+      "Key": "Dropin.PriceRange.asLowAs.label",
+      "Value": "À partir de"
+    },
+    {
+      "Key": "Dropin.InlineAlert.dismissLabel",
+      "Value": "Fermer le message"
+    },
+    {
+      "Key": "Dropin.Swatches.outOfStock.label",
+      "Value": "option épuisée"
+    },
+    {
+      "Key": "Dropin.Swatches.selected.label",
+      "Value": "option sélectionnée"
+    },
+    {
+      "Key": "Dropin.Swatches.swatch.label",
+      "Value": "option"
+    },
+    {
+      "Key": "Dropin.Modal.Close.label",
+      "Value": "Fermer"
+    },
+    {
+      "Key": "PDP.Product.Incrementer.label",
+      "Value": "Quantité"
+    },
+    {
+      "Key": "PDP.Product.OutOfStock.label",
+      "Value": "En rupture de stock"
+    },
+    {
+      "Key": "PDP.Product.AddToCart.label",
+      "Value": "Ajouter au panier"
+    },
+    {
+      "Key": "PDP.Product.Details.label",
+      "Value": "Caractéristiques"
+    },
+    {
+      "Key": "PDP.Product.RegularPrice.label",
+      "Value": "Prix habituel"
+    },
+    {
+      "Key": "PDP.Product.SpecialPrice.label",
+      "Value": "Prix promotionnel"
+    },
+    {
+      "Key": "PDP.Product.TierPrice.label",
+      "Value": "Prix par quantité"
+    },
+    {
+      "Key": "PDP.Product.TierPricing.label",
+      "Value": "{quantity} achetés, {price} l'unité, soit {percent} % d'économie"
+    },
+    {
+      "Key": "PDP.Product.Image.label",
+      "Value": "{product}, image {key} sur {total}"
+    },
+    {
+      "Key": "PDP.Swatches.Required.label",
+      "Value": "Obligatoire"
+    },
+    {
+      "Key": "PDP.Swatches.ChooseOption.label",
+      "Value": "Choisissez une option"
+    },
+    {
+      "Key": "PDP.CustomizableOptions.Required.label",
+      "Value": "Obligatoire"
+    },
+    {
+      "Key": "PDP.Carousel.label",
+      "Value": "Carrousel"
+    },
+    {
+      "Key": "PDP.Carousel.Next.label",
+      "Value": "Suivant"
+    },
+    {
+      "Key": "PDP.Carousel.Previous.label",
+      "Value": "Précédent"
+    },
+    {
+      "Key": "PDP.Carousel.Slide.label",
+      "Value": "Image"
+    },
+    {
+      "Key": "PDP.Carousel.Controls.label",
+      "Value": "Commandes du carrousel"
+    },
+    {
+      "Key": "PDP.Carousel.Controls.Button.label",
+      "Value": "Afficher l'image {key} sur {total}"
+    },
+    {
+      "Key": "PDP.Overlay.Close.label",
+      "Value": "Fermer"
+    },
+    {
+      "Key": "PDP.Zoom.Close.label",
+      "Value": "Fermer"
+    }
+  ],
+  ":type": "sheet"
+}

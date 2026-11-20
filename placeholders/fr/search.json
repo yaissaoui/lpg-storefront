@@ -1,0 +1,116 @@
+{
+  "total": 27,
+  "offset": 0,
+  "limit": 27,
+  "data": [
+    {
+      "Key": "Dropin.Incrementer.label",
+      "Value": "Quantité"
+    },
+    {
+      "Key": "Dropin.Incrementer.decreaseLabel",
+      "Value": "Diminuer la quantité"
+    },
+    {
+      "Key": "Dropin.Incrementer.increaseLabel",
+      "Value": "Augmenter la quantité"
+    },
+    {
+      "Key": "Dropin.Incrementer.errorMessage",
+      "Value": "Saisissez une quantité valide"
+    },
+    {
+      "Key": "Dropin.PriceRange.from.label",
+      "Value": "De"
+    },
+    {
+      "Key": "Dropin.PriceRange.to.label",
+      "Value": "à"
+    },
+    {
+      "Key": "Dropin.PriceRange.asLowAs.label",
+      "Value": "À partir de"
+    },
+    {
+      "Key": "Dropin.InlineAlert.dismissLabel",
+      "Value": "Fermer le message"
+    },
+    {
+      "Key": "Dropin.Swatches.outOfStock.label",
+      "Value": "option épuisée"
+    },
+    {
+      "Key": "Dropin.Swatches.selected.label",
+      "Value": "option sélectionnée"
+    },
+    {
+      "Key": "Dropin.Swatches.swatch.label",
+      "Value": "option"
+    },
+    {
+      "Key": "Dropin.Modal.Close.label",
+      "Value": "Fermer"
+    },
+    {
+      "Key": "Search.PLP.noResults",
+      "Value": "Aucun produit ne correspond à votre recherche."
+    },
+    {
+      "Key": "Search.PLP.searchError",
+      "Value": "Une erreur est survenue pendant la recherche."
+    },
+    {
+      "Key": "Search.Facet.showMore",
+      "Value": "Voir plus"
+    },
+    {
+      "Key": "Search.Facet.showLess",
+      "Value": "Voir moins"
+    },
+    {
+      "Key": "Search.Facet.clearAll",
+      "Value": "Tout effacer"
+    },
+    {
+      "Key": "Search.Facet.clearAllFilters",
+      "Value": "Effacer tous les filtres"
+    },
+    {
+      "Key": "Search.SortBy.title",
+      "Value": "Trier par"
+    },
+    {
+      "Key": "Search.SortBy.lowToHigh",
+      "Value": "croissant"
+    },
+    {
+      "Key": "Search.SortBy.highToLow",
+      "Value": "décroissant"
+    },
+    {
+      "Key": "Search.SortBy.relevance",
+      "Value": "Pertinence"
+    },
+    {
+      "Key": "Search.SortBy.position",
+      "Value": "Recommandés"
+    },
+    {
+      "Key": "Search.SortBy.name",
+      "Value": "Nom"
+    },
+    {
+      "Key": "Search.SortBy.price",
+      "Value": "Prix"
+    },
+    {
+      "Key": "Dropin.Pagination.backwardButton.ariaLabel",
+      "Value": "Page précédente"
+    },
+    {
+      "Key": "Dropin.Pagination.forwardButton.ariaLabel",
+      "Value": "Page suivante"
+    }
+  ],
+  ":type": "sheet"
+}

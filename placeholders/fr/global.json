@@ -1,0 +1,68 @@
+{
+  "total": 15,
+  "offset": 0,
+  "limit": 15,
+  "data": [
+    {
+      "Key": "Global.AddProductToCart",
+      "Value": "Ajouter au panier"
+    },
+    {
+      "Key": "Global.AddingToCart",
+      "Value": "Ajout en cours..."
+    },
+    {
+      "Key": "Global.AddedToCart",
+      "Value": "Produit ajouté au panier."
+    },
+    {
+      "Key": "Global.ViewCart",
+      "Value": "Voir le panier"
+    },
+    {
+      "Key": "Global.Cart",
+      "Value": "Panier"
+    },
+    {
+      "Key": "Global.CartWithItems",
+      "Value": "Panier, {count} articles"
+    },
+    {
+      "Key": "Global.ProductNotFound",
+      "Value": "Ce produit est introuvable."
+    },
+    {
+      "Key": "Global.CatalogueError",
+      "Value": "Le catalogue est indisponible pour le moment. Merci de réessayer plus tard."
+    },
+    {
+      "Key": "Global.StoreLocator",
+      "Value": "Trouver un centre"
+    },
+    {
+      "Key": "Global.ProShop",
+      "Value": "Déjà client ? Accédez à la boutique professionnelle"
+    },
+    {
+      "Key": "Global.ViewProduct",
+      "Value": "Découvrir"
+    },
+    {
+      "Key": "Global.Filters",
+      "Value": "Filtres"
+    },
+    {
+      "Key": "Global.Results",
+      "Value": "{count} produits"
+    },
+    {
+      "Key": "Global.ResultsFor",
+      "Value": "{count} produits pour « {phrase} »"
+    },
+    {
+      "Key": "Global.PriceIncludesTax",
+      "Value": "TTC"
+    }
+  ],
+  ":type": "sheet"
+}

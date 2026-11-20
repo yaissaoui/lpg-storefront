@@ -1,0 +1,68 @@
+{
+  "total": 15,
+  "offset": 0,
+  "limit": 15,
+  "data": [
+    {
+      "Key": "Global.AddProductToCart",
+      "Value": "Add to cart"
+    },
+    {
+      "Key": "Global.AddingToCart",
+      "Value": "Adding..."
+    },
+    {
+      "Key": "Global.AddedToCart",
+      "Value": "Product added to your cart."
+    },
+    {
+      "Key": "Global.ViewCart",
+      "Value": "View cart"
+    },
+    {
+      "Key": "Global.Cart",
+      "Value": "Cart"
+    },
+    {
+      "Key": "Global.CartWithItems",
+      "Value": "Cart, {count} items"
+    },
+    {
+      "Key": "Global.ProductNotFound",
+      "Value": "This product could not be found."
+    },
+    {
+      "Key": "Global.CatalogueError",
+      "Value": "The catalogue is not available right now. Please try again later."
+    },
+    {
+      "Key": "Global.StoreLocator",
+      "Value": "Find a centre"
+    },
+    {
+      "Key": "Global.ProShop",
+      "Value": "Already a customer? Go to the professional shop"
+    },
+    {
+      "Key": "Global.ViewProduct",
+      "Value": "Discover"
+    },
+    {
+      "Key": "Global.Filters",
+      "Value": "Filters"
+    },
+    {
+      "Key": "Global.Results",
+      "Value": "{count} products"
+    },
+    {
+      "Key": "Global.ResultsFor",
+      "Value": "{count} products for “{phrase}”"
+    },
+    {
+      "Key": "Global.PriceIncludesTax",
+      "Value": "incl. VAT"
+    }
+  ],
+  ":type": "sheet"
+}
