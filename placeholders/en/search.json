@@ -1,11 +1,307 @@
 {
-  "total": 1,
+  "total": 75,
   "offset": 0,
-  "limit": 1,
+  "limit": 75,
   "data": [
     {
       "Key": "Search.SortBy.position",
       "Value": "Recommended"
+    },
+    {
+      "Key": "Dropin.Incrementer.label",
+      "Value": "Quantity"
+    },
+    {
+      "Key": "Dropin.Incrementer.decreaseLabel",
+      "Value": "Decrease Quantity"
+    },
+    {
+      "Key": "Dropin.Incrementer.increaseLabel",
+      "Value": "Increase Quantity"
+    },
+    {
+      "Key": "Dropin.Incrementer.errorMessage",
+      "Value": "Enter a valid quantity"
+    },
+    {
+      "Key": "Dropin.PriceRange.from.label",
+      "Value": "From"
+    },
+    {
+      "Key": "Dropin.PriceRange.to.label",
+      "Value": "to"
+    },
+    {
+      "Key": "Dropin.PriceRange.asLowAs.label",
+      "Value": "As low as"
+    },
+    {
+      "Key": "Dropin.InlineAlert.dismissLabel",
+      "Value": "Dismiss Alert"
+    },
+    {
+      "Key": "Dropin.Swatches.outOfStock.label",
+      "Value": "out of stock swatch"
+    },
+    {
+      "Key": "Dropin.Swatches.selected.label",
+      "Value": "swatch selected"
+    },
+    {
+      "Key": "Dropin.Swatches.swatch.label",
+      "Value": "swatch"
+    },
+    {
+      "Key": "Dropin.Modal.Close.label",
+      "Value": "Close"
+    },
+    {
+      "Key": "Search.PLP.noResults",
+      "Value": "Your search returned no results."
+    },
+    {
+      "Key": "Search.PLP.searchError",
+      "Value": "An error occurred while searching."
+    },
+    {
+      "Key": "Search.Facet.showMore",
+      "Value": "Show more"
+    },
+    {
+      "Key": "Search.Facet.showLess",
+      "Value": "Show less"
+    },
+    {
+      "Key": "Search.Facet.clearAll",
+      "Value": "Clear all"
+    },
+    {
+      "Key": "Search.Facet.clearAllFilters",
+      "Value": "Clear all filters"
+    },
+    {
+      "Key": "Search.SortBy.title",
+      "Value": "Sort by"
+    },
+    {
+      "Key": "Search.SortBy.lowToHigh",
+      "Value": "Low to High"
+    },
+    {
+      "Key": "Search.SortBy.highToLow",
+      "Value": "High to Low"
+    },
+    {
+      "Key": "Search.SortBy.relevance",
+      "Value": "Relevance"
+    },
+    {
+      "Key": "Search.SortBy.name",
+      "Value": "Product Name"
+    },
+    {
+      "Key": "Search.SortBy.price",
+      "Value": "Price"
+    },
+    {
+      "Key": "Dropin.Pagination.backwardButton.ariaLabel",
+      "Value": "Go to previous page"
+    },
+    {
+      "Key": "Dropin.Pagination.forwardButton.ariaLabel",
+      "Value": "Go to next page"
+    },
+    {
+      "Key": "Dropin.Incrementer.minQuantityMessage",
+      "Value": "Enter at least {{minQuantity}}"
+    },
+    {
+      "Key": "Dropin.Incrementer.maxQuantityMessage",
+      "Value": "Maximum quantity is {{maxQuantity}}"
+    },
+    {
+      "Key": "Dropin.InputPassword.placeholder",
+      "Value": "Password"
+    },
+    {
+      "Key": "Dropin.InputPassword.floatingLabel",
+      "Value": "Password"
+    },
+    {
+      "Key": "Dropin.InputPassword.buttonShowTitle",
+      "Value": "Click to show password"
+    },
+    {
+      "Key": "Dropin.InputPassword.buttonHideTitle",
+      "Value": "Click to hide password"
+    },
+    {
+      "Key": "Dropin.PasswordStatusIndicator.chartTwoSymbols",
+      "Value": "Use characters and numbers or symbols"
+    },
+    {
+      "Key": "Dropin.PasswordStatusIndicator.chartThreeSymbols",
+      "Value": "Use characters, numbers and symbols"
+    },
+    {
+      "Key": "Dropin.PasswordStatusIndicator.chartFourSymbols",
+      "Value": "Use uppercase characters, lowercase characters, numbers and symbols"
+    },
+    {
+      "Key": "Dropin.PasswordStatusIndicator.messageLengthPassword",
+      "Value": "At least {minLength} characters long"
+    },
+    {
+      "Key": "Dropin.PriceSummary.subTotal.label",
+      "Value": "Subtotal"
+    },
+    {
+      "Key": "Dropin.PriceSummary.subTotal.withTaxes",
+      "Value": "Including taxes"
+    },
+    {
+      "Key": "Dropin.PriceSummary.subTotal.withoutTaxes",
+      "Value": "excluding taxes"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.label",
+      "Value": "Shipping"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.editZipAction",
+      "Value": "Apply"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.estimated",
+      "Value": "Estimated Shipping"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.estimatedDestination",
+      "Value": "Estimated Shipping to "
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.destinationLinkAriaLabel",
+      "Value": "Change destination"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.zipPlaceholder",
+      "Value": "Zip Code"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.withTaxes",
+      "Value": "Including taxes"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.withoutTaxes",
+      "Value": "excluding taxes"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.alternateField.zip",
+      "Value": "Estimate using country/zip"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.alternateField.state",
+      "Value": "Estimate using country/state"
+    },
+    {
+      "Key": "Dropin.PriceSummary.taxes.total",
+      "Value": "Tax Total"
+    },
+    {
+      "Key": "Dropin.PriceSummary.taxes.totalOnly",
+      "Value": "Tax"
+    },
+    {
+      "Key": "Dropin.PriceSummary.taxes.breakdown",
+      "Value": "Taxes"
+    },
+    {
+      "Key": "Dropin.PriceSummary.taxes.showBreakdown",
+      "Value": "Show Tax Breakdown"
+    },
+    {
+      "Key": "Dropin.PriceSummary.taxes.hideBreakdown",
+      "Value": "Hide Tax Breakdown"
+    },
+    {
+      "Key": "Dropin.PriceSummary.taxes.estimated",
+      "Value": "Estimated Tax"
+    },
+    {
+      "Key": "Dropin.PriceSummary.total.estimated",
+      "Value": "Estimated Total"
+    },
+    {
+      "Key": "Dropin.PriceSummary.total.label",
+      "Value": "Total"
+    },
+    {
+      "Key": "Dropin.PriceSummary.total.withoutTax",
+      "Value": "Total excluding taxes"
+    },
+    {
+      "Key": "Dropin.ProgressSpinner.updating.label",
+      "Value": "Item is updating"
+    },
+    {
+      "Key": "Dropin.ProgressSpinner.updatingChildren.label",
+      "Value": "Items are updating"
+    },
+    {
+      "Key": "Dropin.Accordion.open.label",
+      "Value": "Open"
+    },
+    {
+      "Key": "Dropin.Accordion.close.label",
+      "Value": "Close"
+    },
+    {
+      "Key": "Dropin.CartItem.each.label",
+      "Value": "each"
+    },
+    {
+      "Key": "Dropin.CartItem.pricePerItem.label",
+      "Value": "price per item"
+    },
+    {
+      "Key": "Dropin.CartItem.quantity.label",
+      "Value": "Quantity"
+    },
+    {
+      "Key": "Dropin.CartItem.remove.label",
+      "Value": "Remove {product} from the cart"
+    },
+    {
+      "Key": "Dropin.CartItem.removeDefault.label",
+      "Value": "Remove item from the cart"
+    },
+    {
+      "Key": "Dropin.CartItem.taxIncluded.label",
+      "Value": "incl. VAT"
+    },
+    {
+      "Key": "Dropin.CartItem.taxExcluded.label",
+      "Value": "excl. tax"
+    },
+    {
+      "Key": "Dropin.CartItem.updating.label",
+      "Value": "{product} is updating"
+    },
+    {
+      "Key": "Dropin.InputDate.picker",
+      "Value": "Select a date"
+    },
+    {
+      "Key": "Dropin.Table.sortedAscending",
+      "Value": "Sort {label} ascending"
+    },
+    {
+      "Key": "Dropin.Table.sortedDescending",
+      "Value": "Sort {label} descending"
+    },
+    {
+      "Key": "Dropin.Table.sortBy",
+      "Value": "Sort by {label}"
     }
   ],
   ":type": "sheet"

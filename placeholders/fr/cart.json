@@ -1,7 +1,7 @@
 {
-  "total": 94,
+  "total": 236,
   "offset": 0,
-  "limit": 94,
+  "limit": 236,
   "data": [
     {
       "Key": "Dropin.Incrementer.label",
@@ -378,6 +378,574 @@
     {
       "Key": "Dropin.ProgressSpinner.updating.label",
       "Value": "Mise à jour de l'article"
+    },
+    {
+      "Key": "Dropin.Pagination.backwardButton.ariaLabel",
+      "Value": "Page précédente"
+    },
+    {
+      "Key": "Dropin.Pagination.forwardButton.ariaLabel",
+      "Value": "Page suivante"
+    },
+    {
+      "Key": "Dropin.Incrementer.minQuantityMessage",
+      "Value": "Saisissez au moins {{minQuantity}}"
+    },
+    {
+      "Key": "Dropin.Incrementer.maxQuantityMessage",
+      "Value": "Quantité maximale : {{maxQuantity}}"
+    },
+    {
+      "Key": "Dropin.InputPassword.placeholder",
+      "Value": "Mot de passe"
+    },
+    {
+      "Key": "Dropin.InputPassword.floatingLabel",
+      "Value": "Mot de passe"
+    },
+    {
+      "Key": "Dropin.InputPassword.buttonShowTitle",
+      "Value": "Afficher le mot de passe"
+    },
+    {
+      "Key": "Dropin.InputPassword.buttonHideTitle",
+      "Value": "Masquer le mot de passe"
+    },
+    {
+      "Key": "Dropin.PasswordStatusIndicator.chartTwoSymbols",
+      "Value": "Utilisez des lettres et des chiffres ou des symboles"
+    },
+    {
+      "Key": "Dropin.PasswordStatusIndicator.chartThreeSymbols",
+      "Value": "Utilisez des lettres, des chiffres et des symboles"
+    },
+    {
+      "Key": "Dropin.PasswordStatusIndicator.chartFourSymbols",
+      "Value": "Utilisez des majuscules, des minuscules, des chiffres et des symboles"
+    },
+    {
+      "Key": "Dropin.PasswordStatusIndicator.messageLengthPassword",
+      "Value": "Au moins {minLength} caractères"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.label",
+      "Value": "Livraison"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.editZipAction",
+      "Value": "Appliquer"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.estimated",
+      "Value": "Livraison estimée"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.estimatedDestination",
+      "Value": "Livraison estimée vers "
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.destinationLinkAriaLabel",
+      "Value": "Changer de destination"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.zipPlaceholder",
+      "Value": "Code postal"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.withTaxes",
+      "Value": "TTC"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.withoutTaxes",
+      "Value": "HT"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.alternateField.zip",
+      "Value": "Estimer avec le pays et le code postal"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.alternateField.state",
+      "Value": "Estimer avec le pays et la région"
+    },
+    {
+      "Key": "Dropin.PriceSummary.taxes.total",
+      "Value": "Total TVA"
+    },
+    {
+      "Key": "Dropin.PriceSummary.taxes.totalOnly",
+      "Value": "TVA"
+    },
+    {
+      "Key": "Dropin.PriceSummary.taxes.breakdown",
+      "Value": "TVA"
+    },
+    {
+      "Key": "Dropin.PriceSummary.taxes.showBreakdown",
+      "Value": "Afficher le détail de la TVA"
+    },
+    {
+      "Key": "Dropin.PriceSummary.taxes.hideBreakdown",
+      "Value": "Masquer le détail de la TVA"
+    },
+    {
+      "Key": "Dropin.PriceSummary.taxes.estimated",
+      "Value": "TVA estimée"
+    },
+    {
+      "Key": "Dropin.ProgressSpinner.updatingChildren.label",
+      "Value": "Mise à jour des articles"
+    },
+    {
+      "Key": "Dropin.Accordion.open.label",
+      "Value": "Ouvrir"
+    },
+    {
+      "Key": "Dropin.Accordion.close.label",
+      "Value": "Fermer"
+    },
+    {
+      "Key": "Dropin.InputDate.picker",
+      "Value": "Choisir une date"
+    },
+    {
+      "Key": "Dropin.Table.sortedAscending",
+      "Value": "Trier par {label}, croissant"
+    },
+    {
+      "Key": "Dropin.Table.sortedDescending",
+      "Value": "Trier par {label}, décroissant"
+    },
+    {
+      "Key": "Dropin.Table.sortBy",
+      "Value": "Trier par {label}"
+    },
+    {
+      "Key": "Cart.CartSummaryTable.mobilePrice",
+      "Value": "Prix"
+    },
+    {
+      "Key": "Cart.CartSummaryTable.mobileQty",
+      "Value": "Qté"
+    },
+    {
+      "Key": "Cart.CartSummaryTable.mobileSubtotal",
+      "Value": "Sous-total"
+    },
+    {
+      "Key": "Cart.PriceSummary.giftCard.label",
+      "Value": "Carte cadeau"
+    },
+    {
+      "Key": "Cart.PriceSummary.giftCard.applyAction",
+      "Value": "Appliquer"
+    },
+    {
+      "Key": "Cart.PriceSummary.giftCard.applyActionAriaLabel",
+      "Value": "Appliquer la carte cadeau"
+    },
+    {
+      "Key": "Cart.PriceSummary.giftCard.ariaLabel",
+      "Value": "Saisissez le code de la carte cadeau"
+    },
+    {
+      "Key": "Cart.PriceSummary.giftCard.ariaLabelRemove",
+      "Value": "Retirer la carte cadeau"
+    },
+    {
+      "Key": "Cart.PriceSummary.giftCard.placeholder",
+      "Value": "Saisissez le code"
+    },
+    {
+      "Key": "Cart.PriceSummary.giftCard.title",
+      "Value": "Carte cadeau"
+    },
+    {
+      "Key": "Cart.PriceSummary.giftCard.errors.empty",
+      "Value": "Saisissez un code de carte cadeau."
+    },
+    {
+      "Key": "Cart.PriceSummary.giftCard.appliedGiftCards.label.singular",
+      "Value": "Carte cadeau"
+    },
+    {
+      "Key": "Cart.PriceSummary.giftCard.appliedGiftCards.label.plural",
+      "Value": "Cartes cadeaux"
+    },
+    {
+      "Key": "Cart.PriceSummary.giftCard.appliedGiftCards.remainingBalance",
+      "Value": "Solde restant"
+    },
+    {
+      "Key": "Cart.PriceSummary.giftOptionsTax.printedCard.title",
+      "Value": "Carte imprimée"
+    },
+    {
+      "Key": "Cart.PriceSummary.giftOptionsTax.printedCard.inclTax",
+      "Value": "TTC"
+    },
+    {
+      "Key": "Cart.PriceSummary.giftOptionsTax.printedCard.exclTax",
+      "Value": "HT"
+    },
+    {
+      "Key": "Cart.PriceSummary.giftOptionsTax.itemGiftWrapping.title",
+      "Value": "Emballage cadeau de l'article"
+    },
+    {
+      "Key": "Cart.PriceSummary.giftOptionsTax.itemGiftWrapping.inclTax",
+      "Value": "TTC"
+    },
+    {
+      "Key": "Cart.PriceSummary.giftOptionsTax.itemGiftWrapping.exclTax",
+      "Value": "HT"
+    },
+    {
+      "Key": "Cart.PriceSummary.giftOptionsTax.orderGiftWrapping.title",
+      "Value": "Emballage cadeau de la commande"
+    },
+    {
+      "Key": "Cart.PriceSummary.giftOptionsTax.orderGiftWrapping.inclTax",
+      "Value": "TTC"
+    },
+    {
+      "Key": "Cart.PriceSummary.giftOptionsTax.orderGiftWrapping.exclTax",
+      "Value": "HT"
+    },
+    {
+      "Key": "Cart.PriceSummary.shipping.editZipAction",
+      "Value": "Appliquer"
+    },
+    {
+      "Key": "Cart.PriceSummary.shipping.estimatedDestination",
+      "Value": "Livraison estimée vers"
+    },
+    {
+      "Key": "Cart.PriceSummary.shipping.destinationLinkAriaLabel",
+      "Value": "Changer de destination"
+    },
+    {
+      "Key": "Cart.PriceSummary.shipping.zipPlaceholder",
+      "Value": "Code postal"
+    },
+    {
+      "Key": "Cart.PriceSummary.shipping.alternateField.zip",
+      "Value": "Estimer avec le pays et le code postal"
+    },
+    {
+      "Key": "Cart.PriceSummary.shipping.alternateField.state",
+      "Value": "Estimer avec le pays et la région"
+    },
+    {
+      "Key": "Cart.PriceSummary.estimatedShippingForm.country.placeholder",
+      "Value": "Pays"
+    },
+    {
+      "Key": "Cart.PriceSummary.estimatedShippingForm.state.placeholder",
+      "Value": "Région"
+    },
+    {
+      "Key": "Cart.PriceSummary.estimatedShippingForm.zip.placeholder",
+      "Value": "Code postal"
+    },
+    {
+      "Key": "Cart.PriceSummary.estimatedShippingForm.apply.label",
+      "Value": "Appliquer"
+    },
+    {
+      "Key": "Cart.PriceSummary.estimatedShippingForm.apply.ariaLabel",
+      "Value": "Appliquer la destination"
+    },
+    {
+      "Key": "Cart.CartItem.download",
+      "Value": "fichier"
+    },
+    {
+      "Key": "Cart.CartItem.message",
+      "Value": "Message"
+    },
+    {
+      "Key": "Cart.CartItem.recipient",
+      "Value": "À"
+    },
+    {
+      "Key": "Cart.CartItem.sender",
+      "Value": "De"
+    },
+    {
+      "Key": "Cart.CartItem.file",
+      "Value": "{count} fichier"
+    },
+    {
+      "Key": "Cart.CartItem.files",
+      "Value": "{count} fichiers"
+    },
+    {
+      "Key": "Cart.CartItem.itemRemovedDescription",
+      "Value": "Vous avez changé d'avis ? Vous pouvez annuler."
+    },
+    {
+      "Key": "Cart.EstimateShipping.label",
+      "Value": "Livraison"
+    },
+    {
+      "Key": "Cart.EstimateShipping.editZipAction",
+      "Value": "Appliquer"
+    },
+    {
+      "Key": "Cart.EstimateShipping.estimated",
+      "Value": "Livraison estimée"
+    },
+    {
+      "Key": "Cart.EstimateShipping.estimatedDestination",
+      "Value": "Livraison estimée vers"
+    },
+    {
+      "Key": "Cart.EstimateShipping.destinationLinkAriaLabel",
+      "Value": "{destination}, changer de destination"
+    },
+    {
+      "Key": "Cart.EstimateShipping.zipPlaceholder",
+      "Value": "Code postal"
+    },
+    {
+      "Key": "Cart.EstimateShipping.withTaxes",
+      "Value": "TTC"
+    },
+    {
+      "Key": "Cart.EstimateShipping.withoutTaxes",
+      "Value": "HT"
+    },
+    {
+      "Key": "Cart.EstimateShipping.alternateField.zip",
+      "Value": "Estimer avec le pays et le code postal"
+    },
+    {
+      "Key": "Cart.EstimateShipping.alternateField.state",
+      "Value": "Estimer avec le pays et la région"
+    },
+    {
+      "Key": "Cart.GiftOptions.accordionAriaLabel",
+      "Value": "{title} pour {product}"
+    },
+    {
+      "Key": "Cart.GiftOptions.giftOptionsApplied",
+      "Value": "Appliqué"
+    },
+    {
+      "Key": "Cart.GiftOptions.formText.requiredFieldError",
+      "Value": "Ce champ est obligatoire"
+    },
+    {
+      "Key": "Cart.GiftOptions.modal.defaultTitle",
+      "Value": "Emballage cadeau du panier"
+    },
+    {
+      "Key": "Cart.GiftOptions.modal.title",
+      "Value": "Emballage cadeau pour"
+    },
+    {
+      "Key": "Cart.GiftOptions.modal.wrappingText",
+      "Value": "Choix de l'emballage"
+    },
+    {
+      "Key": "Cart.GiftOptions.modal.wrappingSubText",
+      "Value": ""
+    },
+    {
+      "Key": "Cart.GiftOptions.modal.modalConfirmButton",
+      "Value": "Appliquer"
+    },
+    {
+      "Key": "Cart.GiftOptions.modal.modalCancelButton",
+      "Value": "Annuler"
+    },
+    {
+      "Key": "Cart.GiftOptions.modal.ariaLabelWrapping",
+      "Value": "Options d'emballage"
+    },
+    {
+      "Key": "Cart.GiftOptions.order.customize",
+      "Value": "Personnaliser"
+    },
+    {
+      "Key": "Cart.GiftOptions.order.accordionHeading",
+      "Value": "Options cadeau"
+    },
+    {
+      "Key": "Cart.GiftOptions.order.giftReceiptIncluded.title",
+      "Value": "Ticket cadeau"
+    },
+    {
+      "Key": "Cart.GiftOptions.order.giftReceiptIncluded.subtitle",
+      "Value": "Le ticket et la facture n'afficheront pas le prix."
+    },
+    {
+      "Key": "Cart.GiftOptions.order.printedCardIncluded.title",
+      "Value": "Ajouter une carte imprimée"
+    },
+    {
+      "Key": "Cart.GiftOptions.order.printedCardIncluded.subtitle",
+      "Value": ""
+    },
+    {
+      "Key": "Cart.GiftOptions.order.giftOptionsWrap.title",
+      "Value": "Emballer cette commande"
+    },
+    {
+      "Key": "Cart.GiftOptions.order.giftOptionsWrap.subtitle",
+      "Value": "Emballage :"
+    },
+    {
+      "Key": "Cart.GiftOptions.order.formContent.formTitle",
+      "Value": "Ajouter un message à la commande (facultatif)"
+    },
+    {
+      "Key": "Cart.GiftOptions.order.formContent.formTo",
+      "Value": "À"
+    },
+    {
+      "Key": "Cart.GiftOptions.order.formContent.formFrom",
+      "Value": "De"
+    },
+    {
+      "Key": "Cart.GiftOptions.order.formContent.giftMessageTitle",
+      "Value": "Message cadeau"
+    },
+    {
+      "Key": "Cart.GiftOptions.order.formContent.formToPlaceholder",
+      "Value": "Nom du destinataire"
+    },
+    {
+      "Key": "Cart.GiftOptions.order.formContent.formFromPlaceholder",
+      "Value": "Nom de l'expéditeur"
+    },
+    {
+      "Key": "Cart.GiftOptions.order.formContent.formMessagePlaceholder",
+      "Value": "Message cadeau"
+    },
+    {
+      "Key": "Cart.GiftOptions.order.readOnlyFormView.title",
+      "Value": "Options cadeau choisies"
+    },
+    {
+      "Key": "Cart.GiftOptions.order.readOnlyFormView.giftWrap",
+      "Value": "Emballer cette commande"
+    },
+    {
+      "Key": "Cart.GiftOptions.order.readOnlyFormView.giftWrapOptions",
+      "Value": "Emballage :"
+    },
+    {
+      "Key": "Cart.GiftOptions.order.readOnlyFormView.giftReceipt",
+      "Value": "Ticket cadeau"
+    },
+    {
+      "Key": "Cart.GiftOptions.order.readOnlyFormView.giftReceiptText",
+      "Value": "Le ticket et la facture n'afficheront pas le prix."
+    },
+    {
+      "Key": "Cart.GiftOptions.order.readOnlyFormView.printCard",
+      "Value": "Carte imprimée"
+    },
+    {
+      "Key": "Cart.GiftOptions.order.readOnlyFormView.printCardText",
+      "Value": ""
+    },
+    {
+      "Key": "Cart.GiftOptions.order.readOnlyFormView.formTitle",
+      "Value": "Votre message cadeau"
+    },
+    {
+      "Key": "Cart.GiftOptions.order.readOnlyFormView.formTo",
+      "Value": "À"
+    },
+    {
+      "Key": "Cart.GiftOptions.order.readOnlyFormView.formFrom",
+      "Value": "De"
+    },
+    {
+      "Key": "Cart.GiftOptions.order.readOnlyFormView.formMessageTitle",
+      "Value": "Message cadeau"
+    },
+    {
+      "Key": "Cart.GiftOptions.product.customize",
+      "Value": "Personnaliser"
+    },
+    {
+      "Key": "Cart.GiftOptions.product.accordionHeading",
+      "Value": "Options cadeau"
+    },
+    {
+      "Key": "Cart.GiftOptions.product.giftReceiptIncluded.title",
+      "Value": "Ticket cadeau"
+    },
+    {
+      "Key": "Cart.GiftOptions.product.giftReceiptIncluded.subtitle",
+      "Value": "Le ticket et la facture n'afficheront pas le prix."
+    },
+    {
+      "Key": "Cart.GiftOptions.product.printedCardIncluded.title",
+      "Value": "Ajouter une carte imprimée"
+    },
+    {
+      "Key": "Cart.GiftOptions.product.printedCardIncluded.subtitle",
+      "Value": ""
+    },
+    {
+      "Key": "Cart.GiftOptions.product.giftOptionsWrap.title",
+      "Value": "Emballer cet article"
+    },
+    {
+      "Key": "Cart.GiftOptions.product.giftOptionsWrap.subtitle",
+      "Value": "Emballage :"
+    },
+    {
+      "Key": "Cart.GiftOptions.product.formContent.formTitle",
+      "Value": "Ajouter un message à l'article (facultatif)"
+    },
+    {
+      "Key": "Cart.GiftOptions.product.formContent.formTo",
+      "Value": "À"
+    },
+    {
+      "Key": "Cart.GiftOptions.product.formContent.formFrom",
+      "Value": "De"
+    },
+    {
+      "Key": "Cart.GiftOptions.product.formContent.giftMessageTitle",
+      "Value": "Message cadeau"
+    },
+    {
+      "Key": "Cart.GiftOptions.product.formContent.formToPlaceholder",
+      "Value": "Nom du destinataire"
+    },
+    {
+      "Key": "Cart.GiftOptions.product.formContent.formFromPlaceholder",
+      "Value": "Nom de l'expéditeur"
+    },
+    {
+      "Key": "Cart.GiftOptions.product.formContent.formMessagePlaceholder",
+      "Value": "Message cadeau"
+    },
+    {
+      "Key": "Cart.GiftOptions.product.readOnlyFormView.title",
+      "Value": "Cet article est un cadeau"
+    },
+    {
+      "Key": "Cart.GiftOptions.product.readOnlyFormView.wrapping",
+      "Value": "Emballage :"
+    },
+    {
+      "Key": "Cart.GiftOptions.product.readOnlyFormView.recipient",
+      "Value": "À :"
+    },
+    {
+      "Key": "Cart.GiftOptions.product.readOnlyFormView.sender",
+      "Value": "De :"
+    },
+    {
+      "Key": "Cart.GiftOptions.product.readOnlyFormView.message",
+      "Value": "Message :"
     }
   ],
   ":type": "sheet"

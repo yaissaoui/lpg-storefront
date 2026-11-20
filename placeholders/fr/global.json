@@ -1,7 +1,7 @@
 {
-  "total": 15,
+  "total": 32,
   "offset": 0,
-  "limit": 15,
+  "limit": 32,
   "data": [
     {
       "Key": "Global.AddProductToCart",
@@ -62,6 +62,74 @@
     {
       "Key": "Global.PriceIncludesTax",
       "Value": "TTC"
+    },
+    {
+      "Key": "Global.MyAccount",
+      "Value": "Mon compte"
+    },
+    {
+      "Key": "Global.SignOut",
+      "Value": "Se déconnecter"
+    },
+    {
+      "Key": "Global.Hello",
+      "Value": "Bonjour {name}"
+    },
+    {
+      "Key": "Global.Welcome",
+      "Value": "Bienvenue {name} !"
+    },
+    {
+      "Key": "Global.SignedInMessage",
+      "Value": "Vous êtes connecté."
+    },
+    {
+      "Key": "Global.PasswordUpdated",
+      "Value": "Votre mot de passe a été modifié."
+    },
+    {
+      "Key": "Global.NeedHelp",
+      "Value": "Besoin d'aide ?"
+    },
+    {
+      "Key": "Global.ContactUs",
+      "Value": "Contactez-nous"
+    },
+    {
+      "Key": "Global.ContinueShopping",
+      "Value": "Continuer mes achats"
+    },
+    {
+      "Key": "Global.CheckoutTitle",
+      "Value": "Commande"
+    },
+    {
+      "Key": "Global.OrderConfirmationTitle",
+      "Value": "Confirmation de commande"
+    },
+    {
+      "Key": "Global.PrivacyPolicy",
+      "Value": "politique de protection des données"
+    },
+    {
+      "Key": "Global.PrivacyConsentBefore",
+      "Value": "En créant un compte, vous reconnaissez avoir lu et accepté notre "
+    },
+    {
+      "Key": "Global.PrivacyConsentAfter",
+      "Value": ", qui décrit comment nous collectons, utilisons et protégeons vos données personnelles."
+    },
+    {
+      "Key": "Global.OrderSearchPassword",
+      "Value": "Saisissez votre mot de passe pour voir la commande"
+    },
+    {
+      "Key": "Global.OrderSearchSignIn",
+      "Value": "Connectez-vous pour voir la commande"
+    },
+    {
+      "Key": "Global.ViewOrder",
+      "Value": "Voir la commande"
     }
   ],
   ":type": "sheet"

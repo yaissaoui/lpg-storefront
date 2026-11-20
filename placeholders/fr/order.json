@@ -1,0 +1,1160 @@
+{
+  "total": 288,
+  "offset": 0,
+  "limit": 288,
+  "data": [
+    {
+      "Key": "Order.CreateReturn.headerText",
+      "Value": "Retourner des articles"
+    },
+    {
+      "Key": "Order.CreateReturn.downloadableCount",
+      "Value": "Fichiers"
+    },
+    {
+      "Key": "Order.CreateReturn.returnedItems",
+      "Value": "Articles retournés :"
+    },
+    {
+      "Key": "Order.CreateReturn.configurationsList.quantity",
+      "Value": "Quantité"
+    },
+    {
+      "Key": "Order.CreateReturn.stockStatus.inStock",
+      "Value": "En stock"
+    },
+    {
+      "Key": "Order.CreateReturn.stockStatus.outOfStock",
+      "Value": "En rupture de stock"
+    },
+    {
+      "Key": "Order.CreateReturn.giftCard.sender",
+      "Value": "Expéditeur"
+    },
+    {
+      "Key": "Order.CreateReturn.giftCard.recipient",
+      "Value": "Destinataire"
+    },
+    {
+      "Key": "Order.CreateReturn.giftCard.message",
+      "Value": "Message"
+    },
+    {
+      "Key": "Order.CreateReturn.success.title",
+      "Value": "Retour envoyé"
+    },
+    {
+      "Key": "Order.CreateReturn.success.message",
+      "Value": "Votre demande de retour a bien été envoyée."
+    },
+    {
+      "Key": "Order.CreateReturn.buttons.nextStep",
+      "Value": "Continuer"
+    },
+    {
+      "Key": "Order.CreateReturn.buttons.backStep",
+      "Value": "Retour"
+    },
+    {
+      "Key": "Order.CreateReturn.buttons.submit",
+      "Value": "Envoyer la demande de retour"
+    },
+    {
+      "Key": "Order.CreateReturn.buttons.backStore",
+      "Value": "Retour à la commande"
+    },
+    {
+      "Key": "Order.OrderComments.emptyState",
+      "Value": "Aucun commentaire sur la commande."
+    },
+    {
+      "Key": "Order.OrderComments.title",
+      "Value": "Commentaires sur la commande"
+    },
+    {
+      "Key": "Order.OrderCostSummary.headerText",
+      "Value": "Récapitulatif de la commande"
+    },
+    {
+      "Key": "Order.OrderCostSummary.headerReturnText",
+      "Value": "Récapitulatif du retour"
+    },
+    {
+      "Key": "Order.OrderCostSummary.totalFree",
+      "Value": "Gratuit"
+    },
+    {
+      "Key": "Order.OrderCostSummary.subtotal.title",
+      "Value": "Sous-total"
+    },
+    {
+      "Key": "Order.OrderCostSummary.shipping.title",
+      "Value": "Livraison"
+    },
+    {
+      "Key": "Order.OrderCostSummary.shipping.freeShipping",
+      "Value": "Livraison offerte"
+    },
+    {
+      "Key": "Order.OrderCostSummary.appliedGiftCards.label.singular",
+      "Value": "Carte cadeau"
+    },
+    {
+      "Key": "Order.OrderCostSummary.appliedGiftCards.label.plural",
+      "Value": "Cartes cadeaux"
+    },
+    {
+      "Key": "Order.OrderCostSummary.giftOptionsTax.printedCard.title",
+      "Value": "Carte imprimée"
+    },
+    {
+      "Key": "Order.OrderCostSummary.giftOptionsTax.printedCard.inclTax",
+      "Value": "TTC"
+    },
+    {
+      "Key": "Order.OrderCostSummary.giftOptionsTax.printedCard.exclTax",
+      "Value": "HT"
+    },
+    {
+      "Key": "Order.OrderCostSummary.giftOptionsTax.itemGiftWrapping.title",
+      "Value": "Emballage cadeau de l'article"
+    },
+    {
+      "Key": "Order.OrderCostSummary.giftOptionsTax.itemGiftWrapping.inclTax",
+      "Value": "TTC"
+    },
+    {
+      "Key": "Order.OrderCostSummary.giftOptionsTax.itemGiftWrapping.exclTax",
+      "Value": "HT"
+    },
+    {
+      "Key": "Order.OrderCostSummary.giftOptionsTax.orderGiftWrapping.title",
+      "Value": "Emballage cadeau de la commande"
+    },
+    {
+      "Key": "Order.OrderCostSummary.giftOptionsTax.orderGiftWrapping.inclTax",
+      "Value": "TTC"
+    },
+    {
+      "Key": "Order.OrderCostSummary.giftOptionsTax.orderGiftWrapping.exclTax",
+      "Value": "HT"
+    },
+    {
+      "Key": "Order.OrderCostSummary.tax.accordionTitle",
+      "Value": "TVA"
+    },
+    {
+      "Key": "Order.OrderCostSummary.tax.accordionTotalTax",
+      "Value": "Total TVA"
+    },
+    {
+      "Key": "Order.OrderCostSummary.tax.totalExcludingTaxes",
+      "Value": "Total HT"
+    },
+    {
+      "Key": "Order.OrderCostSummary.tax.title",
+      "Value": "TVA"
+    },
+    {
+      "Key": "Order.OrderCostSummary.tax.incl",
+      "Value": "TTC"
+    },
+    {
+      "Key": "Order.OrderCostSummary.tax.excl",
+      "Value": "HT"
+    },
+    {
+      "Key": "Order.OrderCostSummary.discount.title",
+      "Value": "Remise"
+    },
+    {
+      "Key": "Order.OrderCostSummary.discount.subtitle",
+      "Value": "remisé"
+    },
+    {
+      "Key": "Order.OrderCostSummary.total.title",
+      "Value": "Total"
+    },
+    {
+      "Key": "Order.Returns.minifiedView.returnsList.viewAllOrdersButton",
+      "Value": "Voir tous les retours"
+    },
+    {
+      "Key": "Order.Returns.minifiedView.returnsList.ariaLabelLink",
+      "Value": "Voir le détail de la commande"
+    },
+    {
+      "Key": "Order.Returns.minifiedView.returnsList.emptyOrdersListMessage",
+      "Value": "Aucun retour"
+    },
+    {
+      "Key": "Order.Returns.minifiedView.returnsList.minifiedViewTitle",
+      "Value": "Retours récents"
+    },
+    {
+      "Key": "Order.Returns.minifiedView.returnsList.orderNumber",
+      "Value": "Commande n° :"
+    },
+    {
+      "Key": "Order.Returns.minifiedView.returnsList.returnNumber",
+      "Value": "Retour n° :"
+    },
+    {
+      "Key": "Order.Returns.minifiedView.returnsList.carrier",
+      "Value": "Transporteur :"
+    },
+    {
+      "Key": "Order.Returns.minifiedView.returnsList.itemText.none",
+      "Value": ""
+    },
+    {
+      "Key": "Order.Returns.minifiedView.returnsList.itemText.one",
+      "Value": "article"
+    },
+    {
+      "Key": "Order.Returns.minifiedView.returnsList.itemText.many",
+      "Value": "articles"
+    },
+    {
+      "Key": "Order.Returns.minifiedView.returnsList.returnStatus.pending",
+      "Value": "En attente"
+    },
+    {
+      "Key": "Order.Returns.minifiedView.returnsList.returnStatus.authorized",
+      "Value": "Autorisé"
+    },
+    {
+      "Key": "Order.Returns.minifiedView.returnsList.returnStatus.partiallyAuthorized",
+      "Value": "Partiellement autorisé"
+    },
+    {
+      "Key": "Order.Returns.minifiedView.returnsList.returnStatus.received",
+      "Value": "Reçu"
+    },
+    {
+      "Key": "Order.Returns.minifiedView.returnsList.returnStatus.partiallyReceived",
+      "Value": "Partiellement reçu"
+    },
+    {
+      "Key": "Order.Returns.minifiedView.returnsList.returnStatus.approved",
+      "Value": "Accepté"
+    },
+    {
+      "Key": "Order.Returns.minifiedView.returnsList.returnStatus.partiallyApproved",
+      "Value": "Partiellement accepté"
+    },
+    {
+      "Key": "Order.Returns.minifiedView.returnsList.returnStatus.rejected",
+      "Value": "Refusé"
+    },
+    {
+      "Key": "Order.Returns.minifiedView.returnsList.returnStatus.partiallyRejected",
+      "Value": "Partiellement refusé"
+    },
+    {
+      "Key": "Order.Returns.minifiedView.returnsList.returnStatus.denied",
+      "Value": "Refusé"
+    },
+    {
+      "Key": "Order.Returns.minifiedView.returnsList.returnStatus.processedAndClosed",
+      "Value": "Traité et clos"
+    },
+    {
+      "Key": "Order.Returns.minifiedView.returnsList.returnStatus.closed",
+      "Value": "Clos"
+    },
+    {
+      "Key": "Order.Returns.fullSizeView.returnsList.viewAllOrdersButton",
+      "Value": "Voir toutes les commandes"
+    },
+    {
+      "Key": "Order.Returns.fullSizeView.returnsList.ariaLabelLink",
+      "Value": "Voir le détail de la commande"
+    },
+    {
+      "Key": "Order.Returns.fullSizeView.returnsList.emptyOrdersListMessage",
+      "Value": "Aucun retour"
+    },
+    {
+      "Key": "Order.Returns.fullSizeView.returnsList.minifiedViewTitle",
+      "Value": "Retours"
+    },
+    {
+      "Key": "Order.Returns.fullSizeView.returnsList.orderNumber",
+      "Value": "Commande n° :"
+    },
+    {
+      "Key": "Order.Returns.fullSizeView.returnsList.returnNumber",
+      "Value": "Retour n° :"
+    },
+    {
+      "Key": "Order.Returns.fullSizeView.returnsList.carrier",
+      "Value": "Transporteur :"
+    },
+    {
+      "Key": "Order.Returns.fullSizeView.returnsList.itemText.none",
+      "Value": ""
+    },
+    {
+      "Key": "Order.Returns.fullSizeView.returnsList.itemText.one",
+      "Value": "article"
+    },
+    {
+      "Key": "Order.Returns.fullSizeView.returnsList.itemText.many",
+      "Value": "articles"
+    },
+    {
+      "Key": "Order.Returns.fullSizeView.returnsList.returnStatus.pending",
+      "Value": "En attente"
+    },
+    {
+      "Key": "Order.Returns.fullSizeView.returnsList.returnStatus.authorized",
+      "Value": "Autorisé"
+    },
+    {
+      "Key": "Order.Returns.fullSizeView.returnsList.returnStatus.partiallyAuthorized",
+      "Value": "Partiellement autorisé"
+    },
+    {
+      "Key": "Order.Returns.fullSizeView.returnsList.returnStatus.received",
+      "Value": "Reçu"
+    },
+    {
+      "Key": "Order.Returns.fullSizeView.returnsList.returnStatus.partiallyReceived",
+      "Value": "Partiellement reçu"
+    },
+    {
+      "Key": "Order.Returns.fullSizeView.returnsList.returnStatus.approved",
+      "Value": "Accepté"
+    },
+    {
+      "Key": "Order.Returns.fullSizeView.returnsList.returnStatus.partiallyApproved",
+      "Value": "Partiellement accepté"
+    },
+    {
+      "Key": "Order.Returns.fullSizeView.returnsList.returnStatus.rejected",
+      "Value": "Refusé"
+    },
+    {
+      "Key": "Order.Returns.fullSizeView.returnsList.returnStatus.partiallyRejected",
+      "Value": "Partiellement refusé"
+    },
+    {
+      "Key": "Order.Returns.fullSizeView.returnsList.returnStatus.denied",
+      "Value": "Refusé"
+    },
+    {
+      "Key": "Order.Returns.fullSizeView.returnsList.returnStatus.processedAndClosed",
+      "Value": "Traité et clos"
+    },
+    {
+      "Key": "Order.Returns.fullSizeView.returnsList.returnStatus.closed",
+      "Value": "Clos"
+    },
+    {
+      "Key": "Order.OrderProductListContent.cancelledTitle",
+      "Value": "Annulé"
+    },
+    {
+      "Key": "Order.OrderProductListContent.allOrdersTitle",
+      "Value": "Votre commande"
+    },
+    {
+      "Key": "Order.OrderProductListContent.returnedTitle",
+      "Value": "Retourné"
+    },
+    {
+      "Key": "Order.OrderProductListContent.refundedTitle",
+      "Value": "Remboursé"
+    },
+    {
+      "Key": "Order.OrderProductListContent.downloadableCount",
+      "Value": "Fichiers"
+    },
+    {
+      "Key": "Order.OrderProductListContent.stockStatus.inStock",
+      "Value": "En stock"
+    },
+    {
+      "Key": "Order.OrderProductListContent.stockStatus.outOfStock",
+      "Value": "En rupture de stock"
+    },
+    {
+      "Key": "Order.OrderProductListContent.GiftCard.sender",
+      "Value": "Expéditeur"
+    },
+    {
+      "Key": "Order.OrderProductListContent.GiftCard.recipient",
+      "Value": "Destinataire"
+    },
+    {
+      "Key": "Order.OrderProductListContent.GiftCard.message",
+      "Value": "Message"
+    },
+    {
+      "Key": "Order.OrderSearchForm.title",
+      "Value": "Saisissez vos informations pour voir votre commande"
+    },
+    {
+      "Key": "Order.OrderSearchForm.description",
+      "Value": "Le numéro de commande figure dans l'e-mail de confirmation."
+    },
+    {
+      "Key": "Order.OrderSearchForm.button",
+      "Value": "Voir la commande"
+    },
+    {
+      "Key": "Order.OrderSearchForm.email",
+      "Value": "E-mail"
+    },
+    {
+      "Key": "Order.OrderSearchForm.lastname",
+      "Value": "Nom"
+    },
+    {
+      "Key": "Order.OrderSearchForm.orderNumber",
+      "Value": "Numéro de commande"
+    },
+    {
+      "Key": "Order.Form.notifications.requiredFieldError",
+      "Value": "Ce champ est obligatoire."
+    },
+    {
+      "Key": "Order.ShippingStatusCard.orderNumber",
+      "Value": "Commande n° :"
+    },
+    {
+      "Key": "Order.ShippingStatusCard.returnNumber",
+      "Value": "Retour n° :"
+    },
+    {
+      "Key": "Order.ShippingStatusCard.itemText.none",
+      "Value": ""
+    },
+    {
+      "Key": "Order.ShippingStatusCard.itemText.one",
+      "Value": "Contenu du colis ({{count}} article)"
+    },
+    {
+      "Key": "Order.ShippingStatusCard.itemText.many",
+      "Value": "Contenu du colis ({{count}} articles)"
+    },
+    {
+      "Key": "Order.ShippingStatusCard.trackButton",
+      "Value": "Suivre le colis"
+    },
+    {
+      "Key": "Order.ShippingStatusCard.carrier",
+      "Value": "Transporteur :"
+    },
+    {
+      "Key": "Order.ShippingStatusCard.prepositionOf",
+      "Value": "sur"
+    },
+    {
+      "Key": "Order.ShippingStatusCard.returnOrderCardTitle",
+      "Value": "Détail du colis"
+    },
+    {
+      "Key": "Order.ShippingStatusCard.shippingCardTitle",
+      "Value": "Détail du colis"
+    },
+    {
+      "Key": "Order.ShippingStatusCard.shippingInfoTitle",
+      "Value": "Informations de livraison"
+    },
+    {
+      "Key": "Order.ShippingStatusCard.notYetShippedTitle",
+      "Value": "Pas encore expédié"
+    },
+    {
+      "Key": "Order.ShippingStatusCard.notYetShippedImagesTitle.singular",
+      "Value": "Contenu du colis ({{count}} article)"
+    },
+    {
+      "Key": "Order.ShippingStatusCard.notYetShippedImagesTitle.plural",
+      "Value": "Contenu du colis ({{count}} articles)"
+    },
+    {
+      "Key": "Order.OrderStatusContent.noInfoTitle",
+      "Value": "Revenez plus tard pour plus de détails."
+    },
+    {
+      "Key": "Order.OrderStatusContent.adminAssistedLabel",
+      "Value": "Commande passée par un conseiller"
+    },
+    {
+      "Key": "Order.OrderStatusContent.returnMessage",
+      "Value": "La commande a été passée le {ORDER_CREATE_DATE} et votre retour a commencé le {RETURN_CREATE_DATE}"
+    },
+    {
+      "Key": "Order.OrderStatusContent.returnStatus.pending",
+      "Value": "En attente"
+    },
+    {
+      "Key": "Order.OrderStatusContent.returnStatus.authorized",
+      "Value": "Autorisé"
+    },
+    {
+      "Key": "Order.OrderStatusContent.returnStatus.partiallyAuthorized",
+      "Value": "Partiellement autorisé"
+    },
+    {
+      "Key": "Order.OrderStatusContent.returnStatus.received",
+      "Value": "Reçu"
+    },
+    {
+      "Key": "Order.OrderStatusContent.returnStatus.partiallyReceived",
+      "Value": "Partiellement reçu"
+    },
+    {
+      "Key": "Order.OrderStatusContent.returnStatus.approved",
+      "Value": "Accepté"
+    },
+    {
+      "Key": "Order.OrderStatusContent.returnStatus.partiallyApproved",
+      "Value": "Partiellement accepté"
+    },
+    {
+      "Key": "Order.OrderStatusContent.returnStatus.rejected",
+      "Value": "Refusé"
+    },
+    {
+      "Key": "Order.OrderStatusContent.returnStatus.partiallyRejected",
+      "Value": "Partiellement refusé"
+    },
+    {
+      "Key": "Order.OrderStatusContent.returnStatus.denied",
+      "Value": "Refusé"
+    },
+    {
+      "Key": "Order.OrderStatusContent.returnStatus.processedAndClosed",
+      "Value": "Traité et clos"
+    },
+    {
+      "Key": "Order.OrderStatusContent.returnStatus.closed",
+      "Value": "Clos"
+    },
+    {
+      "Key": "Order.OrderStatusContent.actions.cancel",
+      "Value": "Annuler la commande"
+    },
+    {
+      "Key": "Order.OrderStatusContent.actions.confirmGuestReturn",
+      "Value": "Demande de retour confirmée"
+    },
+    {
+      "Key": "Order.OrderStatusContent.actions.confirmGuestReturnMessage",
+      "Value": "Votre demande de retour est confirmée."
+    },
+    {
+      "Key": "Order.OrderStatusContent.actions.createReturn",
+      "Value": "Retourner ou échanger"
+    },
+    {
+      "Key": "Order.OrderStatusContent.actions.createAnotherReturn",
+      "Value": "Faire un autre retour"
+    },
+    {
+      "Key": "Order.OrderStatusContent.actions.reorder",
+      "Value": "Commander à nouveau"
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderPlaceholder.title",
+      "Value": ""
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderPlaceholder.message",
+      "Value": "Votre commande est dans ce statut depuis le {DATE}."
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderPlaceholder.messageWithoutDate",
+      "Value": "Votre commande est dans ce statut depuis un moment."
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderPending.title",
+      "Value": "En attente"
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderPending.message",
+      "Value": "Votre commande du {DATE} est en cours de traitement. Revenez quand elle sera expédiée pour plus de détails."
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderPending.messageWithoutDate",
+      "Value": "Votre commande est en cours de traitement. Revenez quand elle sera expédiée pour plus de détails."
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderProcessing.title",
+      "Value": "En cours de traitement"
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderProcessing.message",
+      "Value": "Votre commande du {DATE} est en cours de traitement. Revenez quand elle sera expédiée pour plus de détails."
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderProcessing.messageWithoutDate",
+      "Value": "Votre commande est en cours de traitement. Revenez quand elle sera expédiée pour plus de détails."
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderOnHold.title",
+      "Value": "En attente"
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderOnHold.message",
+      "Value": "Un problème est survenu le {DATE} pendant le traitement de votre commande. Revenez plus tard ou contactez le service client."
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderOnHold.messageWithoutDate",
+      "Value": "Un problème est survenu pendant le traitement de votre commande. Revenez plus tard ou contactez le service client."
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderReceived.title",
+      "Value": "Commande reçue"
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderReceived.message",
+      "Value": "Votre commande du {DATE} est en cours de traitement. Revenez quand elle sera expédiée pour plus de détails."
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderReceived.messageWithoutDate",
+      "Value": "Votre commande est en cours de traitement. Revenez quand elle sera expédiée pour plus de détails."
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderComplete.title",
+      "Value": "Terminée"
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderComplete.message",
+      "Value": "Votre commande est terminée. Besoin d'aide ? Contactez le service client."
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderCanceled.title",
+      "Value": "Annulée"
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderCanceled.message",
+      "Value": "Vous avez annulé cette commande. Le remboursement sur votre moyen de paiement intervient sous 5 à 7 jours ouvrés."
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderCanceled.messageWithoutDate",
+      "Value": "Vous avez annulé cette commande. Le remboursement sur votre moyen de paiement intervient sous 5 à 7 jours ouvrés."
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderSuspectedFraud.title",
+      "Value": "Suspicion de fraude"
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderSuspectedFraud.message",
+      "Value": "Un problème est survenu le {DATE} pendant le traitement de votre commande. Revenez plus tard ou contactez le service client."
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderSuspectedFraud.messageWithoutDate",
+      "Value": "Un problème est survenu pendant le traitement de votre commande. Revenez plus tard ou contactez le service client."
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderPaymentReview.title",
+      "Value": "Paiement en vérification"
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderPaymentReview.message",
+      "Value": "Votre commande du {DATE} est en cours de traitement. Revenez quand elle sera expédiée pour plus de détails."
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderPaymentReview.messageWithoutDate",
+      "Value": "Votre commande est en cours de traitement. Revenez quand elle sera expédiée pour plus de détails."
+    },
+    {
+      "Key": "Order.OrderStatusContent.guestOrderCancellationRequested.title",
+      "Value": "Annulation demandée"
+    },
+    {
+      "Key": "Order.OrderStatusContent.guestOrderCancellationRequested.message",
+      "Value": "L'annulation a été demandée le {DATE}. Consultez vos e-mails pour la suite."
+    },
+    {
+      "Key": "Order.OrderStatusContent.guestOrderCancellationRequested.messageWithoutDate",
+      "Value": "L'annulation a été demandée. Consultez vos e-mails pour la suite."
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderPendingPayment.title",
+      "Value": "Paiement en attente"
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderPendingPayment.message",
+      "Value": "Votre commande du {DATE} attend son paiement. Finalisez le paiement pour que nous puissions la traiter."
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderPendingPayment.messageWithoutDate",
+      "Value": "Votre commande attend son paiement. Finalisez le paiement pour que nous puissions la traiter."
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderRejected.title",
+      "Value": "Refusé"
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderRejected.message",
+      "Value": "Votre commande a été refusée le {DATE}. Contactez-nous pour en savoir plus."
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderRejected.messageWithoutDate",
+      "Value": "Votre commande a été refusée. Contactez-nous pour en savoir plus."
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderAuthorized.title",
+      "Value": "Autorisé"
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderAuthorized.message",
+      "Value": "Votre commande a été autorisée le {DATE}. Nous allons la traiter très prochainement."
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderAuthorized.messageWithoutDate",
+      "Value": "Votre commande a été autorisée. Nous allons la traiter très prochainement."
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderPaypalCanceledReversal.title",
+      "Value": "Annulation d'opposition PayPal"
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderPaypalCanceledReversal.message",
+      "Value": "L'opposition PayPal a été annulée le {DATE}. Consultez le détail de la commande."
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderPaypalCanceledReversal.messageWithoutDate",
+      "Value": "L'opposition PayPal a été annulée. Consultez le détail de la commande."
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderPendingPaypal.title",
+      "Value": "En attente de PayPal"
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderPendingPaypal.message",
+      "Value": "Votre commande attend la confirmation de PayPal depuis le {DATE}. Consultez votre compte PayPal."
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderPendingPaypal.messageWithoutDate",
+      "Value": "Votre commande attend la confirmation de PayPal. Consultez votre compte PayPal."
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderPaypalReversed.title",
+      "Value": "Opposition PayPal"
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderPaypalReversed.message",
+      "Value": "Le paiement PayPal a fait l'objet d'une opposition le {DATE}. Contactez-nous pour en savoir plus."
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderPaypalReversed.messageWithoutDate",
+      "Value": "Le paiement PayPal a fait l'objet d'une opposition. Contactez-nous pour en savoir plus."
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderClosed.title",
+      "Value": "Clos"
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderClosed.message",
+      "Value": "La commande du {DATE} est close. Pour toute aide, contactez le service client."
+    },
+    {
+      "Key": "Order.OrderStatusContent.orderClosed.messageWithoutDate",
+      "Value": "Votre commande est close. Pour toute aide, contactez le service client."
+    },
+    {
+      "Key": "Order.CustomerDetails.headerText",
+      "Value": "Informations client"
+    },
+    {
+      "Key": "Order.CustomerDetails.freeShipping",
+      "Value": "Livraison offerte"
+    },
+    {
+      "Key": "Order.CustomerDetails.orderReturnLabels.createdReturnAt",
+      "Value": "Retour demandé le : "
+    },
+    {
+      "Key": "Order.CustomerDetails.orderReturnLabels.returnStatusLabel",
+      "Value": "Statut du retour : "
+    },
+    {
+      "Key": "Order.CustomerDetails.orderReturnLabels.orderNumberLabel",
+      "Value": "Commande n° : "
+    },
+    {
+      "Key": "Order.CustomerDetails.returnStatus.pending",
+      "Value": "En attente"
+    },
+    {
+      "Key": "Order.CustomerDetails.returnStatus.authorized",
+      "Value": "Autorisé"
+    },
+    {
+      "Key": "Order.CustomerDetails.returnStatus.partiallyAuthorized",
+      "Value": "Partiellement autorisé"
+    },
+    {
+      "Key": "Order.CustomerDetails.returnStatus.received",
+      "Value": "Reçu"
+    },
+    {
+      "Key": "Order.CustomerDetails.returnStatus.partiallyReceived",
+      "Value": "Partiellement reçu"
+    },
+    {
+      "Key": "Order.CustomerDetails.returnStatus.approved",
+      "Value": "Accepté"
+    },
+    {
+      "Key": "Order.CustomerDetails.returnStatus.partiallyApproved",
+      "Value": "Partiellement accepté"
+    },
+    {
+      "Key": "Order.CustomerDetails.returnStatus.rejected",
+      "Value": "Refusé"
+    },
+    {
+      "Key": "Order.CustomerDetails.returnStatus.partiallyRejected",
+      "Value": "Partiellement refusé"
+    },
+    {
+      "Key": "Order.CustomerDetails.returnStatus.denied",
+      "Value": "Refusé"
+    },
+    {
+      "Key": "Order.CustomerDetails.returnStatus.processedAndClosed",
+      "Value": "Traité et clos"
+    },
+    {
+      "Key": "Order.CustomerDetails.returnStatus.closed",
+      "Value": "Clos"
+    },
+    {
+      "Key": "Order.CustomerDetails.email.title",
+      "Value": "Coordonnées"
+    },
+    {
+      "Key": "Order.CustomerDetails.shippingAddress.title",
+      "Value": "Adresse de livraison"
+    },
+    {
+      "Key": "Order.CustomerDetails.shippingMethods.title",
+      "Value": "Mode de livraison"
+    },
+    {
+      "Key": "Order.CustomerDetails.billingAddress.title",
+      "Value": "Adresse de facturation"
+    },
+    {
+      "Key": "Order.CustomerDetails.paymentMethods.title",
+      "Value": "Moyen de paiement"
+    },
+    {
+      "Key": "Order.CustomerDetails.returnInformation.title",
+      "Value": "Détail du retour"
+    },
+    {
+      "Key": "Order.Errors.invalidOrder",
+      "Value": "Commande invalide. Réessayez."
+    },
+    {
+      "Key": "Order.Errors.invalidSearch",
+      "Value": "Aucune commande ne correspond à ces informations."
+    },
+    {
+      "Key": "Order.OrderCancel.buttonText",
+      "Value": "Annuler la commande"
+    },
+    {
+      "Key": "Order.OrderCancelForm.title",
+      "Value": "Annuler la commande"
+    },
+    {
+      "Key": "Order.OrderCancelForm.description",
+      "Value": "Choisissez le motif d'annulation"
+    },
+    {
+      "Key": "Order.OrderCancelForm.label",
+      "Value": "Motif d'annulation"
+    },
+    {
+      "Key": "Order.OrderCancelForm.button",
+      "Value": "Confirmer l'annulation"
+    },
+    {
+      "Key": "Order.OrderCancelForm.errorHeading",
+      "Value": "Erreur"
+    },
+    {
+      "Key": "Order.OrderCancelForm.errorDescription",
+      "Value": "L'annulation de la commande a échoué."
+    },
+    {
+      "Key": "Order.OrderHeader.title",
+      "Value": "{{name}}, merci pour votre commande !"
+    },
+    {
+      "Key": "Order.OrderHeader.defaultTitle",
+      "Value": "Merci pour votre commande !"
+    },
+    {
+      "Key": "Order.OrderHeader.order",
+      "Value": "COMMANDE N° {{order}}"
+    },
+    {
+      "Key": "Order.OrderHeader.CreateAccount.message",
+      "Value": "Enregistrez vos informations pour commander plus vite la prochaine fois."
+    },
+    {
+      "Key": "Order.OrderHeader.CreateAccount.button",
+      "Value": "Créer un compte"
+    },
+    {
+      "Key": "Dropin.Pagination.backwardButton.ariaLabel",
+      "Value": "Page précédente"
+    },
+    {
+      "Key": "Dropin.Pagination.forwardButton.ariaLabel",
+      "Value": "Page suivante"
+    },
+    {
+      "Key": "Dropin.Incrementer.decreaseLabel",
+      "Value": "Diminuer la quantité"
+    },
+    {
+      "Key": "Dropin.Incrementer.increaseLabel",
+      "Value": "Augmenter la quantité"
+    },
+    {
+      "Key": "Dropin.Incrementer.label",
+      "Value": "Quantité"
+    },
+    {
+      "Key": "Dropin.Incrementer.errorMessage",
+      "Value": "Saisissez une quantité valide"
+    },
+    {
+      "Key": "Dropin.Incrementer.minQuantityMessage",
+      "Value": "Saisissez au moins {{minQuantity}}"
+    },
+    {
+      "Key": "Dropin.Incrementer.maxQuantityMessage",
+      "Value": "Quantité maximale : {{maxQuantity}}"
+    },
+    {
+      "Key": "Dropin.Modal.Close.label",
+      "Value": "Fermer"
+    },
+    {
+      "Key": "Dropin.InputPassword.placeholder",
+      "Value": "Mot de passe"
+    },
+    {
+      "Key": "Dropin.InputPassword.floatingLabel",
+      "Value": "Mot de passe"
+    },
+    {
+      "Key": "Dropin.InputPassword.buttonShowTitle",
+      "Value": "Afficher le mot de passe"
+    },
+    {
+      "Key": "Dropin.InputPassword.buttonHideTitle",
+      "Value": "Masquer le mot de passe"
+    },
+    {
+      "Key": "Dropin.PasswordStatusIndicator.chartTwoSymbols",
+      "Value": "Utilisez des lettres et des chiffres ou des symboles"
+    },
+    {
+      "Key": "Dropin.PasswordStatusIndicator.chartThreeSymbols",
+      "Value": "Utilisez des lettres, des chiffres et des symboles"
+    },
+    {
+      "Key": "Dropin.PasswordStatusIndicator.chartFourSymbols",
+      "Value": "Utilisez des majuscules, des minuscules, des chiffres et des symboles"
+    },
+    {
+      "Key": "Dropin.PasswordStatusIndicator.messageLengthPassword",
+      "Value": "Au moins {minLength} caractères"
+    },
+    {
+      "Key": "Dropin.InlineAlert.dismissLabel",
+      "Value": "Fermer le message"
+    },
+    {
+      "Key": "Dropin.PriceSummary.subTotal.label",
+      "Value": "Sous-total"
+    },
+    {
+      "Key": "Dropin.PriceSummary.subTotal.withTaxes",
+      "Value": "TTC"
+    },
+    {
+      "Key": "Dropin.PriceSummary.subTotal.withoutTaxes",
+      "Value": "HT"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.label",
+      "Value": "Livraison"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.editZipAction",
+      "Value": "Appliquer"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.estimated",
+      "Value": "Livraison estimée"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.estimatedDestination",
+      "Value": "Livraison estimée vers "
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.destinationLinkAriaLabel",
+      "Value": "Changer de destination"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.zipPlaceholder",
+      "Value": "Code postal"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.withTaxes",
+      "Value": "TTC"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.withoutTaxes",
+      "Value": "HT"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.alternateField.zip",
+      "Value": "Estimer avec le pays et le code postal"
+    },
+    {
+      "Key": "Dropin.PriceSummary.shipping.alternateField.state",
+      "Value": "Estimer avec le pays et la région"
+    },
+    {
+      "Key": "Dropin.PriceSummary.taxes.total",
+      "Value": "Total TVA"
+    },
+    {
+      "Key": "Dropin.PriceSummary.taxes.totalOnly",
+      "Value": "TVA"
+    },
+    {
+      "Key": "Dropin.PriceSummary.taxes.breakdown",
+      "Value": "TVA"
+    },
+    {
+      "Key": "Dropin.PriceSummary.taxes.showBreakdown",
+      "Value": "Afficher le détail de la TVA"
+    },
+    {
+      "Key": "Dropin.PriceSummary.taxes.hideBreakdown",
+      "Value": "Masquer le détail de la TVA"
+    },
+    {
+      "Key": "Dropin.PriceSummary.taxes.estimated",
+      "Value": "TVA estimée"
+    },
+    {
+      "Key": "Dropin.PriceSummary.total.estimated",
+      "Value": "Total estimé"
+    },
+    {
+      "Key": "Dropin.PriceSummary.total.label",
+      "Value": "Total"
+    },
+    {
+      "Key": "Dropin.PriceSummary.total.withoutTax",
+      "Value": "Total HT"
+    },
+    {
+      "Key": "Dropin.ProgressSpinner.updating.label",
+      "Value": "Mise à jour de l'article"
+    },
+    {
+      "Key": "Dropin.ProgressSpinner.updatingChildren.label",
+      "Value": "Mise à jour des articles"
+    },
+    {
+      "Key": "Dropin.PriceRange.from.label",
+      "Value": "De"
+    },
+    {
+      "Key": "Dropin.PriceRange.to.label",
+      "Value": "à"
+    },
+    {
+      "Key": "Dropin.PriceRange.asLowAs.label",
+      "Value": "À partir de"
+    },
+    {
+      "Key": "Dropin.Swatches.outOfStock.label",
+      "Value": "option épuisée"
+    },
+    {
+      "Key": "Dropin.Swatches.selected.label",
+      "Value": "option sélectionnée"
+    },
+    {
+      "Key": "Dropin.Swatches.swatch.label",
+      "Value": "option"
+    },
+    {
+      "Key": "Dropin.Accordion.open.label",
+      "Value": "Ouvrir"
+    },
+    {
+      "Key": "Dropin.Accordion.close.label",
+      "Value": "Fermer"
+    },
+    {
+      "Key": "Dropin.CartItem.each.label",
+      "Value": "l'unité"
+    },
+    {
+      "Key": "Dropin.CartItem.pricePerItem.label",
+      "Value": "prix unitaire"
+    },
+    {
+      "Key": "Dropin.CartItem.quantity.label",
+      "Value": "Quantité"
+    },
+    {
+      "Key": "Dropin.CartItem.remove.label",
+      "Value": "Retirer {product} du panier"
+    },
+    {
+      "Key": "Dropin.CartItem.removeDefault.label",
+      "Value": "Retirer l'article du panier"
+    },
+    {
+      "Key": "Dropin.CartItem.taxIncluded.label",
+      "Value": "TTC"
+    },
+    {
+      "Key": "Dropin.CartItem.taxExcluded.label",
+      "Value": "HT"
+    },
+    {
+      "Key": "Dropin.CartItem.updating.label",
+      "Value": "{product} en cours de mise à jour"
+    },
+    {
+      "Key": "Dropin.InputDate.picker",
+      "Value": "Choisir une date"
+    },
+    {
+      "Key": "Dropin.Table.sortedAscending",
+      "Value": "Trier par {label}, croissant"
+    },
+    {
+      "Key": "Dropin.Table.sortedDescending",
+      "Value": "Trier par {label}, décroissant"
+    },
+    {
+      "Key": "Dropin.Table.sortBy",
+      "Value": "Trier par {label}"
+    }
+  ],
+  ":type": "sheet"
+}
