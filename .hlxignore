@@ -8,3 +8,8 @@ test/*
 sync-block-collection.sh
 drafts/*
 tools/*
+*.map
+build.mjs
+postinstall.js
+*.d.ts
+ue/models/*

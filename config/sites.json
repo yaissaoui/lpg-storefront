@@ -1,36 +1,33 @@
 {
-  "catalog-backend": "aco",
-  "commerce-endpoint": "https://na1-sandbox.api.commerce.adobe.com/QD1T4hbz1zGxLHYpp8cyPy/graphql",
-  "commerce-core-endpoint": "",
   "defaultSite": "lpg",
-  "devHosts": ["localhost", "127.0.0.1", ".aem.page"],
+  "devHosts": [
+    "localhost",
+    "127.0.0.1",
+    ".aem.page"
+  ],
   "devOverride": {
     "queryParam": "site",
-    "storageKey": "lpg-dev-site",
-    "endpointStorageKey": "commerce-endpoint",
-    "coreEndpointStorageKey": "commerce-core-endpoint",
-    "backendStorageKey": "catalog-backend"
-  },
-  "productAttributes": {
-    "application": "application",
-    "ingredients": "ingredients",
-    "results": "results"
+    "storageKey": "lpg-dev-site"
   },
   "sites": {
     "lpg": {
       "label": "LPG",
       "theme": "lpg",
-      "logo": {"src": "/icons/lpg-logo.svg", "width": 136, "height": 46, "invertOnLight": true},
+      "logo": {
+        "src": "/icons/lpg-logo.svg",
+        "width": 136,
+        "height": 46,
+        "invertOnLight": true
+      },
       "hostMatch": [],
       "devPathPrefix": "",
-      "commerce-core-endpoint": "https://lpg-migration-6j6zloi-37xbp5mgn7pn2.eu-4.magentosite.cloud/graphql",
       "accountPath": "/espace-pro",
       "storeLocatorPath": "/trouver-un-centre",
       "fallbackNav": {
         "fr": [
-          {"label": "Expertise esthétique", "path": "/expertise-esthetique"},
-          {"label": "Cosmétiques visage", "path": "/expertise-esthetique/cosmetiques/cosmetiques-visage"},
-          {"label": "Expertise médicale", "path": "/expertise-medicale"},
+          {"label": "Esthétique médicale", "path": "/expertise-medicale/esthetique-medicale"},
+          {"label": "Cellu M6 Alliance", "path": "/expertise-medicale/technologies-medicales/cellu-m6-alliance-medical"},
+          {"label": "Produits pro", "path": "/search"},
           {"label": "Groupe LPG", "path": "/groupe-lpg"}
         ],
         "en": [
@@ -40,8 +37,8 @@
         ]
       },
       "locales": [
-        {"prefix": "fr", "store": "fr", "lang": "fr", "label": "FR", "numberLocale": "fr-FR", "currency": "EUR", "sells": false, "aco": {"viewId": "3b06919b-2447-4d9b-9426-13cb72d40689", "priceBookId": "lpg_group"}},
-        {"prefix": "en", "store": "en", "lang": "en", "label": "EN", "numberLocale": "en-GB", "currency": "EUR", "sells": false, "aco": {"viewId": "97ebb532-021d-419b-af10-6507acb2626e", "priceBookId": "lpg_group"}},
+        {"prefix": "fr", "store": "fr", "lang": "fr", "label": "FR", "numberLocale": "fr-FR", "currency": "EUR", "sells": false},
+        {"prefix": "en", "store": "en", "lang": "en", "label": "EN", "numberLocale": "en-GB", "currency": "EUR", "sells": false},
         {"prefix": "es", "store": "es", "lang": "es", "label": "ES", "numberLocale": "es-ES", "currency": "EUR", "sells": false},
         {"prefix": "it", "store": "it", "lang": "it", "label": "IT", "numberLocale": "it-IT", "currency": "EUR", "sells": false},
         {"prefix": "de", "store": "de", "lang": "de", "label": "DE", "numberLocale": "de-DE", "currency": "EUR", "sells": false},
@@ -54,10 +51,16 @@
     "wellbox": {
       "label": "Wellbox",
       "theme": "wellbox",
-      "logo": {"src": "/icons/wellbox-logo.svg", "width": 162, "height": 32, "invertOnLight": true},
-      "hostMatch": ["wellbox"],
+      "logo": {
+        "src": "/icons/wellbox-logo.svg",
+        "width": 162,
+        "height": 32,
+        "invertOnLight": true
+      },
+      "hostMatch": [
+        "wellbox"
+      ],
       "devPathPrefix": "/wellbox",
-      "commerce-core-endpoint": "https://wellbox.lpg-migration-6j6zloi-37xbp5mgn7pn2.eu-4.magentosite.cloud/graphql",
       "accountPath": "/mon-compte",
       "storeLocatorPath": "",
       "fallbackNav": {
@@ -73,8 +76,8 @@
         ]
       },
       "locales": [
-        {"prefix": "fr", "store": "wellbox_fr", "lang": "fr", "label": "FR", "numberLocale": "fr-FR", "currency": "EUR", "sells": true, "miniCart": true, "priceSuffix": "TTC", "aco": {"viewId": "8aabd439-f2ab-4d91-a9b1-548fe45b389e", "priceBookId": "wellbox", "taxRate": 0.2}},
-        {"prefix": "en", "store": "wellbox_en", "lang": "en", "label": "EN", "numberLocale": "en-GB", "currency": "EUR", "sells": true, "miniCart": true, "priceSuffix": "incl. VAT", "aco": {"viewId": "71f025e3-6691-4141-8d92-a380017eece3", "priceBookId": "wellbox", "taxRate": 0.2}}
+        {"prefix": "fr", "store": "wellbox_fr", "lang": "fr", "label": "FR", "numberLocale": "fr-FR", "currency": "EUR", "sells": true, "miniCart": true, "priceSuffix": "TTC", "taxRate": 0.2},
+        {"prefix": "en", "store": "wellbox_en", "lang": "en", "label": "EN", "numberLocale": "en-GB", "currency": "EUR", "sells": true, "miniCart": true, "priceSuffix": "incl. VAT", "taxRate": 0.2}
       ]
     }
   }

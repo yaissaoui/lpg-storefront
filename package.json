@@ -9,19 +9,39 @@
     "lint:js": "eslint .",
     "lint:css": "stylelint \"blocks/**/*.css\" \"styles/*.css\"",
     "lint": "npm run lint:js && npm run lint:css",
-    "lint:fix": "npm run lint:js -- --fix && npm run lint:css -- --fix"
+    "lint:fix": "npm run lint:js -- --fix && npm run lint:css -- --fix",
+    "install:dropins": "node build.mjs && node postinstall.js",
+    "postinstall": "npm run install:dropins",
+    "postupdate": "npm run install:dropins",
+    "build:json": "npm-run-all -p build:json:models build:json:definitions build:json:filters",
+    "build:json:models": "merge-json-cli -i \"ue/models/component-models.json\" -o \"component-models.json\"",
+    "build:json:definitions": "merge-json-cli -i \"ue/models/component-definition.json\" -o \"component-definition.json\"",
+    "build:json:filters": "merge-json-cli -i \"ue/models/component-filters.json\" -o \"component-filters.json\""
   },
   "author": "SQLI lab",
   "license": "Apache License 2.0",
   "devDependencies": {
     "@babel/eslint-parser": "7.29.13",
+    "@dropins/build-tools": "1.1.0",
     "eslint": "8.57.1",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-plugin-import": "2.32.0",
+    "merge-json-cli": "1.0.4",
+    "npm-run-all": "4.1.5",
     "stylelint": "18.0.0",
     "stylelint-config-standard": "41.0.0"
   },
   "engines": {
     "node": ">=24"
+  },
+  "dependencies": {
+    "@dropins/storefront-account": "3.3.0",
+    "@dropins/storefront-auth": "3.2.0",
+    "@dropins/storefront-cart": "3.2.0",
+    "@dropins/storefront-checkout": "3.2.1",
+    "@dropins/storefront-order": "3.3.0",
+    "@dropins/storefront-pdp": "3.0.3",
+    "@dropins/storefront-product-discovery": "3.1.0",
+    "@dropins/tools": "1.8.1"
   }
 }

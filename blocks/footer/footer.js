@@ -1,7 +1,7 @@
 import { getMetadata } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
 import { getSiteContext } from '../../scripts/site-config.js';
-import { el } from '../../scripts/product-ui.js';
+import { el } from '../../scripts/dom.js';
 import t from '../../scripts/i18n.js';
 
 /**

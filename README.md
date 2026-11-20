@@ -1,148 +1,344 @@
 # LPG storefront on Edge Delivery Services (lab)
 
-First version of the EDS storefront for the LPG migration lab. It covers two sites from one code base: the institutional LPG catalogue and the Wellbox shop. It reads the catalogue from Adobe Commerce Optimizer (ACO) or from the PaaS 2.4.7 core GraphQL, and does cart, account and checkout on the PaaS core GraphQL. It uses custom blocks only. The plan behind it is in `../docs/PLAN.en.md`, sections 4 and 6.
+EDS storefront for the LPG migration lab. One code base serves two sites: the institutional LPG catalogue and the Wellbox shop. Commerce features use the Adobe drop-ins, wired like the Adobe commerce boilerplate (`hlxsites/aem-boilerplate-commerce`). The drop-ins are pinned to Adobe's April 2026 suite, whose GraphQL operations all validate against the sandbox (see "Drop-in versions"). The catalogue comes from Adobe Commerce Optimizer (ACO). The cart runs on the PaaS 2.4.7 core GraphQL of the sandbox `lpg-migration`. The plan behind it is in `../docs/PLAN.en.md`, sections 4 and 6.
 
-The code starts from `adobe/aem-boilerplate` (Apache-2.0, commit `599a356`). `scripts/aem.js` is vendored from it and must not be edited.
+The code started from `adobe/aem-boilerplate` (Apache-2.0, commit `599a356`). `scripts/aem.js` is vendored from it and must not be edited. The drop-ins are vendored in `scripts/__dropins__` and must not be edited either.
 
 Any document or screenshot from this repository that goes to the client needs a human review first.
 
 ## Rules that apply here
 
-- The repository must stay private. It contains LPG brand assets (`icons/lpg-logo.svg`, `icons/wellbox-logo.svg`, downloaded from the production sites on 19 Nov 2026) and the General Sans font files. Making it public needs LPG's agreement and a new check of the font licence.
-- No `@dropins/*` package in this repository (rule 5 of `../AGENTS.md`). The Storefront Compatibility Package is installed on the PaaS side (`lpg-migration`) since the ACO connector work, but the storefront does not depend on it. See the last section.
-- No real customer or product data. Fixtures use DEMO skus, fake prices and placeholder SVGs.
-- Pushes go only to the private repository `yaissaoui/lpg-storefront` (remote `origin`).
+- Drop-ins are allowed because the lab uses Commerce Optimizer, whose licence covers them (decision of 20 November 2026, `../docs/ACO-PAAS.md` section 11). Production needs the client's own ACO licence.
+- Drop-ins are used as Adobe ships them. Code under `scripts/__dropins__` is never edited and we write no work-around over drop-in behaviour. Our own code is LPG business logic (VAT display, showcase mode), done with slots, events and model transformers, and later App Builder modules.
+- No real customer data. Drafts point at sandbox products only.
+- The repository `yaissaoui/lpg-storefront` is public since 20 November 2026 (internal demo). It still holds LPG brand assets and the General Sans fonts, see "Styles and fonts".
 
 ## Run it locally
 
 Everything runs in the lab container (`make up` from the repository root starts it).
 
 ```sh
-# from the repository root
-docker compose --env-file .env -f env/docker-compose.yml exec -T toolchain \
-  bash -c 'cd storefront && aem up --no-open --addr "*" --html-folder drafts --html-mount /'
+docker exec -d -w /workspace/storefront lpg-dev-toolchain-1 \
+  sh -c 'aem up --no-open --addr "*" --html-folder drafts --html-mount / > /tmp/aem.log 2>&1'
 ```
 
-Then open <http://localhost:3000/fr/index>.
+Then open <http://localhost:3000/wellbox/fr/products/wellbox-2-wellbox-2>.
 
-`--html-mount /` matters. Without it the CLI serves the drafts under `/drafts/...`, and the locale and site detection, which read the first path segment, would see `drafts` instead of `fr`. The existing `make preview` target does not pass these flags, so it shows no local content.
+`--html-mount /` matters. Without it the CLI serves the drafts under `/drafts/...` and the store root (`/wellbox/fr/`) is not found.
 
-Install and check:
+Install, copy the drop-ins, check:
 
 ```sh
-docker compose --env-file .env -f env/docker-compose.yml exec -T -u "$(id -u):$(id -g)" -e HOME=/tmp/h toolchain \
-  bash -c 'cd storefront && npm install && npm run lint && npm test'
+docker exec -u "$(id -u):$(id -g)" -e HOME=/tmp/h -w /workspace/storefront lpg-dev-toolchain-1 \
+  sh -c 'npm ci && npm run install:dropins && npm run lint && npm test'
 ```
 
-The `-u` flag is there because the container user is uid 1000 and the files on the host may belong to another uid. Without it `npm install` cannot write `node_modules`.
+`.npmrc` sets `ignore-scripts=true` like the boilerplate, so `npm ci` does not run the postinstall step. `npm run install:dropins` runs `build.mjs` (GraphQL fragment overrides, none today) and `postinstall.js`, which copies the `@dropins/*` packages listed in `dependencies` to `scripts/__dropins__`. That folder is committed. Source maps are neither committed (`.gitignore`) nor served (`.hlxignore`). After a version change, run the script and commit the folder.
 
-### Pages available in `drafts/`
+The `-u` flag is there because the container user is uid 1000 and the files on the host may belong to another uid.
 
-| URL | Content |
+### Pages to try
+
+| URL | What it shows |
 |---|---|
-| `/fr/index` | LPG home: hero, reinsurance row, teasers, expertise cards, figures, testimonials |
-| `/fr/expertise-esthetique/cosmetiques/cosmetiques-visage` | LPG product list (8 fixture products, sort, pagination with `?page=`) |
-| `/fr/products/demo-serum-a` | LPG product page, no price, "Où trouver ce produit" |
-| `/fr/search?q=demo` | Search results |
-| `/wellbox/fr/index` | Wellbox home |
-| `/wellbox/fr/products/demo-device-w` | Wellbox product page with price, colour choice, add to cart and mini cart |
+| `/wellbox/fr/products/wellbox-2-wellbox-2` | PDP: gallery, colour options, price per variant including VAT, quantity, add to cart |
+| `/wellbox/fr/accessoires-wellbox`, `/wellbox/fr/cosmetiques`, `/wellbox/fr/wellbox-produits` | PLP with sort and pagination |
+| `/wellbox/fr/search?q=tete` | Search results |
+| `/wellbox/fr/cart` | Cart page (local draft only, see "Not done yet") |
+| `/fr/products/the-bio-minceur-express-j14-102359502` | LPG showcase PDP: no price, "Trouver un centre" and the pro shop link (local draft) |
+| `/fr/search?q=creme` | LPG showcase search: no price, "Découvrir" |
 
-`?site=wellbox` on any page forces the Wellbox theme and store view. `?site=auto` removes the override.
+The 63 Wellbox product pages, the three Wellbox category pages and the search pages exist in DA.live (`https://da.live/#/yaissaoui/lpg-storefront`). Code Sync publishes each branch at `https://{branch}--lpg-storefront--yaissaoui.aem.page/`.
+
+## Drop-in versions
+
+The sandbox `lpg-migration` runs Adobe Commerce 2.4.7-p10 with the Storefront Compatibility Package 4.7.13. It cannot go higher: with our Composer keys, repo.magento.com lists 4.7.0 to 4.7.13 and 4.8.0 to 4.8.8 only. Adobe publishes 4.7.14 to 4.7.20 for merchants with an ACO licence, and our keys do not see them.
+
+This storefront uses the April 2026 suite (tested by Adobe with Compatibility Package 4.7.12 on Commerce 2.4.7). The June 2026 suite was tried first, because Adobe lists it as tested with 4.7.13. Its order 4.0.x, account 4.0.0 and auth 4.0.x drop-ins query seller-assisted buying fields that the sandbox does not have (K1 in "Known issues"). Later suites also query cart fields that 4.7.13 does not add (K8). The versions are those of the boilerplate lock file at the merge of its `release/suite8` branch (commit `6fe10508`, 30 April 2026), which match the release notes:
+
+| Package | April 2026 suite | Pinned |
+|---|---|---|
+| `@dropins/tools` (Drop-in SDK) | ~1.8.1 | 1.8.1 |
+| `@dropins/storefront-auth` | ~3.2.0 | 3.2.0 |
+| `@dropins/storefront-cart` | ~3.2.0 | 3.2.0 |
+| `@dropins/storefront-checkout` | ~3.2.1 | 3.2.1 |
+| `@dropins/storefront-order` | ~3.3.0 | 3.3.0 |
+| `@dropins/storefront-account` | ~3.3.0 | 3.3.0 |
+| `@dropins/storefront-pdp` | ~3.0.3 | 3.0.3 |
+| `@dropins/storefront-product-discovery` | ~3.1.0 | 3.1.0 |
+| `@dropins/build-tools` (dev) | ~1.1.0 | 1.1.0 |
+
+The suite also lists payment-services ~3.1.0 (LPG does not use it), personalization ~3.1.1, recommendations ~4.0.1 and wishlist ~3.2.0, which this lab does not use.
+
+The project code (`scripts/commerce.js`, `scripts/initializers/`, the commerce blocks, `head.html`) follows the boilerplate at commit `6fe10508`. The differences are listed in "Customer, checkout and order pages" and in the comments of each file.
+
+`tools/validate-dropin-graphql.mjs` sends every GraphQL operation shipped in the vendored drop-ins to a GraphQL server without running it. It appends an unused fragment, so the server rejects each document at validation time, mutations included. Extra headers go in `GRAPHQL_HEADERS` (JSON). Result on 20 November 2026:
+
+| Drop-in | Endpoint | Operations | Failing |
+|---|---|---|---|
+| cart 3.2.0 | PaaS `wellbox_fr` | 15 | 0 |
+| auth 3.2.0 | PaaS `wellbox_fr` | 15 | 0 |
+| account 3.3.0 | PaaS `wellbox_fr` | 16 | 0 |
+| order 3.3.0 | PaaS `wellbox_fr` | 19 | 1, B2B only: `PLACE_NEGOTIABLE_QUOTE_ORDER_MUTATION` (internal server error, negotiable quotes are B2B) |
+| checkout 3.2.1 | PaaS `wellbox_fr` | 20 | 7, B2B only: `getCompanyCredit` (`exceed_limit`), and `getNegotiableQuote`, `setBillingAddressOnQuote`, `setPaymentMethodOnQuote`, `setShippingAddressOnQuote`, `setShippingAddressOnQuoteAndUseAsBilling`, `setShippingMethodsOnQuote` (`custom_attributes` on `NegotiableQuoteBillingAddress`) |
+| pdp 3.0.3 | ACO, Wellbox FR view | 3 | 0 |
+| product-discovery 3.1.0 | ACO, Wellbox FR view | 1 | 0 |
+
+The B2B operations are only called for companies and negotiable quotes, which the LPG storefront does not use.
+
+```sh
+node tools/validate-dropin-graphql.mjs scripts/__dropins__ \
+  https://wellbox.lpg-migration-6j6zloi-37xbp5mgn7pn2.eu-4.magentosite.cloud/graphql wellbox_fr \
+  storefront-cart storefront-auth storefront-checkout storefront-order storefront-account
+GRAPHQL_HEADERS='{"AC-View-ID":"8aabd439-f2ab-4d91-a9b1-548fe45b389e","AC-Price-Book-ID":"wellbox"}' \
+  node tools/validate-dropin-graphql.mjs scripts/__dropins__ \
+  https://na1-sandbox.api.commerce.adobe.com/QD1T4hbz1zGxLHYpp8cyPy/graphql wellbox_fr \
+  storefront-pdp storefront-product-discovery
+```
+
+To move to a later suite once a Compatibility Package that provides its fields is installable (4.7.14 or later needs ACO licence keys on repo.magento.com):
+
+1. Install the package on the PaaS (`composer require` of the Storefront Compatibility Package in the lpg-ops overlay), deploy it to `lpg-migration` and check that the cart query of the target cart version validates. Run `CART_FRAGMENT` from `scripts/__dropins__/storefront-cart/fragments.js` against `/graphql` with a guest cart id.
+2. Read the release notes of the target suite on the Adobe storefront releases page and copy its versions into `package.json`. Copy `build.mjs` from the boilerplate commit of that release.
+3. Run `npm install` then `npm run install:dropins` in the container, and commit `scripts/__dropins__`.
+4. Diff `scripts/commerce.js`, `scripts/initializers/*`, `head.html` and the commerce blocks against the boilerplate at that release (`git log --until=<release date>` in a clone) and port the API changes. For example, recent releases add `features.isFreeGiftsCartPriceRulesEnabled` to the cart initializer and a `commerce/customer-context` event.
+5. Re-run `tools/validate-dropin-graphql.mjs` and the checks of "Known issues". Some of them are fixed in later suites. For example `storefront-pdp` 3.4.0 renders the product name as an `h1`, which 3.0.3 does not. Run the validation script on the target versions before switching, because Adobe's compatibility table did not match this sandbox for the June suite (K1).
+6. Run `npm run lint`, `npm test` and the pages of "Pages to try" on local and on the branch preview.
 
 ## Structure
 
 ```text
 blocks/
-  header/          logo, category menu (getCategoryTree, static fallback), search, account, mini cart
+  header/          logo, category menu (ACO navigation), search box, account, drop-in MiniCart
   footer/          4 columns from the {locale}/footer fragment, language switcher
-  hero/            full-width image or video, uppercase title
-  cards/           expertise cards, variants reinsurance and stats
-  teaser/          image and text side by side
-  testimonials/    simplified slider (scroll snap and two buttons)
-  product-list/    PLP, variant compact for related products
-  product-details/ PDP: gallery, options, tabs, price and cart only on selling views
-  search/          search results
-  columns/ fragment/ widget/   kept from the boilerplate
-config/sites.json  sites, locales, store view codes, sells flag, backends, ACO view ids
+  product-details/ PDP on storefront-pdp, showcase mode on views that do not sell
+  product-list/    PLP on storefront-product-discovery, variant compact for related products
+  search/          search results on storefront-product-discovery
+  commerce-cart/   cart page on storefront-cart
+  hero/ cards/ teaser/ testimonials/ columns/ fragment/ widget/   content blocks
+config/
+  site-config.public.json  boilerplate "public" config: endpoints, Store header, ACO view and price book
+  sites.json               presentation: theme, logo, menu fallback, selling or showcase mode, tax display
 scripts/
-  scripts.js       boilerplate loader, sets body.site-lpg or body.site-wellbox and html lang
+  scripts.js       boilerplate loader, initialises commerce, sets body.site-lpg or body.site-wellbox
+  commerce.js      the two GraphQL clients, config loading, sku resolution, placeholders
+  commerce-utils.js pure helpers: VAT and price transformers, product path, config fallback, cart field filter
+  initializers/    auth, cart, pdp, search (one per drop-in, like the boilerplate)
+  product-discovery.js shared PLP and search rendering
   site-config.js   site and locale resolution (pure functions, tested)
-  commerce/        the data module, see scripts/commerce/README.md
-  product-ui.js    shared rendering helpers (cards, prices, sanitising)
-  i18n.js          UI strings (fr, en, English fallback)
-styles/            styles.css (themes), fonts.css (after LCP), product-card.css (on demand)
+  __dropins__/     vendored drop-ins, never edited
+placeholders/      drop-in labels, fr and en (fallback while DA holds none)
+styles/            styles.css (themes and drop-in design tokens), product-discovery.css, fonts.css
 drafts/            local content as .plain.html files (ignored by .hlxignore)
-tools/             dev-graphql-proxy.mjs (ignored by .hlxignore)
 test/              node:test unit tests
 ```
 
+## Universal Editor
+
+The project is instrumented for the Universal Editor on DA content (`*.ue.da.live`), following `aemsites/da-block-collection` and the DA documentation (sources below):
+
+- `ue/models/` holds the sources: `page.json` (page metadata model), `section.json` (section styles, column width and gap, and the list of blocks a section accepts), `text.json`, `image.json`, and one file per block in `ue/models/blocks/`. Content blocks (hero, cards with card, teaser with teaser-item, testimonials with testimonial, columns, fragment) have field selectors. Product and commerce blocks are key-value blocks when they have options (`product-details`, `product-list`, `search`, `commerce-cart`, `commerce-orders-list`, `commerce-addresses`, `commerce-account-header`), and empty one-cell blocks otherwise, taken from the boilerplate `_*.json` files.
+- `npm run build:json` merges them into `component-definition.json`, `component-models.json` and `component-filters.json` at the root. These three files are committed. Run the script after every change in `ue/models` (no husky hook here). `test/ue-models.test.js` fails when a block has no definition, a definition has no model, a section does not accept a block, or the root files are stale.
+- `scripts/scripts.js` imports `ue/scripts/ue.js` only when the host is `*.ue.da.live`. It moves the `data-aue-*` attributes when cards and testimonials rebuild their rows into `ul > li`, and refreshes images after an edit.
+- `decorateSections` treats the `richtext` wrappers of the UE markup as default content (UE used to request `blocks/richtext/richtext.js`). It also applies section metadata left in the markup. A small `metadata` block shows the page metadata table inside UE and hides it elsewhere (UE used to request `blocks/metadata/metadata.js`).
+- `scripts/aem.js` is not edited.
+
+UE can now select every block. Selections showed "Failed to fetch details" because the three root files answered 404.
+
+## Customer, checkout and order pages
+
+The blocks come from the boilerplate at commit `6fe10508` (April 2026 suite) and use storefront-auth, storefront-account, storefront-checkout and storefront-order. Paths sit under the store root, built with `rootLink()` like the boilerplate: `/wellbox/fr/...` on Wellbox (aem.page) and `/fr/...` on LPG, where the header button says "Espace Pro".
+
+| Path | Blocks |
+|---|---|
+| `/customer/login` | commerce-login |
+| `/customer/create` | commerce-create-account |
+| `/customer/forgotpassword` | commerce-forgot-password |
+| `/customer/createPassword` | commerce-create-password (link of the reset e-mail) |
+| `/customer/confirm-account` | commerce-confirm-account (link of the confirmation e-mail) |
+| `/customer/account` | sidebar, account-header, orders-list and addresses (minified), customer-information |
+| `/customer/address` | sidebar, addresses |
+| `/customer/orders` | sidebar, orders-list |
+| `/customer/order-details` | sidebar, order-header, order-status, shipping-status, customer-details, order-cost-summary, order-product-list, order-comments |
+| `/customer/sidebar-fragment` | fragment read by the sidebar (title, subtitle, path, icon per item) |
+| `/order-details` | the same order blocks for a guest order (`?orderRef=`) |
+| `/order-status` | commerce-search-order (guest order search) |
+| `/checkout` | commerce-checkout, then the order confirmation from commerce-checkout-success |
+| `/cart` | commerce-cart (Wellbox) |
+
+`drafts/` holds one `.plain.html` per page and site, in DA markup: the block table, `section-metadata` for the column width and gap of the account pages, and a `metadata` table (title, `Template: My Account, Columns` on account pages, `Robots: noindex, nofollow`). Upload them to DA under the same paths. `/checkout` and `/cart` exist for Wellbox only.
+
+Changes from the boilerplate blocks:
+- No Payment Services. `PaymentMethods` is rendered without method slots, so it lists the methods the PaaS returns. An offline method such as `checkmo` (Check / Money order) needs no slot: the container selects it and calls `setPaymentMethodOnCart` with the code (auto sync), and the order drop-in places the order. The Adyen methods of the sandbox also appear and cannot be paid without the Adyen web components.
+- Guest checkout: the checkout drop-in reads `is_guest_checkout_enabled` but does not act on it. When the store view has it off and the shopper is not signed in, the checkout block redirects to `/customer/login?redirect=<checkout path>`, and the login block comes back to that path after sign in (only paths under the store root are accepted, `safeRedirectPath` in `scripts/commerce-utils.js`).
+- Checkout agreements: the `TermsAndConditions` container only shows what its `Agreements` slot appends. The boilerplate appends a fixed "default" agreement. Here the slot appends the agreements of the store view from `getCheckoutAgreements()` (`CGV Wellbox FR`, manual consent), with their own text.
+- After a sign in (login page, header panel, checkout), the page navigates or reloads once the cart drop-in has merged the guest cart (`cartReadyAfterSignIn()`), not at once as `routeRedirectOnSignIn` does. The login page shows the "Créer un compte" link (`renderSignUpLink`).
+- The order initializer compares paths with `rootLink()`, because the boilerplate compares `/order-details` with the full path and never matches under a store root.
+- Visible strings that the boilerplate hardcodes in English (welcome messages, "Continue shopping", "Need help?", checkout title, order search labels) come from `placeholders/{lang}/global.json`.
+- The header uses the boilerplate auth dropdown pattern: signed out, a panel with `SignIn`. Signed in, links to the account and to sign out. The mini cart "Commander" button goes to `/checkout`, and the header shows no mini cart on the checkout page.
+
+Facts read from the sandbox on 20 November 2026 (`Store: wellbox_fr`, scripts in the PR description):
+- `is_guest_checkout_enabled` is false on `wellbox_fr` and `fr`. Shoppers must sign in or create an account before checkout, and guest mutations answer "Guest checkout is not allowed".
+- Shipping to 75001 Paris FR (`estimateShippingMethods`): `upsstandard` "Livraison Standard en 48h à 72h", 9,90 € TTC (8,25 HT), and `upsexpress` "Livraison Express en 24h à 48h", 13,20 € TTC (11,00 HT).
+- `available_payment_methods` on a cart: 130 Adyen methods (`adyen_cc` "Carte bancaire", `adyen_paypal`, `adyen_applepay`, ...), all deferred, and no offline method (`checkmo`, `banktransfer`, `free`). Adyen methods need the Adyen web components to collect payment data, and those are not part of the drop-ins. On 22 November 2026 the owner enabled Check / Money order (`checkmo`) on the sandbox Wellbox website for test orders (K18). The Adyen methods are still listed and cannot complete a payment (K19).
+- `checkoutAgreements`: one manual agreement, "CGV Wellbox FR" ("Je reconnais avoir lu et accepté les Conditions Générales de Vente").
+- `countries`: FR and MC only. Passwords need 10 characters and 3 character classes. `create_account_confirmation` was true and is now off on the sandbox Wellbox website (K17).
+
 ## Sites and locales
 
-`config/sites.json` holds the whole mapping. The browser fetches it once per page.
+The site comes from the hostname. A host containing `wellbox` selects Wellbox, anything else selects LPG. On dev hosts (`localhost`, `127.0.0.1`, `*.aem.page`) three overrides apply, in this order: `?site=<key>` (kept in `localStorage`), the site's `devPathPrefix` (`/wellbox/...`), then the stored value. Production hosts ignore them. The locale is the first path segment after that prefix.
 
-The site comes from the hostname. A host containing `wellbox` selects Wellbox, anything else selects LPG. On dev hosts (`localhost`, `127.0.0.1`, `*.aem.page`) three overrides apply, in this order: `?site=<key>` (kept in `localStorage`), the site's `devPathPrefix` (`/wellbox/...`), then the stored value. Production hosts ignore them.
+| Site | Folder | Store view | Sells | ACO view |
+|---|---|---|---|---|
+| lpg | `fr`, `en` | same code | no | yes |
+| lpg | `es`, `it`, `de`, `nl`, `us` | same code | no | no, falls back to the default (LPG fr) |
+| lpg | `pro-fr`, `pro-en` | `pro_fr`, `pro_en` | yes | no |
+| wellbox | `fr`, `en` | `wellbox_fr`, `wellbox_en` | yes | yes |
 
-The locale is the first path segment. EDS folder names use hyphens and Commerce store view codes keep underscores, and each locale maps them explicitly:
+`sells` in `config/sites.json` decides whether prices, quantity, add to cart and the mini cart appear. On 19 Nov 2026 the institutional LPG site showed no price and no cart, while Wellbox showed prices and a black "Ajouter au panier" button.
 
-| Site | Folder | Store view | Sells |
+## Commerce with the drop-ins
+
+### Configuration
+
+`config/site-config.public.json` has the shape the boilerplate reads from `/config.json`: a `public` object with a `default` entry and one entry per store root (`/fr/`, `/en/`, `/wellbox/fr/`, `/wellbox/en/`). Each holds `commerce-endpoint` (ACO), `commerce-core-endpoint` (PaaS), `adobe-commerce-optimizer: true`, `headers.all.Store` and `headers.cs` with `AC-View-ID` and `AC-Price-Book-ID`. The drop-in resolver (`@dropins/tools/lib/aem/configs.js`) picks the longest matching root and merges it over `default`. Only keys the boilerplate uses are present, and a test checks it.
+
+`scripts/commerce.js` fetches `/config.json` first. On 20 November 2026 that URL answers 404 on `*.aem.page`, because the configuration service of the site holds no `public` section and this lab has no write access to it. The script then reads the committed `/config/site-config.public.json`. Once someone puts the same JSON in the config service, the fallback is no longer used and can be deleted. The result is cached in `sessionStorage` for two hours, like the boilerplate.
+
+On aem.page Wellbox lives under `/wellbox/fr/`. On a future Wellbox host it would live under `/fr/`, which the LPG entry also matches. Two aem.live sites (one per host) with their own config each solve that. The resolver also accepts a custom `match` function if one site must serve both.
+
+`config/sites.json` keeps the presentation settings only (theme, logo, menu fallback, `sells`, `taxRate`).
+
+### Clients and headers
+
+| Client | Endpoint | Headers | Used by |
 |---|---|---|---|
-| lpg | `fr`, `en`, `es`, `it`, `de`, `nl`, `us` | same code | no |
-| lpg | `pro-fr`, `pro-en` | `pro_fr`, `pro_en` | yes |
-| wellbox | `fr`, `en` | `wellbox_fr`, `wellbox_en` | yes |
+| `CS_FETCH_GRAPHQL` | ACO Merchandising GraphQL, `?cb=` hash of the headers | `AC-View-ID`, `AC-Price-Book-ID`, `Store` | storefront-pdp, storefront-product-discovery, menu, category heading, sku lookup |
+| `CORE_FETCH_GRAPHQL` | PaaS core GraphQL of the site (main host or `wellbox.` host) | `Store` | storefront-auth, storefront-cart |
 
-`sells` decides whether prices, quantity and the add to cart button appear. On 19 Nov 2026 the institutional LPG site showed no price and no cart, while Wellbox showed prices and a black "Ajouter au panier" button. The pro views are set to sell because they serve professionals. That is an assumption from the brief, not something observed. `miniCart` defaults to `sells`.
+The auth drop-in runs with `adobeCommerceOptimizer: true`. It reads `commerceOptimizer { priceBookId }` from PaaS (the guest book `wellbox::b6589f…` on Wellbox) and the initializer sets it as `AC-Price-Book-ID`. Until then the base book from the config (`wellbox`, `lpg_group`) applies.
 
-Each request to the PaaS core GraphQL carries the header `Store: <store view code>`. Requests to ACO carry `AC-View-ID` and `AC-Price-Book-ID` instead.
+The boilerplate also copies `AC-View-ID` and `AC-Price-Book-ID` onto core requests (for ACCS in CCDM mode). The PaaS sandbox does not need them and its CORS answer does not allow them, so this lab leaves that hook out.
 
-## Data module
+### Product URLs and sku
 
-Blocks call `getProduct`, `listCategory`, `search`, `getCategoryTree` and `cart.create`, `cart.add`, `cart.get`. They never call GraphQL. The contract, the shapes and the queries are documented in `scripts/commerce/README.md`.
+The boilerplate expects `/products/{urlKey}/{sku}` or `<meta name="sku">`. The DA pages of this lab sit at `/wellbox/fr/products/{urlKey}` with an empty `product-details` block. `scripts/commerce.js` reads the sku in this order: `<meta name="sku">`, then a sku segment after the url key, then one ACO query `productSearch(filter: url_key)` cached per view in `sessionStorage`. Product links built by the drop-ins (`getProductLink`) keep `/products/{urlKey}` so they land on the existing pages. The extra query costs one round trip on the first visit of a product. When BYOM or JSON2HTML renders product pages, it should write `<meta name="sku">` and the lookup stops.
 
-The module has a catalogue client and a core client, like the Adobe commerce boilerplate. The catalogue backend is chosen per store view with `catalog-backend` in `config/sites.json`:
+### VAT and price visibility
 
-| Value | Catalogue from | Cart, account, checkout |
-|---|---|---|
-| `aco` | ACO Merchandising GraphQL on `commerce-endpoint` | PaaS core GraphQL on `commerce-core-endpoint` |
-| `paas-core` | PaaS core GraphQL on `commerce-core-endpoint` | same |
-| `fixture` | `scripts/commerce/fixtures.js` | fixtures |
+ACO prices exclude tax. Wellbox shows prices including 20 % VAT (999.00 TTC for WELLBOX 2 white, 832.50 in ACO). Each view that shows tax sets `taxRate` in `config/sites.json` (0.2 on `wellbox_fr` and `wellbox_en`, nothing elsewhere). The pdp and search initializers pass a model transformer (`models.ProductDetails.transformer`, `models.Product.transformer`). Both drop-ins call it with the raw ACO `ProductView` and deep merge the result into their model, so the transformers in `scripts/commerce-utils.js` read raw fields and return only price fields with the tax added, rounded to the cent. One rate per view ignores product tax classes and the shopper's address, which is acceptable for a French B2C shop and checked against PaaS on several SKUs (118.80 for 99.00, 999.00 for 832.50).
 
-Only `fr`, `en`, `wellbox_fr` and `wellbox_en` are exported to ACO. The other views stay on `paas-core` even when the site is switched to `aco`.
+The VAT transformer is LPG business logic: Wellbox shows prices including tax, and ACO serves prices excluding tax. The PDP gets a second transformer, for price visibility, because of ACO data. See "Known issues and what remains custom".
 
-## Fixture mode
+### Showcase mode (LPG fr and en)
 
-`catalog-backend` is `fixture` in `config/sites.json`, so the module runs on fixtures. Product and list pages show a small blue notice on dev hosts so nobody mistakes demo data for the sandbox.
+Views with `sells: false` render the PDP without `ProductPrice`, `ProductQuantity` or the add to cart button. The block adds a "Trouver un centre" button and a link to the same product in the pro store. Lists empty the `ProductPrice` slot and put a "Découvrir" link in `ProductActions`. The cart drop-in is not initialised and the header has no mini cart. All of this is block code, slots and configuration. No drop-in file changes.
 
-## Switching to ACO
+### Labels
 
-The ACO catalogue views are being created in Optimizer Studio. Once their ids are known:
+Each initializer passes `langDefinitions` built from placeholders, like the boilerplate. The boilerplate reads them from DA at `{root}placeholders/{file}.json`. DA has none for this lab yet, so `fetchPlaceholders` falls back to `/placeholders/{lang}/{file}.json` in this repository (French translations of the visible PDP, cart and search labels, and `Global.*` keys used by the blocks). Moving them to DA sheets only needs the same keys.
 
-1. Put each id in `config/sites.json`, in the `aco.viewId` of the matching locale (`fr`, `en` under `lpg`, `fr`, `en` under `wellbox`). They currently hold `TODO-...-catalog-view-id`.
-2. Set the top-level `catalog-backend` to `aco`.
-3. Run `npm test`. The test `backends: fixture in the committed config` will then fail on purpose and must be updated.
+## History of the work-arounds
 
-To try ACO on a dev host without touching the file, set `localStorage` keys `catalog-backend` to `aco` and `commerce-core-endpoint` to `http://localhost:3001/graphql` (the proxy below). The view ids still have to be real.
+Re-checked on 20 November 2026 with the April 2026 suite (code reading and GraphQL, no browser).
 
-ACO answers CORS for `http://localhost:3000`. Since 20 November 2026 the sandbox `lpg-migration` answers CORS on `/graphql` too, for `http://localhost:3000` and `https://*--lpg-storefront--yaissaoui.aem.page` (and `.aem.live`). It comes from a sandbox-only module, `Sqli_LabCors`, kept in `lpg-ops/sandbox/overlay`. The dev proxy is no longer needed. Production should prefer a CDN route from the storefront host to `/graphql` (same origin).
+The current list of open issues is in "Known issues" below.
 
-Known gap before Wellbox goes on ACO: ACO prices are tax excluded while Wellbox shows prices including VAT. Details in `scripts/commerce/README.md`.
+Kept because of ACO data:
 
-## Pointing at the PaaS sandbox
+- The price visibility transformer (`pdpPriceVisibilityTransformer` in `scripts/commerce-utils.js`, passed as a PDP model transformer). This is a data issue, not a drop-in bug. ACO returns `roles: []` on `priceRange.minimum` and `priceRange.maximum` of configurable products, while simple products carry `["visible"]`. `storefront-pdp` shows a price only when its roles contain `visible`, which is correct behaviour. Without the transformer, WELLBOX 2 shows no price until a colour is chosen (checked again with pdp 3.2.0 and 3.0.3, same `visible` role test in the price mapping). The transformer marks the range visible only when ACO sent an empty list, and a `hidden` role still hides it. The fix belongs to the catalogue data, through the ACO connector or the price feed. Once the data carries `visible`, delete the transformer. To reproduce:
 
-The sandbox is `lpg-migration` (`https://lpg-migration-6j6zloi-37xbp5mgn7pn2.eu-4.magentosite.cloud`). With `SANDBOX_DEFAULT_URL` set in the root `.env`:
+  ```sh
+  curl -s https://na1-sandbox.api.commerce.adobe.com/QD1T4hbz1zGxLHYpp8cyPy/graphql \
+    -H 'content-type: application/json' \
+    -H 'AC-View-ID: 8aabd439-f2ab-4d91-a9b1-548fe45b389e' -H 'AC-Price-Book-ID: wellbox' \
+    -d '{"query":"{ products(skus:[\"wellbox-2\",\"102036800\"]) { sku ... on SimpleProductView { price { roles } } ... on ComplexProductView { priceRange { minimum { roles } maximum { roles } } } } }"}'
+  # wellbox-2 (configurable): roles [] on minimum and maximum. 102036800 (simple): roles ["visible"]
+  ```
 
-1. Start the proxy with `make graphql-proxy`. It forwards `http://localhost:3001/graphql` to `$SANDBOX_DEFAULT_URL/graphql`. Another URL can be given with `make graphql-proxy COMMERCE_GRAPHQL_URL=https://<host>/graphql`.
-2. In the browser console on `http://localhost:3000`, run `localStorage.setItem('commerce-endpoint', 'http://localhost:3001/graphql')` and reload. `localStorage.removeItem('commerce-endpoint')` goes back to fixtures. This override only works on dev hosts.
-3. For a shared preview on PaaS only, set `catalog-backend` to `paas-core` in `config/sites.json`. The `commerce-core-endpoint` of each site already points to the sandbox. A direct call from `*.aem.page` to the sandbox works since the CORS module above.
+Removed:
 
-The proxy only exists for local development. It allows the origin `http://localhost:3000` only, forwards the `Store` header, never forwards cookies and logs no request body. The Adobe documentation prefers same-origin delivery (a CDN route from the EDS host to `/graphql`) and treats CORS as a last resort. That decision belongs to the delivery set-up of phase B (API Mesh) or to the CDN configuration.
+- The `beforeHook` that stripped `has_available_free_gifts`, `is_free_gift` and `is_salable` from cart queries. This was a version gap. `storefront-cart` 3.3.1 and 3.2.0 do not query these fields, and their operations validate against the sandbox as is.
+- The cart page wait for `cart/initialized` before mounting `CartSummaryList`. The cart block now mounts the containers the way the boilerplate does. The display problem it hid is still there (K4).
+- The `commerce/customer-context` refetch on the PDP, and the free-gift flag on the cart initializer. Both belong to later boilerplate versions.
 
-## Content
+## Files for DA and the configuration service
 
-Real content will come from DA.live. Until then `drafts/` holds `.plain.html` files with EDS semantic markup (sections as top-level `div`, blocks as `div` tables). `aem up --html-folder` wraps them with `head.html` and serves them like delivered pages. The raw file stays available at `<path>.plain.html`, which is how the footer fragment loads.
+`node tools/da/build-da-files.mjs` writes them from the committed sources. A test fails when they are stale.
 
-The boilerplate's current `aem.js` no longer reads `section-metadata` blocks in the browser (my reading of the code, the delivery pipeline now handles them). The drafts therefore put section styles straight on the section `div`, for example `<div class="grey centered">`.
+Placeholders. `tools/da/placeholders/<store root>/<name>.json` for the store roots `wellbox/fr`, `wellbox/en`, `fr`, `en` and the site root (folder `_root`, used by pages outside the four roots). The files are `global`, `auth`, `account`, `cart`, `checkout`, `order`, `pdp` and `search`. Each file is a sheet document in the shape of the boilerplate placeholders: a multi-sheet JSON with the sheet `data` (columns `Key` and `Value`, which `fetchPlaceholders` reads with `?sheet=data`) and the sheet `dnt` (keeps the `Key` column out of translation). The sheets of the boilerplate content use the same shape (`https://main--aem-boilerplate-commerce--hlxsites.aem.page/placeholders/global.json`). The column is `Value`, not `Text`.
 
-Production product and category pages must come from BYOM or JSON2HTML, not from folder mapping, which the documentation discourages for SEO. Locally, the product-details block reads the `url_key` from the last path segment, and one draft page per test product is enough. The product-list block reads the category from its `category` row or from the path after the locale.
+```sh
+# one file, the DA token comes from your session (never commit it)
+curl -X PUT "https://admin.da.live/source/yaissaoui/lpg-storefront/wellbox/fr/placeholders/global.json" \
+  -H "Authorization: Bearer $DA_TOKEN" -F "data=@tools/da/placeholders/wellbox/fr/global.json;type=application/json"
+curl -X POST "https://admin.hlx.page/preview/yaissaoui/lpg-storefront/main/wellbox/fr/placeholders/global.json" \
+  -H "Authorization: token $AEM_TOKEN"
+```
+
+Public configuration. `tools/da/public-config.json` is the `public` object of `config/site-config.public.json`. POST it to the configuration service, which then serves it as the `public` object of `/config.json`:
+
+```sh
+curl -X POST "https://admin.hlx.page/config/yaissaoui/sites/lpg-storefront/public.json" \
+  -H "content-type: application/json" -H "x-auth-token: $AEM_TOKEN" \
+  --data @tools/da/public-config.json
+```
+
+Once both are loaded, `/config.json` and `/<store root>/placeholders/*.json?sheet=data` answer 200 and the committed fallbacks are no longer requested. They stay in the repository for local work with `aem up`.
+
+## Known issues
+
+Status on 22 November 2026, after the end-to-end test of the April 2026 suite on the branch preview (PLP, PDP, cart, account creation, checkout with `checkmo`, order LPGB2CFR26112003682 at 999,00 € including tax). The same table is in `../docs/ACO-PAAS.md`, section "Known issues and malfunctions".
+
+Origin values: Adobe drop-in, Adobe docs, Adobe backend version, PaaS config, PaaS data, ACO data, our code, sandbox limit.
+
+| # | Issue | Where seen | Root cause | Origin | Proof | Fix | Status |
+|---|---|---|---|---|---|---|---|
+| K1 | The June 2026 suite release notes say it was tested with Compatibility Package 4.7.13, but order 4.0.x, account 4.0.x and auth 4.0.x query `admin_assisted_order` and `shopping_assistance_enabled`, which 4.7.13 does not have. | Place order, orders list, order details and sign-up on the June suite (20 November 2026). | The compatibility table of the June 2026 release notes does not match the schema of 4.7.13. | Adobe docs | GraphQL errors `Cannot query field "admin_assisted_order" on type "CustomerOrder"` and `Cannot query field "shopping_assistance_enabled" on type "StoreConfig"` on the sandbox, from `tools/validate-dropin-graphql.mjs` on order 4.0.1, account 4.0.0 and auth 4.0.1. | Use the April 2026 suite (all B2C operations validate). Report to Adobe. | Mitigated by the April 2026 suite. To report. |
+| K2 | Compatibility Package 4.7.14 and later cannot be installed on the sandbox. | repo.magento.com with the lab Composer keys. | Adobe publishes 4.7.14 to 4.7.20 only to accounts entitled to Adobe Commerce Optimizer. Our keys list 4.7.0 to 4.7.13 and 4.8.0 to 4.8.8. | Adobe backend version | Package list of repo.magento.com with the lab keys (checked by the owner on 20 November 2026). | Composer keys of an ACO-entitled account (production: the client's own licence). | Open. Drop-ins pinned to the April 2026 suite meanwhile. |
+| K3 | Every page requests `/config.json` and `/<store root>/placeholders/*.json?sheet=data`, which answer 404, before reading the committed fallbacks. | All pages of the preview. | The public site configuration was not in the configuration service and the placeholder sheets were not in DA. The code reads them the boilerplate way first. | our code | `curl -I https://dropins--lpg-storefront--yaissaoui.aem.page/config.json` answers 404. The same for `/wellbox/fr/placeholders/global.json?sheet=data`. | Load `tools/da/public-config.json` into the configuration service and the sheets of `tools/da/placeholders/` into DA (see "Files for DA and the configuration service"). The fallbacks stay for local work. | Files ready, to be loaded by the owner. |
+| K4 | Cart page row totals excluding tax (832,50 €) under a "TTC" label, free gift at 125,00 €, order summary subtotal excluding tax. | `/wellbox/fr/cart` with cart 3.3.1 and 3.4.1 (20 November 2026). | `CartSummaryList` and `OrderSummary` read the tax display setting when they render. When the cart comes from the session cache before `storeConfig` has loaded, they keep the excluding-tax branch. | Adobe drop-in | `storeConfig` (`Store: wellbox_fr`) has `shopping_cart_display_price: 2` and `shopping_cart_display_subtotal: 2`. The `MiniCart` on the same page shows 999,00 €. Cart 3.2.0 reads the setting the same way (`chunks/CartSummaryList.js`). | Adobe fix. No work-around. | Not reported in the end-to-end test of the April suite. To re-check on the cart page before reporting. |
+| K5 | Struck-through line price 1 165,83 € (excluding tax) next to 999,00 € (including tax). | Mini cart and cart page, WELLBOX 2 white, cart 3.3.1 and cart 3.2.0 (end-to-end test of the April suite). | In the including-tax branch the struck amount is `prices.original_row_total`, which Magento returns excluding tax only. | Adobe drop-in | Cart query: `original_row_total 1165.83`, `row_total_including_tax 999`, `price_including_tax 999`. Cart 3.2.0 `chunks/CartSummaryList.js` uses `total` (original row total) as the struck amount in that branch. | Adobe fix. It needs an original row total including tax in the schema or in the drop-in. | Open. To report. |
+| K6 | WELLBOX 2 shows no price before a colour is chosen, without our transformer. | PDP of configurable products. | ACO returns `roles: []` on configurable price ranges while simple products carry `["visible"]`. | ACO data | `products(skus:["wellbox-2","102036800"])` on the Wellbox FR view (curl in "What remains custom"). | Fix the data in the connector or the price feed, then delete `pdpPriceVisibilityTransformer`. | Work-around kept because of the data. |
+| K7 | No `h1` on product pages. | PDP with pdp 3.0.3 and 3.2.0. | `ProductHeader` renders the name in `div.pdp-header__title`. pdp 3.4.0 renders an `h1`. | Adobe drop-in | `scripts/__dropins__/storefront-pdp/containers/ProductHeader.js`. | Later suite, or the BYOM product page provides the `h1`. | Open. Fixed by Adobe in a later version, nothing to report. |
+| K8 | Later drop-ins break the cart (`has_available_free_gifts`, `is_free_gift`, `is_salable` unknown). | Every cart call with cart 3.4.x. | Cart 3.4.x needs fields that Compatibility Package 4.7.13 does not add. | Adobe backend version | `tools/validate-dropin-graphql.mjs` on cart 3.4.1. | Stay on the April suite, or get a Compatibility Package that adds the fields (K2). | Mitigated by pinning. |
+| K9 | Some B2B checkout and order operations fail validation (`getCompanyCredit`, the six negotiable quote operations, `PLACE_NEGOTIABLE_QUOTE_ORDER_MUTATION`). | `tools/validate-dropin-graphql.mjs` on checkout 3.2.1 and order 3.3.0. | The sandbox has no B2B Storefront Compatibility Package. | Adobe backend version | Errors on `exceed_limit` and on `custom_attributes` of `NegotiableQuoteBillingAddress`, internal server error on the negotiable quote order. | None needed. LPG does not use companies or negotiable quotes. | Accepted. |
+| K10 | Guest cart lost on sign in: a guest added WELLBOX 2, signed in through `/customer/login?redirect=/wellbox/fr/checkout`, and the checkout showed an empty cart. | Login page, then checkout (end-to-end test of the April suite). | With `routeRedirectOnSignIn`, storefront-auth navigates as soon as the token is stored. storefront-cart merges the guest cart into the customer cart after the `authenticated` event (customer cart read, then `mergeCarts`, then `cart/initialized`). The page left before the merge, and the cart id cookie could already hold the customer cart id. | our code | storefront-auth `chunks/SignInForm.js` sets `window.location.href` at once when `routeRedirectOnSignIn` is given. storefront-cart `chunks/refreshCart.js` merges in its `authenticated` listener. | The login page, the header panel and the checkout navigate or reload after the next `cart/initialized` (8 seconds at most) through `cartReadyAfterSignIn()` in `scripts/commerce.js`. | Fixed in code. To verify in the browser. |
+| K11 | No "Créer un compte" link on the sign-in page. | `/wellbox/fr/customer/login`. | `SignIn` hides the sign-up link unless `renderSignUpLink` is true. The boilerplate login block does not set it either. | our code | storefront-auth `chunks/SignInForm.js` defaults `renderSignUpLink` to false. | The login block sets `renderSignUpLink: true` and `routeSignUp` to `/customer/create`. | Fixed. To verify in the browser. |
+| K12 | No terms and conditions checkbox at checkout although the PaaS has the manual agreement "CGV Wellbox FR". | `/wellbox/fr/checkout`. | The `TermsAndConditions` container renders only the agreements appended through its `Agreements` slot. The boilerplate appends a fixed agreement there. Our block had dropped that slot. | our code | storefront-checkout `containers/TermsAndConditions.js`. `checkoutAgreements` returns "CGV Wellbox FR" (mode MANUAL) and `is_checkout_agreements_enabled` is true. | The slot appends the agreements returned by `getCheckoutAgreements()` of the checkout API, with their own text. | Fixed. To verify in the browser. |
+| K13 | Shipping methods show prices excluding tax: Express at 11,00 € while the including-tax price is 13,20 €. | `/wellbox/fr/checkout`, shipping options. | The `ShippingMethods` container always shows `amount` (excluding tax). It maps `price_incl_tax` to `amountInclTax` but never uses it, and it ignores `shopping_cart_display_shipping`. The same holds up to checkout 3.5.0. | Adobe drop-in | `estimateShippingMethods` returns `amount 11` and `price_incl_tax 13.2` for `upsexpress`. `storeConfig.shopping_cart_display_shipping` is 2. `containers/ShippingMethods.js` of checkout 3.2.1 and 3.5.0 renders `t.amount`. | Adobe fix. A `ShippingMethodItem` slot could render the including-tax price as LPG code if the owner wants it before. | Open. To report. |
+| K14 | PLP sort options partly in English ("Product Name", "Position", "Relevance", "Price"). | `/wellbox/fr/accessoires-wellbox` and the search page. | `SortBy` of product-discovery 3.1.0 shows the labels of `attributeMetadata.sortable` from ACO. The labels of `name` and `price` are the default Magento attribute labels, with no label for the `wellbox_fr` store view. "Position" and "Relevance" are ACO system labels. Placeholder overrides for these labels arrive with product-discovery 3.1.1 (June 2026 suite). | ACO data | `attributeMetadata { sortable { attribute label } }` on the Wellbox FR view returns "Product Name", "Position", "Relevance" and "Price". | In the PaaS admin, Stores > Attributes > Product, attributes `name` and `price`, Manage Labels, store view Wellbox FR: "Nom" and "Prix", then resync to ACO. "Position" and "Relevance" need a later product-discovery version. The direction words come from our placeholders and are now French. | Partly fixed (directions). Labels open. |
+| K15 | Category pages titled "Product List". | `/wellbox/fr/accessoires-wellbox` and the other category pages. | The DA pages have no Title metadata, so EDS names them after their first block. The block replaced the title only after the whole product list had rendered. | our code | Server HTML of `/wellbox/fr/accessoires-wellbox` has `<title>Product List</title>`. | The block sets the title and `og:title` from the category as soon as it is known. Add a Title in the metadata of each DA category page for the server-side title (SEO). | Fixed client side. DA metadata to add. |
+| K16 | Address and account forms in English ("First Name", "Country", "State/Province", "Zip/Postal Code", "Phone Number", "VAT Number") and two LPG attributes on the account forms ("L Sepa Status", "l_segment_client"). | `/wellbox/fr/customer/create`, addresses in the account and at checkout. | The drop-ins build these forms from `attributesForm`. The PaaS returns the admin labels because the attributes have no label for the Wellbox FR store view. `l_sepa_status` and `l_segment_client` are used in the forms `customer_account_create` and `customer_account_edit`. | PaaS data | `attributesForm(formCode: "customer_register_address")` and `"customer_account_create"` with `Store: wellbox_fr` return "First Name", "Last Name", "Company", "Street Address", "City", "Country", "State/Province", "Zip/Postal Code", "Phone Number", "VAT Number", "Email", "L Sepa Status" and "l_segment_client". | PaaS admin, not done by the lab. Stores > Attributes > Customer Address, each attribute, Manage Labels, Wellbox FR: Prénom, Nom, Société, Adresse, Ville, Pays, Région, Code postal, Téléphone, Numéro de TVA. Stores > Attributes > Customer: firstname, lastname and email (Prénom, Nom, E-mail). For `l_sepa_status` and `l_segment_client`: set Show on Storefront to No, or remove Customer Registration and Customer Account Edit from Forms to Use. | Open, PaaS admin change for the owner. |
+| K17 | Account e-mail confirmation disabled on the Wellbox website. | Sandbox `lpg-migration`, Wellbox website. | Outbound e-mail is off in the sandbox (rule 8 of `../AGENTS.md`), so a confirmation link would never arrive and new accounts could not sign in. | PaaS config | `storeConfig.create_account_confirmation` was true on 20 November 2026. The owner switched it off for the end-to-end test. | Sandbox only. Production keeps the confirmation, with e-mail. | Done on the sandbox by the owner. |
+| K18 | Check / Money order (`checkmo`) enabled on the Wellbox website. | Sandbox `lpg-migration`, Wellbox website. | The PaaS only offered Adyen methods, which need the Adyen web components. The lab has no Adyen integration and does not use Payment Services. | PaaS config | Order LPGB2CFR26112003682 placed with `checkmo` on the preview, visible in the admin with 999,00 € including tax. | Sandbox only. Production needs the Adyen integration as LPG code. | Done on the sandbox by the owner. |
+| K19 | Adyen methods are listed at checkout and cannot complete a payment. | `/wellbox/fr/checkout`, payment step. | `PaymentMethods` lists every method the PaaS returns and the lab has no Adyen integration. | sandbox limit | `cart { available_payment_methods }` returns about 126 `adyen_*` codes. | Disable Adyen on the sandbox Wellbox website, or build the Adyen integration. | Open. |
+| K20 | Guest checkout is off. | `/wellbox/fr/checkout`. | `is_guest_checkout_enabled` is false, as in production. storefront-checkout reads the value but does not act on it. | PaaS config | `storeConfig { is_guest_checkout_enabled }` and the `getStoreConfig` transformer of checkout 3.2.1, which drops the field. | The checkout block sends a guest to `/customer/login?redirect=...` and comes back after sign in. | By design, handled. Verified in the end-to-end test. |
+| K21 | Universal Editor showed "Failed to fetch details" and requested `blocks/richtext/richtext.js` and `blocks/metadata/metadata.js`. | UE on `*.ue.da.live`. | The three component definition files were missing and the UE markup was not handled. | our code | 404 on `/component-definition.json`, `/component-models.json` and `/component-filters.json` before the fix. | UE instrumentation in the da-block-collection layout (`ue/`, root files built with `npm run build:json`). | Fixed. Verified by the owner on `dropins--lpg-storefront--yaissaoui.ue.da.live`. |
+| K22 | Hero and card images show `about:error`. | Wellbox home in DA. | Broken images in the DA demo content. | sandbox limit | `.plain.html` of `/wellbox/fr/`. | Upload the images again in DA. | Open. |
+
+### Adobe report candidates
+
+Only items proven to come from Adobe, with a reproduction on the sandbox:
+
+- K1: the compatibility table of the June 2026 suite lists Compatibility Package 4.7.13, but order 4.0.x, account 4.0.x and auth 4.0.x query `admin_assisted_order` and `shopping_assistance_enabled`, which 4.7.13 does not provide (GraphQL errors on the sandbox).
+- K5: in including-tax mode, `CartSummaryList` and `MiniCart` strike through `original_row_total`, an excluding-tax amount, next to an including-tax price (cart 3.2.0 to 3.4.1, seen in the browser and in the code).
+- K13: `ShippingMethods` shows `amount` (excluding tax) whatever `shopping_cart_display_shipping` says, and leaves `amountInclTax` unused (checkout 3.2.1 to 3.5.0, GraphQL and code).
+- K20: storefront-checkout queries `is_guest_checkout_enabled` and drops it, so a store without guest checkout lets a guest fill in the forms until the server refuses (feature gap, code of checkout 3.2.1).
+
+What remains custom, and why:
+
+- The VAT transformer for the Wellbox views is LPG business logic (`taxRate` in `config/sites.json`).
+- Showcase mode on LPG `fr` and `en` is LPG business logic.
+- The price visibility transformer is there because of ACO data (K6). To reproduce:
+
+  ```sh
+  curl -s https://na1-sandbox.api.commerce.adobe.com/QD1T4hbz1zGxLHYpp8cyPy/graphql \
+    -H 'content-type: application/json' \
+    -H 'AC-View-ID: 8aabd439-f2ab-4d91-a9b1-548fe45b389e' -H 'AC-Price-Book-ID: wellbox' \
+    -d '{"query":"{ products(skus:[\"wellbox-2\",\"102036800\"]) { sku ... on SimpleProductView { price { roles } } ... on ComplexProductView { priceRange { minimum { roles } maximum { roles } } } } }"}'
+  # wellbox-2 (configurable): roles [] on minimum and maximum. 102036800 (simple): roles ["visible"]
+  ```
 
 ## Styles and fonts
 
@@ -160,32 +356,29 @@ The ITF licence allows self-hosting through `@font-face` for the licensee's own 
 
 ## Tests and lint
 
-`npm test` runs `node --test` on `test/`. The tests cover the store mapping and site resolution, backend selection, PaaS and ACO normalisation, ACO headers, price book resolution and fallback, routing (catalogue to ACO, cart and price book to PaaS), add to cart for configurable products, fixture mode (catalogue, sort, pagination, cart), the GET or POST choice with the `Store` header, and the dev proxy. ACO payloads in `test/aco.test.js` are fake and follow the documented schema. `npm run lint` runs ESLint (airbnb-base) and Stylelint from the boilerplate.
+`npm test` runs `node --test` on `test/`. The tests cover the UE models and root files, the import map (every `@dropins/*` import resolves to a vendored file), the committed placeholders (format, same keys in French and English, tokens kept), the VAT and price visibility transformers on fake ACO payloads, the product path parsing, the config loading and its fallback, the public config resolved by the drop-in's own resolver (store header, view id and price book for each root, no secret), and the site and locale resolution. `npm run lint` runs ESLint (airbnb-base, with the rule relaxations of the commerce boilerplate) and Stylelint. Both ignore `scripts/__dropins__`.
 
 ## Not done yet
 
-- Checkout, payment and order confirmation.
-- Customer account, login and the pro area behind "Espace Pro". The link points to a page that does not exist.
-- BYOM or JSON2HTML for product and category pages.
-- The multi-site set-up on aem.live (one code repository, two sites) and the configuration in the Admin API.
-- Content in DA.live, navigation and footer authored there, and the other locales.
-- The store locator, the newsletter form, cookie consent and analytics.
-- Structured data (JSON-LD) for products, which belongs in the server-side rendering anyway.
-- The business rule from `Lpg_Checkout` that hides the mini cart for guests on `pro_fr`, `pro_en`, `fr` and `en`.
-
-## Why drop-ins are not used
-
-This section predates the ACO decision. ACO now brings the drop-in and Storefront Compatibility Package licence, and the package is installed on `lpg-migration`. The repository still keeps custom blocks behind the data module, as `../AGENTS.md` requires, and the module follows the boilerplate split so a later move to drop-ins stays possible.
-
-Adobe licenses the commerce drop-ins (`@dropins/*`) for Commerce as a Cloud Service and Commerce Optimizer. A PaaS licence alone does not include them, and the Storefront Compatibility Package needed to connect them to PaaS is described as unavailable without Optimizer. The npm packages download without an account, but the licence forbids that use, and the drop-in agreement also binds the integrator. This storefront therefore uses custom blocks behind the data module (route A of the plan). The full reasoning and the questions for Adobe are in `../docs/PLAN.en.md` and `../docs/ADOBE-QUESTIONS.md`.
+- Placeholder sheets in DA and the public config in the configuration service (K3, files ready in `tools/da`).
+- PaaS store labels and form usage of the customer attributes (K16), product attribute labels for sorting (K14).
+- Returns (RMA), the seller-assisted buying pages and the wishlist are not built.
+- Facets: the ACO views expose no facetable attribute, so the filter panel is empty.
+- LPG categories: `fr` and `en` have no categories in ACO, so LPG category pages list nothing and the menu uses `fallbackNav`.
+- The views not exported to ACO (es, it, de, nl, us, pro-fr, pro-en) fall back to the LPG fr catalogue view. They need their own ACO views or a PaaS catalogue route.
+- BYOM or JSON2HTML for product and category pages, with `<meta name="sku">`.
+- Store locator, newsletter, cookie consent and analytics. The checkout runs `initReCaptcha` like the boilerplate. It does nothing while reCAPTCHA is not configured on the PaaS. The drop-ins run with `acdl: false` and no event collector, so the sandbox sends no data to Adobe.
 
 ## Sources
 
+- https://github.com/hlxsites/aem-boilerplate-commerce (local clone, commit `6fe10508` of 30 April 2026, merge of `release/suite8`)
+- https://github.com/aemsites/da-block-collection (local clone, `ue/` folder)
+- https://docs.da.live/developers/reference/universal-editor
+- https://experienceleague.adobe.com/en/tools/commerce-storefront/releases/2026-04/
+- https://experienceleague.adobe.com/en/tools/commerce-storefront/releases/2026-06/
 - https://github.com/adobe/aem-boilerplate
+- https://experienceleague.adobe.com/developer/commerce/storefront/
 - https://www.aem.live/docs/
-- https://www.aem.live/developer/keeping-it-100
-- https://www.fontshare.com/licenses/itf-ffl
 - https://developer.adobe.com/commerce/services/optimizer/merchandising-services/using-the-api/
-- https://developer.adobe.com/commerce/services/reference/graphql/
 - https://experienceleague.adobe.com/en/docs/commerce/aco-optimizer-connector/headless-storefront
-- https://experienceleague.adobe.com/en/docs/commerce/aco-optimizer-connector/reference/field-mapping
+- https://www.fontshare.com/licenses/itf-ffl

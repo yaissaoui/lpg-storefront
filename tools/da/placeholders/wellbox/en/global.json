@@ -1,0 +1,154 @@
+{
+  ":names": [
+    "data",
+    "dnt"
+  ],
+  ":version": 3,
+  ":type": "multi-sheet",
+  "data": {
+    "total": 32,
+    "offset": 0,
+    "limit": 32,
+    "data": [
+      {
+        "Key": "Global.AddProductToCart",
+        "Value": "Add to cart"
+      },
+      {
+        "Key": "Global.AddingToCart",
+        "Value": "Adding..."
+      },
+      {
+        "Key": "Global.AddedToCart",
+        "Value": "Product added to your cart."
+      },
+      {
+        "Key": "Global.ViewCart",
+        "Value": "View cart"
+      },
+      {
+        "Key": "Global.Cart",
+        "Value": "Cart"
+      },
+      {
+        "Key": "Global.CartWithItems",
+        "Value": "Cart, {count} items"
+      },
+      {
+        "Key": "Global.ProductNotFound",
+        "Value": "This product could not be found."
+      },
+      {
+        "Key": "Global.CatalogueError",
+        "Value": "The catalogue is not available right now. Please try again later."
+      },
+      {
+        "Key": "Global.StoreLocator",
+        "Value": "Find a centre"
+      },
+      {
+        "Key": "Global.ProShop",
+        "Value": "Already a customer? Go to the professional shop"
+      },
+      {
+        "Key": "Global.ViewProduct",
+        "Value": "Discover"
+      },
+      {
+        "Key": "Global.Filters",
+        "Value": "Filters"
+      },
+      {
+        "Key": "Global.Results",
+        "Value": "{count} products"
+      },
+      {
+        "Key": "Global.ResultsFor",
+        "Value": "{count} products for “{phrase}”"
+      },
+      {
+        "Key": "Global.PriceIncludesTax",
+        "Value": "incl. VAT"
+      },
+      {
+        "Key": "Global.MyAccount",
+        "Value": "My account"
+      },
+      {
+        "Key": "Global.SignOut",
+        "Value": "Sign out"
+      },
+      {
+        "Key": "Global.Hello",
+        "Value": "Hello {name}"
+      },
+      {
+        "Key": "Global.Welcome",
+        "Value": "Welcome {name}!"
+      },
+      {
+        "Key": "Global.SignedInMessage",
+        "Value": "You are signed in."
+      },
+      {
+        "Key": "Global.PasswordUpdated",
+        "Value": "Your password has been updated."
+      },
+      {
+        "Key": "Global.NeedHelp",
+        "Value": "Need help?"
+      },
+      {
+        "Key": "Global.ContactUs",
+        "Value": "Contact us"
+      },
+      {
+        "Key": "Global.ContinueShopping",
+        "Value": "Continue shopping"
+      },
+      {
+        "Key": "Global.CheckoutTitle",
+        "Value": "Checkout"
+      },
+      {
+        "Key": "Global.OrderConfirmationTitle",
+        "Value": "Order confirmation"
+      },
+      {
+        "Key": "Global.PrivacyPolicy",
+        "Value": "privacy policy"
+      },
+      {
+        "Key": "Global.PrivacyConsentBefore",
+        "Value": "By creating an account, you acknowledge that you have read and agree to our "
+      },
+      {
+        "Key": "Global.PrivacyConsentAfter",
+        "Value": ", which outlines how we collect, use, and protect your personal data."
+      },
+      {
+        "Key": "Global.OrderSearchPassword",
+        "Value": "Enter your password to view order details"
+      },
+      {
+        "Key": "Global.OrderSearchSignIn",
+        "Value": "Sign in to view order details"
+      },
+      {
+        "Key": "Global.ViewOrder",
+        "Value": "View order"
+      }
+    ]
+  },
+  "dnt": {
+    "total": 1,
+    "offset": 0,
+    "limit": 1,
+    "data": [
+      {
+        "dnt-sheet": "*",
+        "dnt-columns": "Key"
+      }
+    ]
+  }
+}

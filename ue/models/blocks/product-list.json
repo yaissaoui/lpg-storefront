@@ -1,0 +1,45 @@
+{
+  "definitions": [
+    {
+      "title": "Product List",
+      "id": "product-list",
+      "model": "product-list",
+      "plugins": {
+        "da": {
+          "name": "product-list",
+          "type": "key-value-block"
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "product-list",
+      "fields": [
+        {
+          "component": "text",
+          "name": "category",
+          "label": "Category",
+          "description": "Commerce url_path, for example accessoires-wellbox. Empty: the page path"
+        },
+        {
+          "component": "text",
+          "name": "page-size",
+          "label": "Page size"
+        },
+        {
+          "component": "multiselect",
+          "name": "classes",
+          "label": "Variante",
+          "options": [
+            {
+              "name": "Compact (related products)",
+              "value": "compact"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "filters": []
+}

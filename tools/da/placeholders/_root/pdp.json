@@ -1,0 +1,398 @@
+{
+  ":names": [
+    "data",
+    "dnt"
+  ],
+  ":version": 3,
+  ":type": "multi-sheet",
+  "data": {
+    "total": 93,
+    "offset": 0,
+    "limit": 93,
+    "data": [
+      {
+        "Key": "PDP.Product.Incrementer.label",
+        "Value": "Quantité"
+      },
+      {
+        "Key": "PDP.Product.OutOfStock.label",
+        "Value": "En rupture de stock"
+      },
+      {
+        "Key": "PDP.Product.AddToCart.label",
+        "Value": "Ajouter au panier"
+      },
+      {
+        "Key": "PDP.Product.Details.label",
+        "Value": "Caractéristiques"
+      },
+      {
+        "Key": "PDP.Product.RegularPrice.label",
+        "Value": "Prix habituel"
+      },
+      {
+        "Key": "PDP.Product.SpecialPrice.label",
+        "Value": "Prix promotionnel"
+      },
+      {
+        "Key": "PDP.Product.TierPrice.label",
+        "Value": "Prix par quantité"
+      },
+      {
+        "Key": "PDP.Product.TierPricing.label",
+        "Value": "{quantity} achetés, {price} l'unité, soit {percent} % d'économie"
+      },
+      {
+        "Key": "PDP.Product.Image.label",
+        "Value": "{product}, image {key} sur {total}"
+      },
+      {
+        "Key": "PDP.Product.GiftCardOptions.ChooseAmount.label",
+        "Value": "Choisissez un montant"
+      },
+      {
+        "Key": "PDP.Product.GiftCardOptions.OtherAmount.label",
+        "Value": "Autre montant"
+      },
+      {
+        "Key": "PDP.Product.GiftCardOptions.RequiredFieldError.label",
+        "Value": "Ce champ est obligatoire"
+      },
+      {
+        "Key": "PDP.Product.GiftCardOptions.NumberError.label",
+        "Value": "Saisissez un nombre valide"
+      },
+      {
+        "Key": "PDP.Product.GiftCardOptions.MinError.label",
+        "Value": "Valeur minimale : {min}"
+      },
+      {
+        "Key": "PDP.Product.GiftCardOptions.MaxError.label",
+        "Value": "Valeur maximale : {max}"
+      },
+      {
+        "Key": "PDP.Product.GiftCardOptions.MinLengthError.label",
+        "Value": "Au moins {min_length} caractères"
+      },
+      {
+        "Key": "PDP.Product.GiftCardOptions.MaxLengthError.label",
+        "Value": "Au plus {max_length} caractères"
+      },
+      {
+        "Key": "PDP.Product.GiftCardOptions.EmailError.label",
+        "Value": "Saisissez une adresse e-mail valide"
+      },
+      {
+        "Key": "PDP.Product.GiftCardOptions.InvalidValueError.label",
+        "Value": "Choisissez une des valeurs autorisées : {values}"
+      },
+      {
+        "Key": "PDP.Swatches.Required.label",
+        "Value": "Obligatoire"
+      },
+      {
+        "Key": "PDP.Swatches.ChooseOption.label",
+        "Value": "Choisissez une option"
+      },
+      {
+        "Key": "PDP.DownloadableOptions.Sample.label",
+        "Value": "Échantillon"
+      },
+      {
+        "Key": "PDP.DownloadableOptions.ViewSample.label",
+        "Value": "Voir l'échantillon de {label}"
+      },
+      {
+        "Key": "PDP.Carousel.label",
+        "Value": "Carrousel"
+      },
+      {
+        "Key": "PDP.Carousel.Next.label",
+        "Value": "Suivant"
+      },
+      {
+        "Key": "PDP.Carousel.Previous.label",
+        "Value": "Précédent"
+      },
+      {
+        "Key": "PDP.Carousel.Slide.label",
+        "Value": "Image"
+      },
+      {
+        "Key": "PDP.Carousel.Controls.label",
+        "Value": "Commandes du carrousel"
+      },
+      {
+        "Key": "PDP.Carousel.Controls.Button.label",
+        "Value": "Afficher l'image {key} sur {total}"
+      },
+      {
+        "Key": "PDP.Overlay.Close.label",
+        "Value": "Fermer"
+      },
+      {
+        "Key": "PDP.Zoom.Close.label",
+        "Value": "Fermer"
+      },
+      {
+        "Key": "Dropin.Pagination.backwardButton.ariaLabel",
+        "Value": "Page précédente"
+      },
+      {
+        "Key": "Dropin.Pagination.forwardButton.ariaLabel",
+        "Value": "Page suivante"
+      },
+      {
+        "Key": "Dropin.Incrementer.decreaseLabel",
+        "Value": "Diminuer la quantité"
+      },
+      {
+        "Key": "Dropin.Incrementer.increaseLabel",
+        "Value": "Augmenter la quantité"
+      },
+      {
+        "Key": "Dropin.Incrementer.label",
+        "Value": "Quantité"
+      },
+      {
+        "Key": "Dropin.Incrementer.errorMessage",
+        "Value": "Saisissez une quantité valide"
+      },
+      {
+        "Key": "Dropin.Incrementer.minQuantityMessage",
+        "Value": "Saisissez au moins {{minQuantity}}"
+      },
+      {
+        "Key": "Dropin.Incrementer.maxQuantityMessage",
+        "Value": "Quantité maximale : {{maxQuantity}}"
+      },
+      {
+        "Key": "Dropin.Modal.Close.label",
+        "Value": "Fermer"
+      },
+      {
+        "Key": "Dropin.InputPassword.placeholder",
+        "Value": "Mot de passe"
+      },
+      {
+        "Key": "Dropin.InputPassword.floatingLabel",
+        "Value": "Mot de passe"
+      },
+      {
+        "Key": "Dropin.InputPassword.buttonShowTitle",
+        "Value": "Afficher le mot de passe"
+      },
+      {
+        "Key": "Dropin.InputPassword.buttonHideTitle",
+        "Value": "Masquer le mot de passe"
+      },
+      {
+        "Key": "Dropin.PasswordStatusIndicator.chartTwoSymbols",
+        "Value": "Utilisez des lettres et des chiffres ou des symboles"
+      },
+      {
+        "Key": "Dropin.PasswordStatusIndicator.chartThreeSymbols",
+        "Value": "Utilisez des lettres, des chiffres et des symboles"
+      },
+      {
+        "Key": "Dropin.PasswordStatusIndicator.chartFourSymbols",
+        "Value": "Utilisez des majuscules, des minuscules, des chiffres et des symboles"
+      },
+      {
+        "Key": "Dropin.PasswordStatusIndicator.messageLengthPassword",
+        "Value": "Au moins {minLength} caractères"
+      },
+      {
+        "Key": "Dropin.InlineAlert.dismissLabel",
+        "Value": "Fermer le message"
+      },
+      {
+        "Key": "Dropin.PriceSummary.subTotal.label",
+        "Value": "Sous-total"
+      },
+      {
+        "Key": "Dropin.PriceSummary.subTotal.withTaxes",
+        "Value": "TTC"
+      },
+      {
+        "Key": "Dropin.PriceSummary.subTotal.withoutTaxes",
+        "Value": "HT"
+      },
+      {
+        "Key": "Dropin.PriceSummary.shipping.label",
+        "Value": "Livraison"
+      },
+      {
+        "Key": "Dropin.PriceSummary.shipping.editZipAction",
+        "Value": "Appliquer"
+      },
+      {
+        "Key": "Dropin.PriceSummary.shipping.estimated",
+        "Value": "Livraison estimée"
+      },
+      {
+        "Key": "Dropin.PriceSummary.shipping.estimatedDestination",
+        "Value": "Livraison estimée vers "
+      },
+      {
+        "Key": "Dropin.PriceSummary.shipping.destinationLinkAriaLabel",
+        "Value": "Changer de destination"
+      },
+      {
+        "Key": "Dropin.PriceSummary.shipping.zipPlaceholder",
+        "Value": "Code postal"
+      },
+      {
+        "Key": "Dropin.PriceSummary.shipping.withTaxes",
+        "Value": "TTC"
+      },
+      {
+        "Key": "Dropin.PriceSummary.shipping.withoutTaxes",
+        "Value": "HT"
+      },
+      {
+        "Key": "Dropin.PriceSummary.shipping.alternateField.zip",
+        "Value": "Estimer avec le pays et le code postal"
+      },
+      {
+        "Key": "Dropin.PriceSummary.shipping.alternateField.state",
+        "Value": "Estimer avec le pays et la région"
+      },
+      {
+        "Key": "Dropin.PriceSummary.taxes.total",
+        "Value": "Total TVA"
+      },
+      {
+        "Key": "Dropin.PriceSummary.taxes.totalOnly",
+        "Value": "TVA"
+      },
+      {
+        "Key": "Dropin.PriceSummary.taxes.breakdown",
+        "Value": "TVA"
+      },
+      {
+        "Key": "Dropin.PriceSummary.taxes.showBreakdown",
+        "Value": "Afficher le détail de la TVA"
+      },
+      {
+        "Key": "Dropin.PriceSummary.taxes.hideBreakdown",
+        "Value": "Masquer le détail de la TVA"
+      },
+      {
+        "Key": "Dropin.PriceSummary.taxes.estimated",
+        "Value": "TVA estimée"
+      },
+      {
+        "Key": "Dropin.PriceSummary.total.estimated",
+        "Value": "Total estimé"
+      },
+      {
+        "Key": "Dropin.PriceSummary.total.label",
+        "Value": "Total"
+      },
+      {
+        "Key": "Dropin.PriceSummary.total.withoutTax",
+        "Value": "Total HT"
+      },
+      {
+        "Key": "Dropin.ProgressSpinner.updating.label",
+        "Value": "Mise à jour de l'article"
+      },
+      {
+        "Key": "Dropin.ProgressSpinner.updatingChildren.label",
+        "Value": "Mise à jour des articles"
+      },
+      {
+        "Key": "Dropin.PriceRange.from.label",
+        "Value": "De"
+      },
+      {
+        "Key": "Dropin.PriceRange.to.label",
+        "Value": "à"
+      },
+      {
+        "Key": "Dropin.PriceRange.asLowAs.label",
+        "Value": "À partir de"
+      },
+      {
+        "Key": "Dropin.Swatches.outOfStock.label",
+        "Value": "option épuisée"
+      },
+      {
+        "Key": "Dropin.Swatches.selected.label",
+        "Value": "option sélectionnée"
+      },
+      {
+        "Key": "Dropin.Swatches.swatch.label",
+        "Value": "option"
+      },
+      {
+        "Key": "Dropin.Accordion.open.label",
+        "Value": "Ouvrir"
+      },
+      {
+        "Key": "Dropin.Accordion.close.label",
+        "Value": "Fermer"
+      },
+      {
+        "Key": "Dropin.CartItem.each.label",
+        "Value": "l'unité"
+      },
+      {
+        "Key": "Dropin.CartItem.pricePerItem.label",
+        "Value": "prix unitaire"
+      },
+      {
+        "Key": "Dropin.CartItem.quantity.label",
+        "Value": "Quantité"
+      },
+      {
+        "Key": "Dropin.CartItem.remove.label",
+        "Value": "Retirer {product} du panier"
+      },
+      {
+        "Key": "Dropin.CartItem.removeDefault.label",
+        "Value": "Retirer l'article du panier"
+      },
+      {
+        "Key": "Dropin.CartItem.taxIncluded.label",
+        "Value": "TTC"
+      },
+      {
+        "Key": "Dropin.CartItem.taxExcluded.label",
+        "Value": "HT"
+      },
+      {
+        "Key": "Dropin.CartItem.updating.label",
+        "Value": "{product} en cours de mise à jour"
+      },
+      {
+        "Key": "Dropin.InputDate.picker",
+        "Value": "Choisir une date"
+      },
+      {
+        "Key": "Dropin.Table.sortedAscending",
+        "Value": "Trier par {label}, croissant"
+      },
+      {
+        "Key": "Dropin.Table.sortedDescending",
+        "Value": "Trier par {label}, décroissant"
+      },
+      {
+        "Key": "Dropin.Table.sortBy",
+        "Value": "Trier par {label}"
+      }
+    ]
+  },
+  "dnt": {
+    "total": 1,
+    "offset": 0,
+    "limit": 1,
+    "data": [
+      {
+        "dnt-sheet": "*",
+        "dnt-columns": "Key"
+      }
+    ]
+  }
+}

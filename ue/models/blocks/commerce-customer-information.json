@@ -1,0 +1,23 @@
+{
+  "definitions": [
+    {
+      "title": "Commerce Customer Information",
+      "id": "commerce-customer-information",
+      "model": "commerce-customer-information",
+      "plugins": {
+        "da": {
+          "rows": 1,
+          "columns": 1,
+          "name": "commerce-customer-information"
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "commerce-customer-information",
+      "fields": []
+    }
+  ],
+  "filters": []
+}

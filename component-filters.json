@@ -1,0 +1,81 @@
+[
+  {
+    "id": "main",
+    "components": [
+      "section"
+    ]
+  },
+  {
+    "id": "section",
+    "components": [
+      "text",
+      "image",
+      "hero",
+      "cards",
+      "teaser",
+      "testimonials",
+      "columns",
+      "fragment",
+      "product-details",
+      "product-list",
+      "search",
+      "commerce-cart",
+      "commerce-login",
+      "commerce-create-account",
+      "commerce-forgot-password",
+      "commerce-create-password",
+      "commerce-confirm-account",
+      "commerce-account-sidebar",
+      "commerce-account-header",
+      "commerce-customer-information",
+      "commerce-addresses",
+      "commerce-orders-list",
+      "commerce-order-header",
+      "commerce-order-status",
+      "commerce-order-product-list",
+      "commerce-order-cost-summary",
+      "commerce-shipping-status",
+      "commerce-customer-details",
+      "commerce-order-comments",
+      "commerce-search-order",
+      "commerce-checkout",
+      "commerce-checkout-success",
+      "metadata"
+    ]
+  },
+  {
+    "id": "cards",
+    "components": [
+      "card"
+    ]
+  },
+  {
+    "id": "columns",
+    "components": [
+      "columns-row"
+    ]
+  },
+  {
+    "id": "columns-row",
+    "components": []
+  },
+  {
+    "id": "columns-cell",
+    "components": [
+      "text",
+      "image"
+    ]
+  },
+  {
+    "id": "teaser",
+    "components": [
+      "teaser-item"
+    ]
+  },
+  {
+    "id": "testimonials",
+    "components": [
+      "testimonial"
+    ]
+  }
+]

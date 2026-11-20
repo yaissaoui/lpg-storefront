@@ -1,0 +1,66 @@
+{
+  "public": {
+    "default": {
+      "commerce-endpoint": "https://na1-sandbox.api.commerce.adobe.com/QD1T4hbz1zGxLHYpp8cyPy/graphql",
+      "commerce-core-endpoint": "https://lpg-migration-6j6zloi-37xbp5mgn7pn2.eu-4.magentosite.cloud/graphql",
+      "adobe-commerce-optimizer": true,
+      "headers": {
+        "all": {
+          "Store": "fr"
+        },
+        "cs": {
+          "AC-View-ID": "3b06919b-2447-4d9b-9426-13cb72d40689",
+          "AC-Price-Book-ID": "lpg_group"
+        }
+      }
+    },
+    "/fr/": {
+      "commerce-core-endpoint": "https://lpg-migration-6j6zloi-37xbp5mgn7pn2.eu-4.magentosite.cloud/graphql",
+      "headers": {
+        "all": {
+          "Store": "fr"
+        },
+        "cs": {
+          "AC-View-ID": "3b06919b-2447-4d9b-9426-13cb72d40689",
+          "AC-Price-Book-ID": "lpg_group"
+        }
+      }
+    },
+    "/en/": {
+      "commerce-core-endpoint": "https://lpg-migration-6j6zloi-37xbp5mgn7pn2.eu-4.magentosite.cloud/graphql",
+      "headers": {
+        "all": {
+          "Store": "en"
+        },
+        "cs": {
+          "AC-View-ID": "97ebb532-021d-419b-af10-6507acb2626e",
+          "AC-Price-Book-ID": "lpg_group"
+        }
+      }
+    },
+    "/wellbox/fr/": {
+      "commerce-core-endpoint": "https://wellbox.lpg-migration-6j6zloi-37xbp5mgn7pn2.eu-4.magentosite.cloud/graphql",
+      "headers": {
+        "all": {
+          "Store": "wellbox_fr"
+        },
+        "cs": {
+          "AC-View-ID": "8aabd439-f2ab-4d91-a9b1-548fe45b389e",
+          "AC-Price-Book-ID": "wellbox"
+        }
+      }
+    },
+    "/wellbox/en/": {
+      "commerce-core-endpoint": "https://wellbox.lpg-migration-6j6zloi-37xbp5mgn7pn2.eu-4.magentosite.cloud/graphql",
+      "headers": {
+        "all": {
+          "Store": "wellbox_en"
+        },
+        "cs": {
+          "AC-View-ID": "71f025e3-6691-4141-8d92-a380017eece3",
+          "AC-Price-Book-ID": "wellbox"
+        }
+      }
+    }
+  }
+}

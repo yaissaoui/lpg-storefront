@@ -22,8 +22,9 @@ Edge Delivery Services. Read a block first. Omissions are in the repo or known.
 - Skills: `/plugin marketplace add adobe/skills`, then `aem-edge-delivery-services` (23 skills). For docs, search `site:www.aem.live <terms>`.
 
 ## LPG lab
-- The hard rules in `../AGENTS.md` apply here: no secrets, no real personal data, no `@dropins/*`, nothing pushed except to the private repository yaissaoui/lpg-storefront.
-- Blocks never call GraphQL. Use `scripts/commerce/` (contract in its README).
-- Site, locale and store view come from `config/sites.json` through `scripts/site-config.js`.
+- The hard rules in `../AGENTS.md` apply here: no secrets, no real personal data. Drop-ins are allowed and never modified. The repository yaissaoui/lpg-storefront is public since 20 November 2026 (internal demo).
+- Commerce uses the Adobe drop-ins like `hlxsites/aem-boilerplate-commerce`. Never edit `scripts/__dropins__`. Extend with slots, events, model transformers and `FetchGraphQL` hooks. Update it with `npm run install:dropins`.
+- Blocks never call GraphQL. Drop-ins do, and the few extra queries live in `scripts/commerce.js`.
+- Endpoints, Store header and ACO view come from `/config.json`, fallback `config/site-config.public.json`. Theme, locale and `sells` come from `config/sites.json` through `scripts/site-config.js`.
 - Local content lives in `drafts/` as `.plain.html`. Serve with `aem up --html-folder drafts --html-mount /`.
 - Run `npm run lint` and `npm test` before saying a change is done.

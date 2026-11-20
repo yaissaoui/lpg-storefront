@@ -1,2 +1,4 @@
 helix-importer-ui
 *.min.js
+# vendored drop-ins (boilerplate rule)
+scripts/__dropins__

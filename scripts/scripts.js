@@ -2,8 +2,10 @@ import {
   loadHeader,
   loadFooter,
   decorateIcons,
-  decorateSections,
   decorateBlocks,
+  readBlockConfig,
+  toCamelCase,
+  toClassName,
   decorateTemplateAndTheme,
   waitForFirstImage,
   loadSection,
@@ -12,6 +14,13 @@ import {
   buildBlock,
 } from './aem.js';
 import { getSiteContext } from './site-config.js';
+import {
+  applyTemplates,
+  initializeCommerce,
+  loadCommerceEager,
+  getProductSku,
+  IS_UE,
+} from './commerce.js';
 
 if (window.trustedTypes && window.trustedTypes.createPolicy) {
   const innerTT = window.trustedTypes.createPolicy('tt-inner', {
@@ -98,10 +107,68 @@ function buildAutoBlocks(main) {
       });
     }
     buildWidgetAutoBlocks(main);
+    // auto-block PDP when the page carries <meta name="sku"> (BYOM pages), like the boilerplate
+    if (getProductSku() && !main.querySelector('.product-details')) {
+      const section = main.querySelector(':scope > div') || main.appendChild(document.createElement('div'));
+      section.prepend(buildBlock('product-details', { elems: [] }));
+    }
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Auto Blocking failed', error);
   }
+}
+
+/**
+ * Decorates all sections in a container element. Same as aem.js plus section metadata, plus
+ * the Universal Editor
+ * markup of *.ue.da.live: default content arrives wrapped in elements with class "richtext"
+ * (data-aue-type="richtext"). They are default content, not a block, as in the
+ * da-block-collection and the commerce boilerplate (otherwise UE requests
+ * blocks/richtext/richtext.js).
+ * @param {Element} main The container element
+ */
+export function decorateSections(main) {
+  main.querySelectorAll(':scope > div').forEach((section) => {
+    const wrappers = [];
+    let defaultContent = false;
+    [...section.children].forEach((e) => {
+      if (e.classList.contains('richtext')) {
+        e.removeAttribute('class');
+        if (!defaultContent) {
+          const wrapper = document.createElement('div');
+          wrapper.classList.add('default-content-wrapper');
+          wrappers.push(wrapper);
+          defaultContent = true;
+        }
+      } else if (e.tagName === 'DIV' || !defaultContent) {
+        const wrapper = document.createElement('div');
+        wrappers.push(wrapper);
+        defaultContent = e.tagName !== 'DIV';
+        if (defaultContent) wrapper.classList.add('default-content-wrapper');
+      }
+      wrappers[wrappers.length - 1].append(e);
+    });
+    wrappers.forEach((wrapper) => section.append(wrapper));
+    section.classList.add('section');
+    section.dataset.sectionStatus = 'initialized';
+    section.style.display = 'none';
+
+    // Section metadata left in the markup (local drafts, UE preview). On aem.page the
+    // pipeline already turned it into classes and data attributes.
+    const sectionMeta = section.querySelector('div.section-metadata');
+    if (sectionMeta) {
+      const meta = readBlockConfig(sectionMeta);
+      Object.keys(meta).forEach((key) => {
+        if (key === 'style') {
+          meta.style.split(',').filter(Boolean)
+            .forEach((style) => section.classList.add(toClassName(style.trim())));
+        } else {
+          section.dataset[toCamelCase(key)] = meta[key];
+        }
+      });
+      sectionMeta.parentNode.remove();
+    }
+  });
 }
 
 /**
@@ -177,7 +244,21 @@ async function loadEager(doc) {
   decorateTemplateAndTheme();
   const main = doc.querySelector('main');
   if (main) {
+    try {
+      // Site config, the two GraphQL clients and the global drop-ins (auth, cart)
+      await initializeCommerce();
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error('Commerce initialisation failed', e);
+    }
     decorateMain(main);
+    applyTemplates(doc);
+    try {
+      await loadCommerceEager();
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error('Commerce eager loading failed', e);
+    }
     document.body.classList.add('appear');
     await loadSection(main.querySelector('.section'), waitForFirstImage);
   }
@@ -225,6 +306,13 @@ async function loadPage() {
   await loadEager(document);
   await loadLazy(document);
   loadDelayed();
+}
+
+// Universal Editor support before page load (da-block-collection pattern): ue.js only runs
+// inside the editor (*.ue.da.live), never on aem.page or aem.live.
+if (IS_UE) {
+  // eslint-disable-next-line import/no-unresolved
+  await import(`${window.hlx.codeBasePath}/ue/scripts/ue.js`).then(({ default: ue }) => ue());
 }
 
 loadPage();
