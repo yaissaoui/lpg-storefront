@@ -1,0 +1,106 @@
+/*
+ * Product list and search results (scripts/product-discovery.js), after
+ * blocks/product-list-page/product-list-page.css of aem-boilerplate-commerce v12.0.0.
+ * Facets open from the "Filters" button at every width: the ACO views of this lab
+ * expose no facetable attribute yet, so a permanent side column would stay empty.
+ */
+.product-discovery .search__wrapper {
+  display: grid;
+  grid-template-areas:
+    "result-info"
+    "view-facets"
+    "facets"
+    "product-sort"
+    "product-list"
+    "pagination";
+  margin-block: 16px;
+}
+
+.product-discovery .search__result-info {
+  grid-area: result-info;
+  align-self: center;
+  margin-block-end: 16px;
+  color: var(--grey-600);
+  font-size: var(--body-font-size-s);
+}
+
+.product-discovery .search__view-facets {
+  grid-area: view-facets;
+  margin-block-end: 16px;
+}
+
+.product-discovery .search__view-facets button {
+  position: relative;
+}
+
+.product-discovery .search__view-facets button[data-count]::after {
+  content: attr(data-count);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75em;
+  height: 1.75em;
+  margin-left: 8px;
+  border-radius: 50%;
+  background-color: var(--color-brand-700);
+  color: var(--color-neutral-100);
+  font-size: 0.8em;
+}
+
+.product-discovery .search__facets {
+  display: none;
+  grid-area: facets;
+  margin-block-end: 16px;
+}
+
+.product-discovery .search__facets--visible {
+  display: block;
+}
+
+.product-discovery .search__product-sort {
+  grid-area: product-sort;
+  margin-block-end: 16px;
+}
+
+.product-discovery .search__product-list {
+  grid-area: product-list;
+  margin-block-end: 16px;
+}
+
+.product-discovery .search__pagination {
+  grid-area: pagination;
+  margin-block-end: 16px;
+}
+
+.product-discovery .product-discovery-product-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.product-discovery .product-discovery-product-actions .button {
+  margin: 0;
+}
+
+.product-discovery.product-discovery--empty .search__result-info,
+.product-discovery.product-discovery--empty .search__view-facets,
+.product-discovery.product-discovery--empty .search__facets,
+.product-discovery.product-discovery--empty .search__product-sort,
+.product-discovery.product-discovery--empty .search__pagination,
+.product-discovery.product-discovery--compact .search__result-info,
+.product-discovery.product-discovery--compact .search__view-facets,
+.product-discovery.product-discovery--compact .search__product-sort,
+.product-discovery.product-discovery--compact .search__pagination {
+  display: none;
+}
+
+@media (width >= 768px) {
+  .product-discovery .search__wrapper {
+    grid-template-areas:
+      "result-info product-sort"
+      "view-facets view-facets"
+      "facets facets"
+      "product-list product-list"
+      "pagination pagination";
+    grid-template-columns: 1fr auto;
+  }
+}

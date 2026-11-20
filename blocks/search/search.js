@@ -1,58 +1,32 @@
+/*
+ * Search results page on the storefront-product-discovery drop-in. Reads ?q=.
+ * Block config (optional): page-size.
+ */
+import { readBlockConfig } from '../../scripts/aem.js';
 import { getSiteContext } from '../../scripts/site-config.js';
-import { search, getMode } from '../../scripts/commerce/index.js';
-import {
-  el, productCard, errorMessage, fixtureNotice, loadProductCardStyles,
-} from '../../scripts/product-ui.js';
+import renderProductDiscovery from '../../scripts/product-discovery.js';
 import t from '../../scripts/i18n.js';
 
-/**
- * Search results page. Reads ?q= and ?page=, renders a form and the product grid.
- * @param {Element} block The search block element
- */
 export default async function decorate(block) {
   const ctx = await getSiteContext();
-  const params = new URLSearchParams(window.location.search);
-  const term = (params.get('q') || '').trim();
-  const page = Math.max(1, parseInt(params.get('page'), 10) || 1);
-  const cssLoaded = loadProductCardStyles();
+  const config = readBlockConfig(block);
+  const pageSize = Math.min(48, Math.max(1, parseInt(config['page-size'], 10) || 12));
+  const term = (new URLSearchParams(window.location.search).get('q') || '').trim();
 
-  const inputId = 'search-page-input';
-  const form = el(
-    'form',
-    { class: 'search-form', role: 'search', action: window.location.pathname },
-    el('label', { for: inputId, class: 'sr-only' }, t(ctx.lang, 'search')),
-    el('input', {
-      id: inputId, type: 'search', name: 'q', value: term, placeholder: t(ctx.lang, 'searchPlaceholder'),
-    }),
-    el('button', { type: 'submit', class: 'button primary' }, t(ctx.lang, 'search')),
-  );
-  const notice = fixtureNotice(ctx, await getMode());
-  block.replaceChildren(...[notice, form].filter(Boolean));
-  if (!term) return;
+  const form = document.createElement('form');
+  form.className = 'search-form';
+  form.setAttribute('role', 'search');
+  form.action = window.location.pathname;
+  form.innerHTML = `<label for="search-page-input" class="sr-only"></label>
+    <input id="search-page-input" type="search" name="q">
+    <button type="submit" class="button primary"></button>`;
+  form.querySelector('label').textContent = t(ctx.lang, 'search');
+  form.querySelector('input').value = term;
+  form.querySelector('input').placeholder = t(ctx.lang, 'searchPlaceholder');
+  form.querySelector('button').textContent = t(ctx.lang, 'search');
 
-  let result;
-  try {
-    result = await search(term, { page });
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error('search', e);
-    block.append(errorMessage(ctx));
-    return;
-  }
-  await cssLoaded;
-  block.append(el('p', { class: 'search-count', role: 'status' }, t(ctx.lang, 'results', result.page.totalCount)));
-  if (!result.items.length) {
-    block.append(errorMessage(ctx, 'noResults'));
-    return;
-  }
-  block.append(el('ul', { class: 'product-list-grid' }, result.items.map((p) => productCard(p, ctx))));
-  if (result.page.totalPages > 1) {
-    const nav = el('nav', { class: 'search-pagination', 'aria-label': 'Pagination' });
-    for (let i = 1; i <= result.page.totalPages; i += 1) {
-      const p = new URLSearchParams(params);
-      p.set('page', i);
-      nav.append(i === page ? el('span', { 'aria-current': 'page' }, String(i)) : el('a', { href: `?${p}` }, String(i)));
-    }
-    block.append(nav);
-  }
+  const results = document.createElement('div');
+  results.className = 'search-results';
+  block.replaceChildren(form, results);
+  await renderProductDiscovery(results, { pageSize });
 }

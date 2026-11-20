@@ -150,6 +150,32 @@ export async function getCategoryNavigation() {
   return (data?.navigation || []).filter((c) => c?.slug).map(node);
 }
 
+const CATEGORY = `query Category($slugs: [String!]) {
+  categoryTree(slugs: $slugs, depth: 1) { slug name description metaTags { title description } }
+}`;
+
+/**
+ * Category heading data for a PLP (name, description, meta). The product-discovery
+ * drop-in lists products but does not read the category itself.
+ * @param {string} slug Magento url_path, for example "accessoires-wellbox"
+ * @returns {Promise<{ name, description, metaTitle, metaDescription } | null>}
+ */
+export async function getCategory(slug) {
+  const { data, errors } = await CS_FETCH_GRAPHQL.fetchGraphQl(CATEGORY, {
+    method: 'GET',
+    variables: { slugs: [slug] },
+  });
+  if (errors?.length) throw new Error(errors[0].message);
+  const c = (data?.categoryTree || []).find((x) => x.slug === slug);
+  if (!c) return null;
+  return {
+    name: c.name,
+    description: c.description || '',
+    metaTitle: c.metaTags?.title || c.name,
+    metaDescription: c.metaTags?.description || '',
+  };
+}
+
 /**
  * Sku of the current product page. Synchronous sources only.
  * @returns {string|null}
