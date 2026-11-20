@@ -13,6 +13,7 @@ import {
   CUSTOMER_FORGOTPASSWORD_PATH,
   CUSTOMER_PATH,
   ORDER_DETAILS_PATH,
+  cartReadyAfterSignIn,
   fetchPlaceholders,
   rootLink,
 } from '../../scripts/commerce.js';
@@ -77,7 +78,11 @@ export default async function renderAuthDropdown(tools, { label, icon }) {
   });
 
   authRenderer.render(SignIn, {
-    onSuccessCallback: () => window.location.reload(),
+    // Reload once the cart drop-in has merged the guest cart (see cartReadyAfterSignIn)
+    onSuccessCallback: async () => {
+      await cartReadyAfterSignIn();
+      window.location.reload();
+    },
     formSize: 'small',
     routeForgotPassword: () => rootLink(CUSTOMER_FORGOTPASSWORD_PATH),
     routeSignUp: () => rootLink('/customer/create'),

@@ -63,6 +63,7 @@ import {
 } from './constants.js';
 
 import {
+  cartReadyAfterSignIn,
   checkIsAuthenticated,
   fetchPlaceholders,
   isGuestCheckoutEnabled,
@@ -279,7 +280,7 @@ export default async function decorate(block) {
     await initializeCheckout(data);
   }
 
-  function handleAuthenticated(authenticated) {
+  async function handleAuthenticated(authenticated) {
     if (!authenticated) return;
 
     // When a customer creates an account on the checkout success page and then
@@ -291,6 +292,8 @@ export default async function decorate(block) {
       window.history.pushState({}, '', url);
     }
 
+    // Reload once the cart drop-in has merged the guest cart into the customer cart
+    await cartReadyAfterSignIn();
     window.location.reload();
   }
 

@@ -447,6 +447,37 @@ export function redirectAfterSignIn(fallback) {
   return safeRedirectPath(value, getRootPath()) || fallback;
 }
 
+let cartAfterSignIn = null;
+let cartTrackingStarted = false;
+
+/**
+ * Follows the cart drop-in after a sign in. On `authenticated`, storefront-cart reads the
+ * customer cart and merges the guest cart into it (mergeCarts), then emits
+ * `cart/initialized`. A page change before that point loses the guest items, so pages
+ * that navigate after a sign in wait for it (cartReadyAfterSignIn). Called once by the
+ * initializers on views that sell. Navigation stays ours, the drop-in is not changed.
+ */
+export function trackCartAfterSignIn() {
+  if (cartTrackingStarted) return;
+  cartTrackingStarted = true;
+  events.on('authenticated', (authenticated) => {
+    if (!authenticated) return;
+    cartAfterSignIn = new Promise((resolve) => {
+      const subscription = events.on('cart/initialized', () => {
+        subscription?.off();
+        resolve();
+      });
+      // The cart may already be initializing and skip the merge: never block for long
+      setTimeout(resolve, 8000);
+    });
+  });
+}
+
+/** Resolves when the cart has been reloaded (and merged) after the last sign in. */
+export function cartReadyAfterSignIn() {
+  return cartAfterSignIn || Promise.resolve();
+}
+
 export function checkIsAuthenticated() {
   return !!getCookie('auth_dropin_user_token');
 }

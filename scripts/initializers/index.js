@@ -17,7 +17,9 @@ import { getCookie } from '@dropins/tools/lib.js';
 import { events } from '@dropins/tools/event-bus.js';
 import { initializers } from '@dropins/tools/initializer.js';
 import { getRootPath } from '@dropins/tools/lib/aem/configs.js';
-import { CORE_FETCH_GRAPHQL, CS_FETCH_GRAPHQL, fetchPlaceholders } from '../commerce.js';
+import {
+  CORE_FETCH_GRAPHQL, CS_FETCH_GRAPHQL, fetchPlaceholders, trackCartAfterSignIn,
+} from '../commerce.js';
 import { getSiteContext } from '../site-config.js';
 
 const DROPIN_WEBSITE_COOKIE = 'dropin_website_path';
@@ -94,7 +96,10 @@ export default async function initializeDropins() {
     await import('./auth.js');
 
     // The cart and the mini cart only exist on views that sell
-    if (ctx.sells) import('./cart.js');
+    if (ctx.sells) {
+      trackCartAfterSignIn();
+      import('./cart.js');
+    }
   };
 
   document.addEventListener('prerenderingchange', initializeDropins, { once: true });
