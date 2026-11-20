@@ -20,3 +20,6 @@ coverage/
 .aio
 *.sql
 *.sql.gz
+
+# Drop-in source maps are not committed (boilerplate rule)
+scripts/__dropins__/**/*.map
