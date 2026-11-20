@@ -6,6 +6,7 @@ import {
 } from '../../scripts/commerce.js';
 import { el } from '../../scripts/dom.js';
 import t from '../../scripts/i18n.js';
+import renderAuthDropdown from './renderAuthDropdown.js';
 
 const isDesktop = window.matchMedia('(width >= 900px)');
 
@@ -82,8 +83,8 @@ function renderMiniCart(ctx) {
         await provider.render(MiniCart, {
           routeProduct: (item) => getProductLink(item.url?.urlKey, item.topLevelSku),
           routeCart: () => rootLink('/cart'),
+          routeCheckout: () => rootLink('/checkout'),
           routeEmptyCartCTA: () => rootLink('/'),
-          // routeCheckout left out: checkout is not part of this lab yet
         })(panel);
       })();
     }
@@ -149,13 +150,14 @@ export default async function decorate(block) {
   );
 
   const tools = el('div', { class: 'nav-tools' });
-  tools.append(el(
-    'a',
-    { class: 'button primary nav-account', href: ctx.url(ctx.site.accountPath || '/') },
-    icon('account'),
-    el('span', {}, t(lang, ctx.siteKey === 'lpg' ? 'proAccount' : 'account')),
-  ));
-  if (ctx.miniCart) tools.append(renderMiniCart(ctx));
+  // Account: storefront-auth sign in panel, or account link and sign out (boilerplate dropdown).
+  // "Espace Pro" on LPG, "Mon compte" on Wellbox. Same /{root}/customer/... pages on both.
+  const accountLabel = t(lang, ctx.siteKey === 'lpg' ? 'proAccount' : 'account');
+  const authReady = renderAuthDropdown(tools, { label: accountLabel, icon: icon('account') })
+    .catch((e) => console.warn('Account menu unavailable', e));
+  // No mini cart on the checkout page, like the boilerplate
+  const onCheckout = window.location.pathname === rootLink('/checkout');
+  if (ctx.miniCart && !onCheckout) tools.append(renderMiniCart(ctx));
 
   const hamburger = el(
     'button',
@@ -184,6 +186,9 @@ export default async function decorate(block) {
   });
 
   block.replaceChildren(el('div', { class: 'nav-wrapper' }, nav));
+  await authReady;
+  // Mini cart and account menu come before the hamburger
+  tools.append(hamburger);
   decorateIcons(block);
 
   sections.append(renderSections(await loadNavItems(ctx)));

@@ -78,7 +78,7 @@ header .nav-tools {
   gap: 16px;
 }
 
-header .nav-tools a.nav-account {
+header .nav-tools .nav-account {
   padding: 8px 14px;
   font-size: var(--body-font-size-s);
 }
@@ -89,8 +89,55 @@ header .nav-account .icon {
   filter: invert(1);
 }
 
-header .nav-account span:last-child {
+header .nav-account .nav-account-label {
   display: none;
+}
+
+/* account panel (storefront-auth SignIn or account menu) */
+header .nav-auth {
+  position: relative;
+}
+
+header .nav-auth-panel {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 12px);
+  z-index: 10;
+  width: min(360px, 92vw);
+  padding: 16px;
+  border: 1px solid var(--grey-200);
+  border-radius: var(--button-radius);
+  background-color: var(--background-color);
+  box-shadow: var(--shape-shadow-2);
+}
+
+header .nav-auth-panel[hidden],
+header .nav-auth-panel [hidden] {
+  display: none;
+}
+
+header .nav-auth-menu {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+header .nav-auth-menu li + li {
+  margin-top: 12px;
+}
+
+header .nav-auth-menu a {
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+header .nav-auth-logout {
+  border: 0;
+  padding: 0;
+  background: none;
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 /* mini cart */
@@ -238,7 +285,7 @@ header .nav-sub a {
     display: none;
   }
 
-  header .nav-account span:last-child {
+  header .nav-account .nav-account-label {
     display: inline;
   }
 
