@@ -60,11 +60,13 @@ function renderShowcase(container, ctx, labels) {
     p.append(link(ctx.url(ctx.site.storeLocatorPath), labels.Global?.StoreLocator, 'button primary'));
     container.append(p);
   }
+  // The Pro store views (pro_fr, pro_en) are not migrated yet (B2B needs Commerce 2.4.8), so the
+  // link goes to the "Espace Pro" sign-in of the current store instead of a Pro product page.
   const pro = ctx.locales.find((l) => l.professional && l.lang === ctx.lang);
   if (pro) {
     const p = document.createElement('p');
     p.className = 'product-details__pro-link';
-    p.append(link(ctx.localeUrl(pro), labels.Global?.ProShop));
+    p.append(link(ctx.url('/customer/login'), labels.Global?.ProShop));
     container.append(p);
   }
 }
