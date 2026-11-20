@@ -1,0 +1,562 @@
+{
+  ":names": [
+    "data",
+    "dnt"
+  ],
+  ":version": 3,
+  ":type": "multi-sheet",
+  "data": {
+    "total": 134,
+    "offset": 0,
+    "limit": 134,
+    "data": [
+      {
+        "Key": "Checkout.AddressValidation.title",
+        "Value": "Vérifiez votre adresse"
+      },
+      {
+        "Key": "Checkout.AddressValidation.subtitle",
+        "Value": "Pour une livraison fiable, nous vous suggérons les modifications ci-dessous. Choisissez l'adresse à utiliser. Si aucune n'est correcte, modifiez votre adresse."
+      },
+      {
+        "Key": "Checkout.AddressValidation.suggestedAddress",
+        "Value": "Adresse suggérée"
+      },
+      {
+        "Key": "Checkout.AddressValidation.originalAddress",
+        "Value": "Adresse saisie"
+      },
+      {
+        "Key": "Checkout.BillToShippingAddress.cartSyncError",
+        "Value": "Vos modifications n'ont pas pu être enregistrées. Réessayez plus tard."
+      },
+      {
+        "Key": "Checkout.BillToShippingAddress.title",
+        "Value": "Facturer à l'adresse de livraison"
+      },
+      {
+        "Key": "Checkout.EmptyCart.button",
+        "Value": "Commencer mes achats"
+      },
+      {
+        "Key": "Checkout.EmptyCart.title",
+        "Value": "Votre panier est vide"
+      },
+      {
+        "Key": "Checkout.EstimateShipping.estimated",
+        "Value": "Livraison estimée"
+      },
+      {
+        "Key": "Checkout.EstimateShipping.freeShipping",
+        "Value": "Gratuit"
+      },
+      {
+        "Key": "Checkout.EstimateShipping.label",
+        "Value": "Livraison"
+      },
+      {
+        "Key": "Checkout.EstimateShipping.taxToBeDetermined",
+        "Value": "À calculer"
+      },
+      {
+        "Key": "Checkout.EstimateShipping.withoutTaxes",
+        "Value": "HT"
+      },
+      {
+        "Key": "Checkout.EstimateShipping.withTaxes",
+        "Value": "TTC"
+      },
+      {
+        "Key": "Checkout.LoginForm.account",
+        "Value": "Vous avez déjà un compte ?"
+      },
+      {
+        "Key": "Checkout.LoginForm.ariaLabel",
+        "Value": "E-mail"
+      },
+      {
+        "Key": "Checkout.LoginForm.emailExists.alreadyHaveAccount",
+        "Value": "Vous semblez déjà avoir un compte."
+      },
+      {
+        "Key": "Checkout.LoginForm.emailExists.forFasterCheckout",
+        "Value": "pour commander plus vite."
+      },
+      {
+        "Key": "Checkout.LoginForm.emailExists.signInButton",
+        "Value": "Se connecter"
+      },
+      {
+        "Key": "Checkout.LoginForm.floatingLabel",
+        "Value": "E-mail *"
+      },
+      {
+        "Key": "Checkout.LoginForm.invalidEmailError",
+        "Value": "Saisissez une adresse e-mail valide."
+      },
+      {
+        "Key": "Checkout.LoginForm.missingEmailError",
+        "Value": "Saisissez une adresse e-mail."
+      },
+      {
+        "Key": "Checkout.LoginForm.cartSyncError",
+        "Value": "Vos modifications n'ont pas pu être enregistrées. Réessayez plus tard."
+      },
+      {
+        "Key": "Checkout.LoginForm.placeholder",
+        "Value": "Saisissez votre adresse e-mail"
+      },
+      {
+        "Key": "Checkout.LoginForm.signIn",
+        "Value": "Se connecter"
+      },
+      {
+        "Key": "Checkout.LoginForm.signOut",
+        "Value": "Se déconnecter"
+      },
+      {
+        "Key": "Checkout.LoginForm.switch",
+        "Value": "Changer de compte ?"
+      },
+      {
+        "Key": "Checkout.LoginForm.title",
+        "Value": "Coordonnées"
+      },
+      {
+        "Key": "Checkout.MergedCartBanner.items.many",
+        "Value": "{{count}} articles d'une session précédente ont été ajoutés à votre panier. Vérifiez le nouveau sous-total."
+      },
+      {
+        "Key": "Checkout.MergedCartBanner.items.one",
+        "Value": "1 article d'une session précédente a été ajouté à votre panier. Vérifiez le nouveau sous-total."
+      },
+      {
+        "Key": "Checkout.OutOfStock.actions.removeOutOfStock",
+        "Value": "Retirer les articles en rupture"
+      },
+      {
+        "Key": "Checkout.OutOfStock.actions.reviewCart",
+        "Value": "Voir le panier"
+      },
+      {
+        "Key": "Checkout.OutOfStock.alert",
+        "Value": "Rupture de stock !"
+      },
+      {
+        "Key": "Checkout.OutOfStock.lowInventory.many",
+        "Value": "Plus que {{count}} en stock !"
+      },
+      {
+        "Key": "Checkout.OutOfStock.lowInventory.one",
+        "Value": "Dernier article !"
+      },
+      {
+        "Key": "Checkout.OutOfStock.message",
+        "Value": "Les articles suivants sont en rupture de stock :"
+      },
+      {
+        "Key": "Checkout.OutOfStock.title",
+        "Value": "Votre panier contient des articles en rupture de stock"
+      },
+      {
+        "Key": "Checkout.PaymentMethods.cartSyncError",
+        "Value": "Vos modifications n'ont pas pu être enregistrées. Réessayez plus tard."
+      },
+      {
+        "Key": "Checkout.PaymentMethods.emptyState",
+        "Value": "Aucun moyen de paiement disponible"
+      },
+      {
+        "Key": "Checkout.PaymentMethods.title",
+        "Value": "Paiement"
+      },
+      {
+        "Key": "Checkout.PaymentOnAccount.referenceNumberLabel",
+        "Value": "Numéro de référence"
+      },
+      {
+        "Key": "Checkout.PaymentOnAccount.referenceNumberPlaceholder",
+        "Value": "Saisissez le numéro de référence"
+      },
+      {
+        "Key": "Checkout.PaymentOnAccount.referenceNumberHint",
+        "Value": ""
+      },
+      {
+        "Key": "Checkout.PaymentOnAccount.availableCreditLabel",
+        "Value": "Crédit disponible"
+      },
+      {
+        "Key": "Checkout.PaymentOnAccount.exceedLimitWarning",
+        "Value": "La limite de crédit est de {{creditLimit}}. Cette commande la dépasse de {{exceededAmount}}."
+      },
+      {
+        "Key": "Checkout.PaymentOnAccount.exceedLimitWarningPrefix",
+        "Value": "La limite de crédit est de"
+      },
+      {
+        "Key": "Checkout.PaymentOnAccount.exceedLimitWarningMiddle",
+        "Value": ". Cette commande la dépasse de"
+      },
+      {
+        "Key": "Checkout.PaymentOnAccount.exceedLimitWarningSuffix",
+        "Value": "."
+      },
+      {
+        "Key": "Checkout.PaymentOnAccount.exceedLimitError",
+        "Value": "Le paiement sur compte n'est pas possible : le montant de la commande dépasse votre crédit."
+      },
+      {
+        "Key": "Checkout.PurchaseOrder.missingReferenceNumberError",
+        "Value": "Le numéro de référence est obligatoire"
+      },
+      {
+        "Key": "Checkout.PurchaseOrder.referenceNumberHint",
+        "Value": ""
+      },
+      {
+        "Key": "Checkout.PurchaseOrder.referenceNumberLabel",
+        "Value": "Numéro de référence"
+      },
+      {
+        "Key": "Checkout.PurchaseOrder.referenceNumberPlaceholder",
+        "Value": "Saisissez le numéro de référence"
+      },
+      {
+        "Key": "Checkout.PlaceOrder.button",
+        "Value": "Valider la commande"
+      },
+      {
+        "Key": "Checkout.ServerError.button",
+        "Value": "Réessayer"
+      },
+      {
+        "Key": "Checkout.ServerError.contactSupport",
+        "Value": "Si le problème persiste, contactez le service client."
+      },
+      {
+        "Key": "Checkout.ServerError.title",
+        "Value": "Votre commande n'a pas pu être traitée"
+      },
+      {
+        "Key": "Checkout.ServerError.unexpected",
+        "Value": "Une erreur inattendue est survenue pendant le traitement de votre commande. Réessayez plus tard."
+      },
+      {
+        "Key": "Checkout.ServerError.permissionDenied",
+        "Value": "Vous n'avez pas l'autorisation de commander. Contactez votre administrateur."
+      },
+      {
+        "Key": "Checkout.Quote.permissionDenied",
+        "Value": "Vous n'avez pas l'autorisation de commander avec ce devis."
+      },
+      {
+        "Key": "Checkout.Quote.dataError",
+        "Value": "Le devis n'a pas pu être chargé. Réessayez plus tard."
+      },
+      {
+        "Key": "Checkout.ShippingMethods.cartSyncError",
+        "Value": "Vos modifications n'ont pas pu être enregistrées. Réessayez plus tard."
+      },
+      {
+        "Key": "Checkout.ShippingMethods.emptyState",
+        "Value": "Cette commande ne peut pas être livrée à l'adresse indiquée. Vérifiez l'adresse saisie."
+      },
+      {
+        "Key": "Checkout.ShippingMethods.title",
+        "Value": "Modes de livraison"
+      },
+      {
+        "Key": "Checkout.Summary.Edit",
+        "Value": "Modifier"
+      },
+      {
+        "Key": "Checkout.Summary.heading",
+        "Value": "Votre panier ({count})"
+      },
+      {
+        "Key": "Checkout.Addresses.billToNewAddress",
+        "Value": "Facturer à une autre adresse"
+      },
+      {
+        "Key": "Checkout.Addresses.shippingAddressTitle",
+        "Value": "Adresse de livraison"
+      },
+      {
+        "Key": "Checkout.Addresses.billingAddressTitle",
+        "Value": "Adresse de facturation"
+      },
+      {
+        "Key": "Checkout.TermsAndConditions.error",
+        "Value": "Acceptez les conditions générales de vente pour continuer."
+      },
+      {
+        "Key": "Checkout.TermsAndConditions.label",
+        "Value": "J'ai lu et j'accepte les conditions générales de vente."
+      },
+      {
+        "Key": "Checkout.title",
+        "Value": "Commande"
+      },
+      {
+        "Key": "Dropin.Pagination.backwardButton.ariaLabel",
+        "Value": "Page précédente"
+      },
+      {
+        "Key": "Dropin.Pagination.forwardButton.ariaLabel",
+        "Value": "Page suivante"
+      },
+      {
+        "Key": "Dropin.Incrementer.decreaseLabel",
+        "Value": "Diminuer la quantité"
+      },
+      {
+        "Key": "Dropin.Incrementer.increaseLabel",
+        "Value": "Augmenter la quantité"
+      },
+      {
+        "Key": "Dropin.Incrementer.label",
+        "Value": "Quantité"
+      },
+      {
+        "Key": "Dropin.Incrementer.errorMessage",
+        "Value": "Saisissez une quantité valide"
+      },
+      {
+        "Key": "Dropin.Incrementer.minQuantityMessage",
+        "Value": "Saisissez au moins {{minQuantity}}"
+      },
+      {
+        "Key": "Dropin.Incrementer.maxQuantityMessage",
+        "Value": "Quantité maximale : {{maxQuantity}}"
+      },
+      {
+        "Key": "Dropin.Modal.Close.label",
+        "Value": "Fermer"
+      },
+      {
+        "Key": "Dropin.InputPassword.placeholder",
+        "Value": "Mot de passe"
+      },
+      {
+        "Key": "Dropin.InputPassword.floatingLabel",
+        "Value": "Mot de passe"
+      },
+      {
+        "Key": "Dropin.InputPassword.buttonShowTitle",
+        "Value": "Afficher le mot de passe"
+      },
+      {
+        "Key": "Dropin.InputPassword.buttonHideTitle",
+        "Value": "Masquer le mot de passe"
+      },
+      {
+        "Key": "Dropin.PasswordStatusIndicator.chartTwoSymbols",
+        "Value": "Utilisez des lettres et des chiffres ou des symboles"
+      },
+      {
+        "Key": "Dropin.PasswordStatusIndicator.chartThreeSymbols",
+        "Value": "Utilisez des lettres, des chiffres et des symboles"
+      },
+      {
+        "Key": "Dropin.PasswordStatusIndicator.chartFourSymbols",
+        "Value": "Utilisez des majuscules, des minuscules, des chiffres et des symboles"
+      },
+      {
+        "Key": "Dropin.PasswordStatusIndicator.messageLengthPassword",
+        "Value": "Au moins {minLength} caractères"
+      },
+      {
+        "Key": "Dropin.InlineAlert.dismissLabel",
+        "Value": "Fermer le message"
+      },
+      {
+        "Key": "Dropin.PriceSummary.subTotal.label",
+        "Value": "Sous-total"
+      },
+      {
+        "Key": "Dropin.PriceSummary.subTotal.withTaxes",
+        "Value": "TTC"
+      },
+      {
+        "Key": "Dropin.PriceSummary.subTotal.withoutTaxes",
+        "Value": "HT"
+      },
+      {
+        "Key": "Dropin.PriceSummary.shipping.label",
+        "Value": "Livraison"
+      },
+      {
+        "Key": "Dropin.PriceSummary.shipping.editZipAction",
+        "Value": "Appliquer"
+      },
+      {
+        "Key": "Dropin.PriceSummary.shipping.estimated",
+        "Value": "Livraison estimée"
+      },
+      {
+        "Key": "Dropin.PriceSummary.shipping.estimatedDestination",
+        "Value": "Livraison estimée vers "
+      },
+      {
+        "Key": "Dropin.PriceSummary.shipping.destinationLinkAriaLabel",
+        "Value": "Changer de destination"
+      },
+      {
+        "Key": "Dropin.PriceSummary.shipping.zipPlaceholder",
+        "Value": "Code postal"
+      },
+      {
+        "Key": "Dropin.PriceSummary.shipping.withTaxes",
+        "Value": "TTC"
+      },
+      {
+        "Key": "Dropin.PriceSummary.shipping.withoutTaxes",
+        "Value": "HT"
+      },
+      {
+        "Key": "Dropin.PriceSummary.shipping.alternateField.zip",
+        "Value": "Estimer avec le pays et le code postal"
+      },
+      {
+        "Key": "Dropin.PriceSummary.shipping.alternateField.state",
+        "Value": "Estimer avec le pays et la région"
+      },
+      {
+        "Key": "Dropin.PriceSummary.taxes.total",
+        "Value": "Total TVA"
+      },
+      {
+        "Key": "Dropin.PriceSummary.taxes.totalOnly",
+        "Value": "TVA"
+      },
+      {
+        "Key": "Dropin.PriceSummary.taxes.breakdown",
+        "Value": "TVA"
+      },
+      {
+        "Key": "Dropin.PriceSummary.taxes.showBreakdown",
+        "Value": "Afficher le détail de la TVA"
+      },
+      {
+        "Key": "Dropin.PriceSummary.taxes.hideBreakdown",
+        "Value": "Masquer le détail de la TVA"
+      },
+      {
+        "Key": "Dropin.PriceSummary.taxes.estimated",
+        "Value": "TVA estimée"
+      },
+      {
+        "Key": "Dropin.PriceSummary.total.estimated",
+        "Value": "Total estimé"
+      },
+      {
+        "Key": "Dropin.PriceSummary.total.label",
+        "Value": "Total"
+      },
+      {
+        "Key": "Dropin.PriceSummary.total.withoutTax",
+        "Value": "Total HT"
+      },
+      {
+        "Key": "Dropin.ProgressSpinner.updating.label",
+        "Value": "Mise à jour de l'article"
+      },
+      {
+        "Key": "Dropin.ProgressSpinner.updatingChildren.label",
+        "Value": "Mise à jour des articles"
+      },
+      {
+        "Key": "Dropin.PriceRange.from.label",
+        "Value": "De"
+      },
+      {
+        "Key": "Dropin.PriceRange.to.label",
+        "Value": "à"
+      },
+      {
+        "Key": "Dropin.PriceRange.asLowAs.label",
+        "Value": "À partir de"
+      },
+      {
+        "Key": "Dropin.Swatches.outOfStock.label",
+        "Value": "option épuisée"
+      },
+      {
+        "Key": "Dropin.Swatches.selected.label",
+        "Value": "option sélectionnée"
+      },
+      {
+        "Key": "Dropin.Swatches.swatch.label",
+        "Value": "option"
+      },
+      {
+        "Key": "Dropin.Accordion.open.label",
+        "Value": "Ouvrir"
+      },
+      {
+        "Key": "Dropin.Accordion.close.label",
+        "Value": "Fermer"
+      },
+      {
+        "Key": "Dropin.CartItem.each.label",
+        "Value": "l'unité"
+      },
+      {
+        "Key": "Dropin.CartItem.pricePerItem.label",
+        "Value": "prix unitaire"
+      },
+      {
+        "Key": "Dropin.CartItem.quantity.label",
+        "Value": "Quantité"
+      },
+      {
+        "Key": "Dropin.CartItem.remove.label",
+        "Value": "Retirer {product} du panier"
+      },
+      {
+        "Key": "Dropin.CartItem.removeDefault.label",
+        "Value": "Retirer l'article du panier"
+      },
+      {
+        "Key": "Dropin.CartItem.taxIncluded.label",
+        "Value": "TTC"
+      },
+      {
+        "Key": "Dropin.CartItem.taxExcluded.label",
+        "Value": "HT"
+      },
+      {
+        "Key": "Dropin.CartItem.updating.label",
+        "Value": "{product} en cours de mise à jour"
+      },
+      {
+        "Key": "Dropin.InputDate.picker",
+        "Value": "Choisir une date"
+      },
+      {
+        "Key": "Dropin.Table.sortedAscending",
+        "Value": "Trier par {label}, croissant"
+      },
+      {
+        "Key": "Dropin.Table.sortedDescending",
+        "Value": "Trier par {label}, décroissant"
+      },
+      {
+        "Key": "Dropin.Table.sortBy",
+        "Value": "Trier par {label}"
+      }
+    ]
+  },
+  "dnt": {
+    "total": 1,
+    "offset": 0,
+    "limit": 1,
+    "data": [
+      {
+        "dnt-sheet": "*",
+        "dnt-columns": "Key"
+      }
+    ]
+  }
+}
