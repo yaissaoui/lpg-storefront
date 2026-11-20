@@ -160,7 +160,8 @@ Facts read from the sandbox on 20 November 2026 (`Store: wellbox_fr`, scripts in
 - `is_guest_checkout_enabled` is false on `wellbox_fr` and `fr`. Shoppers must sign in or create an account before checkout, and guest mutations answer "Guest checkout is not allowed".
 - Shipping to 75001 Paris FR (`estimateShippingMethods`): `upsstandard` "Livraison Standard en 48h à 72h", 9,90 € TTC (8,25 HT), and `upsexpress` "Livraison Express en 24h à 48h", 13,20 € TTC (11,00 HT).
 - `available_payment_methods` on a cart: 130 Adyen methods (`adyen_cc` "Carte bancaire", `adyen_paypal`, `adyen_applepay`, ...), all deferred, and no offline method (`checkmo`, `banktransfer`, `free`). Adyen methods need the Adyen web components to collect payment data, and those are not part of the drop-ins. An order can therefore not be paid on this storefront until an offline method is enabled on the sandbox, or the Adyen integration is built (see "Known issues", K2).
-- `checkoutAgreements`: one manual agreement, "CGV Wellbox FR".
+- `checkoutAgreements`: one manual agreement, "CGV Wellbox FR" ("Je reconnais avoir lu et accepté les Conditions Générales de Vente").
+- `countries`: FR and MC only. `create_account_confirmation` is true, passwords need 10 characters and 3 character classes (K12).
 
 ## Sites and locales
 
@@ -256,6 +257,7 @@ Status on 20 November 2026. Root cause categories: Adobe drop-in, Adobe backend 
 | K8 | Newer drop-ins break the cart (`has_available_free_gifts`, `is_free_gift`, `is_salable` unknown) | Every cart call with storefront-cart 3.4.x | Adobe backend version: Compatibility Package 4.7.13, and 4.7.14+ needs ACO licence keys on repo.magento.com | `tools/validate-dropin-graphql.mjs` on cart 3.4.1 | Stay on the June suite, or get 4.7.14+ | Mitigated by pinning |
 | K9 | `/config.json` answers 404 | Every page | Our config: the site config service has no `public` section and the lab cannot write it | `curl -I https://dropins--lpg-storefront--yaissaoui.aem.page/config.json` | Put `config/site-config.public.json` in the config service | Fallback in place |
 | K10 | Placeholders and the DA pages of `/cart`, `/checkout` and `/customer/*` do not exist in DA yet | aem.page preview | Content not created yet | `curl` on the preview answers 404 | Upload the drafts and create placeholder sheets in DA | Open |
+| K12 | A new account cannot sign in until it is confirmed | `/customer/create`, then sign in | Sandbox config: `create_account_confirmation` is true on `wellbox_fr`, and outbound e-mail is off in the sandbox (rule 8 of `../AGENTS.md`), so the confirmation link never arrives | `storeConfig { create_account_confirmation }` returns true | Confirm the test customer in the sandbox admin, or use an existing test customer. Passwords need 10 characters and 3 character classes (`minimum_password_length`, `required_character_classes_number`) | By design |
 | K11 | Hero and card images show `about:error` | Wellbox home (DA content) | DA content: the images of the demo pages are broken in DA | `.plain.html` of `/wellbox/fr/` | Re-upload the images in DA | Open |
 
 What remains custom, and why:
