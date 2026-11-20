@@ -1,7 +1,11 @@
-/* After blocks/commerce-cart of aem-boilerplate-commerce v12.0.0 */
+/* From blocks/commerce-cart of aem-boilerplate-commerce (June 2026 state), scoped to the block */
 .commerce-cart {
+  padding: var(--spacing-large) 0;
   position: relative;
-  padding: 32px 0;
+}
+
+.commerce-cart .cart__notification {
+  margin-bottom: var(--spacing-small);
 }
 
 .commerce-cart .cart__notification:empty {
@@ -11,46 +15,59 @@
 .commerce-cart .cart__wrapper {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--grid-4-gutters);
 }
 
-.commerce-cart .dropin-cart-item__footer {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.commerce-cart .cart-item-promotions {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.commerce-cart .cart-item-promotions:empty {
+.commerce-cart .cart__wrapper[hidden],
+.commerce-cart .cart__empty-cart[hidden] {
   display: none;
 }
 
-.commerce-cart .cart-item-promotion-label {
-  font: var(--type-details-caption-1-font);
-  color: var(--color-positive-800);
+.commerce-cart .cart__gift-options {
+  margin-top: var(--spacing-medium);
+}
+
+.commerce-cart .dropin-cart-item__footer {
+  margin-top: var(--spacing-xsmall);
+  gap: var(--spacing-xsmall);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.commerce-cart .cart__notification .dropin-in-line-alert__content {
+  display: flex;
+  align-items: center;
+}
+
+.commerce-cart .cart__notification .dropin-in-line-alert svg {
+  margin-right: var(--spacing-xsmall);
+}
+
+.commerce-cart .cart__notification .dropin-in-line-alert button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .commerce-cart .dropin-cart-item__quantity {
-  width: fit-content;
+    width: fit-content;
 }
 
 @media (width >= 768px) {
   .commerce-cart .cart__wrapper {
     flex-direction: row;
+    position: relative;
     width: 100%;
   }
 
   .commerce-cart .cart__left-column {
-    flex: 1 1 65%;
+    flex: 1;
+    flex-basis: 70%;
   }
 
   .commerce-cart .cart__right-column {
-    flex: 1 1 auto;
+    flex: 1;
+    flex-basis: auto;
   }
 }
