@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
-  resolveContext, storeCodeFor, pickSiteKey, isDevHost, resolveCommerce,
+  resolveContext, storeCodeFor, pickSiteKey, isDevHost,
 } from '../scripts/site-config.js';
 
 const config = JSON.parse(readFileSync(new URL('../config/sites.json', import.meta.url), 'utf8'));
@@ -58,12 +58,12 @@ test('dev overrides: query, then path prefix, then storage', () => {
 });
 
 test('dev path prefix is stripped and links keep it', () => {
-  const ctx = resolveContext(config, { hostname: 'localhost', pathname: '/wellbox/fr/products/demo-device-w' });
+  const ctx = resolveContext(config, { hostname: 'localhost', pathname: '/wellbox/fr/products/wellbox-2-wellbox-2' });
   assert.equal(ctx.siteKey, 'wellbox');
   assert.equal(ctx.basePath, '/wellbox/fr');
-  assert.equal(ctx.relativePath, '/products/demo-device-w');
+  assert.equal(ctx.relativePath, '/products/wellbox-2-wellbox-2');
   assert.equal(ctx.url('/search'), '/wellbox/fr/search');
-  assert.equal(ctx.localeUrl(ctx.locales[1]), '/wellbox/en/products/demo-device-w');
+  assert.equal(ctx.localeUrl(ctx.locales[1]), '/wellbox/en/products/wellbox-2-wellbox-2');
 });
 
 test('unknown prefix falls back to the first locale of the site', () => {
@@ -72,54 +72,17 @@ test('unknown prefix falls back to the first locale of the site', () => {
   assert.equal(ctx.basePath, '/fr');
 });
 
-test('backends: every exported store view has an ACO catalogue view id', () => {
-  const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
-  const exported = Object.values(config.sites)
-    .flatMap((site) => site.locales)
-    .filter((l) => ['fr', 'en', 'wellbox_fr', 'wellbox_en'].includes(l.store));
-  assert.equal(exported.length, 4);
-  exported.forEach((l) => assert.match(l.aco.viewId, uuid, l.store));
-  assert.equal(new Set(exported.map((l) => l.aco.viewId)).size, 4);
-  const ctx = resolveContext(config, { hostname: 'wellbox.example.com', pathname: '/fr/' });
-  assert.equal(ctx.aco.priceBookId, 'wellbox');
+test('tax display: only the Wellbox views add VAT to ACO prices', () => {
+  const ctx = (host, path) => resolveContext(config, { hostname: host, pathname: path });
+  assert.equal(ctx('wellbox.example.com', '/fr/').taxRate, 0.2);
+  assert.equal(ctx('wellbox.example.com', '/en/').taxRate, 0.2);
+  assert.equal(ctx('www.example.com', '/fr/').taxRate, 0);
+  assert.equal(ctx('www.example.com', '/pro-fr/').taxRate, 0, 'pro prices stay excluding tax');
 });
 
-test('backends: switching to aco routes exported views to ACO and the others to PaaS core', () => {
-  const aco = { ...config, 'catalog-backend': 'aco' };
-  const ctx = (host, path) => resolveContext(aco, { hostname: host, pathname: path });
-  const wb = ctx('wellbox.example.com', '/fr/');
-  assert.equal(wb.catalogBackend, 'aco');
-  assert.equal(wb.endpoint, config['commerce-endpoint']);
-  assert.match(wb.coreEndpoint, /^https:\/\/wellbox\..+\/graphql$/);
-  const lpg = ctx('www.example.com', '/en/');
-  assert.equal(lpg.catalogBackend, 'aco');
-  assert.equal(lpg.aco.priceBookId, 'lpg_group');
-  const es = ctx('www.example.com', '/es/');
-  assert.equal(es.catalogBackend, 'paas-core', 'es is not exported to ACO');
-  assert.equal(es.endpoint, es.coreEndpoint);
-  assert.notEqual(es.endpoint, config['commerce-endpoint'], 'never the ACO URL for PaaS queries');
-  assert.equal(ctx('www.example.com', '/pro-fr/').catalogBackend, 'paas-core');
-});
-
-test('backends: dev overrides for backend and core endpoint', () => {
-  const env = {
-    hostname: 'localhost',
-    pathname: '/wellbox/fr/',
-    backendOverride: 'aco',
-    coreEndpointOverride: 'http://localhost:3001/graphql',
-  };
-  const fx = { ...config, 'catalog-backend': 'fixture' };
-  const ctx = resolveContext(fx, env);
-  assert.equal(ctx.catalogBackend, 'aco');
-  assert.equal(ctx.coreEndpoint, 'http://localhost:3001/graphql');
-  const prod = resolveContext(fx, { ...env, hostname: 'wellbox.example.com', pathname: '/fr/' });
-  assert.equal(prod.catalogBackend, 'fixture', 'overrides ignored outside dev hosts');
-  assert.equal(resolveCommerce({}, {}, {}, { backendOverride: 'bogus' }).catalogBackend, 'fixture');
-});
-
-test('endpoint: empty by default, dev override only on dev hosts', () => {
-  const fx = { ...config, 'catalog-backend': 'fixture', 'commerce-endpoint': '' };
-  assert.equal(resolveContext(fx, { hostname: 'localhost', pathname: '/fr/' }).endpoint, '');
-  assert.equal(resolveContext(fx, { hostname: 'localhost', pathname: '/fr/', endpointOverride: 'http://localhost:3001/graphql' }).endpoint, 'http://localhost:3001/graphql');
-  assert.equal(resolveContext(fx, { hostname: 'www.example.com', pathname: '/fr/', endpointOverride: 'http://evil.example.com' }).endpoint, '');
+test('sites.json holds no commerce endpoint or catalogue view any more', () => {
+  const text = JSON.stringify(config);
+  ['commerce-endpoint', 'commerce-core-endpoint', 'catalog-backend', 'viewId'].forEach((key) => {
+    assert.equal(text.includes(key), false, `${key} belongs to config/site-config.public.json`);
+  });
 });

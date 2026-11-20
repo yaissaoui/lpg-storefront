@@ -4,7 +4,7 @@ import { getSiteContext } from '../../scripts/site-config.js';
 import {
   getCategoryNavigation, getProductLink, rootLink,
 } from '../../scripts/commerce.js';
-import { el } from '../../scripts/product-ui.js';
+import { el } from '../../scripts/dom.js';
 import t from '../../scripts/i18n.js';
 
 const isDesktop = window.matchMedia('(width >= 900px)');
