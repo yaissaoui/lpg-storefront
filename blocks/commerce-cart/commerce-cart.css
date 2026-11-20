@@ -1,0 +1,56 @@
+/* After blocks/commerce-cart of aem-boilerplate-commerce v12.0.0 */
+.commerce-cart {
+  position: relative;
+  padding: 32px 0;
+}
+
+.commerce-cart .cart__notification:empty {
+  display: none;
+}
+
+.commerce-cart .cart__wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.commerce-cart .dropin-cart-item__footer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.commerce-cart .cart-item-promotions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.commerce-cart .cart-item-promotions:empty {
+  display: none;
+}
+
+.commerce-cart .cart-item-promotion-label {
+  font: var(--type-details-caption-1-font);
+  color: var(--color-positive-800);
+}
+
+.commerce-cart .dropin-cart-item__quantity {
+  width: fit-content;
+}
+
+@media (width >= 768px) {
+  .commerce-cart .cart__wrapper {
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .commerce-cart .cart__left-column {
+    flex: 1 1 65%;
+  }
+
+  .commerce-cart .cart__right-column {
+    flex: 1 1 auto;
+  }
+}

@@ -1,7 +1,10 @@
+import { events } from '@dropins/tools/event-bus.js';
 import { decorateIcons } from '../../scripts/aem.js';
 import { getSiteContext } from '../../scripts/site-config.js';
-import { getCategoryTree, cart } from '../../scripts/commerce/index.js';
-import { el, formatMoney } from '../../scripts/product-ui.js';
+import {
+  getCategoryNavigation, getProductLink, rootLink,
+} from '../../scripts/commerce.js';
+import { el } from '../../scripts/product-ui.js';
 import t from '../../scripts/i18n.js';
 
 const isDesktop = window.matchMedia('(width >= 900px)');
@@ -25,11 +28,11 @@ function staticNav(ctx) {
 
 async function loadNavItems(ctx) {
   try {
-    const tree = await getCategoryTree();
+    const tree = await getCategoryNavigation();
     if (tree.length) return navFromTree(tree, ctx);
   } catch (e) {
     // eslint-disable-next-line no-console
-    console.warn('Category tree unavailable, static navigation used', e);
+    console.warn('Category navigation unavailable, static navigation used', e);
   }
   return staticNav(ctx);
 }
@@ -48,59 +51,70 @@ function renderSections(items) {
 }
 
 /**
- * "2 × 999,00 €": unit price including tax, or excluding tax on professional views.
- * Magento row_total and price are excluding tax, which is why both are read.
+ * Mini cart: storefront-cart MiniCart container, rendered on first open.
+ * The counter follows the cart/data event of the drop-in.
  */
-function cartLine(item, ctx) {
-  const unit = ctx.professional
-    ? item.unitPrice
-    : (item.unitPriceInclTax || item.unitPrice);
-  const fmt = (m) => formatMoney(m, { ...ctx, priceSuffix: '' });
-  if (!unit) return el('span', { class: 'nav-cart-line' }, fmt(item.rowTotalInclTax || item.rowTotal));
-  return el('span', { class: 'nav-cart-line' }, `${item.quantity} × `, fmt(unit));
-}
-
 function renderMiniCart(ctx) {
-  const count = el('span', { class: 'nav-cart-count', 'aria-live': 'polite' }, '0');
+  const count = el('span', { class: 'nav-cart-count', hidden: true }, '0');
+  const status = el('span', { class: 'sr-only', role: 'status', 'aria-live': 'polite' });
   const panel = el('div', {
     class: 'nav-cart-panel', id: 'nav-cart-panel', hidden: true, role: 'dialog', 'aria-label': t(ctx.lang, 'cart'),
   });
   const button = el(
     'button',
     {
-      type: 'button', class: 'nav-cart-button', 'aria-controls': 'nav-cart-panel', 'aria-expanded': 'false',
+      type: 'button', class: 'nav-cart-button', 'aria-controls': 'nav-cart-panel', 'aria-expanded': 'false', 'aria-haspopup': 'dialog',
     },
     icon('cart'),
     el('span', { class: 'sr-only' }, t(ctx.lang, 'cart')),
     count,
   );
+  const wrapper = el('div', { class: 'nav-cart' }, button, panel, status);
 
-  const render = (c) => {
-    count.textContent = String(c.totalQuantity || 0);
-    count.hidden = !c.totalQuantity;
-    panel.replaceChildren();
-    if (!c.items.length) {
-      panel.append(el('p', {}, t(ctx.lang, 'cartEmpty')));
-      return;
+  let rendered = null;
+  const renderPanel = async () => {
+    if (!rendered) {
+      rendered = (async () => {
+        const [{ render: provider }, { default: MiniCart }] = await Promise.all([
+          import('@dropins/storefront-cart/render.js'),
+          import('@dropins/storefront-cart/containers/MiniCart.js'),
+        ]);
+        await provider.render(MiniCart, {
+          routeProduct: (item) => getProductLink(item.url?.urlKey, item.topLevelSku),
+          routeCart: () => rootLink('/cart'),
+          routeEmptyCartCTA: () => rootLink('/'),
+          // routeCheckout left out: checkout is not part of this lab yet
+        })(panel);
+      })();
     }
-    panel.append(el('ul', { class: 'nav-cart-items' }, c.items.map((i) => el(
-      'li',
-      {},
-      el('a', { href: ctx.url(`/products/${encodeURIComponent(i.urlKey)}`) }, i.name),
-      i.options.length ? el('span', { class: 'nav-cart-options' }, i.options.map((o) => `${o.label}: ${o.value}`).join(', ')) : null,
-      cartLine(i, ctx),
-    ))));
-    panel.append(el('p', { class: 'nav-cart-total' }, `${t(ctx.lang, 'cartTotal')} `, el('strong', {}, formatMoney(c.grandTotal, ctx))));
+    return rendered;
   };
 
-  button.addEventListener('click', () => {
-    const open = button.getAttribute('aria-expanded') === 'true';
-    button.setAttribute('aria-expanded', String(!open));
-    panel.hidden = open;
+  const toggle = async (open) => {
+    if (open) await renderPanel();
+    panel.hidden = !open;
+    button.setAttribute('aria-expanded', String(open));
+  };
+  button.addEventListener('click', () => toggle(panel.hidden));
+  document.addEventListener('click', (e) => {
+    if (!panel.hidden && !wrapper.contains(e.target)) toggle(false);
   });
-  window.addEventListener('commerce:cart', (e) => render(e.detail));
-  cart.get().then(render).catch(() => render({ totalQuantity: 0, items: [] }));
-  return el('div', { class: 'nav-cart' }, button, panel);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !panel.hidden) {
+      toggle(false);
+      button.focus();
+    }
+  });
+
+  let previous;
+  events.on('cart/data', (data) => {
+    const qty = data?.totalQuantity || 0;
+    count.textContent = String(qty);
+    count.hidden = !qty;
+    if (previous !== undefined && previous !== qty) status.textContent = `${t(ctx.lang, 'cart')}: ${qty}`;
+    previous = qty;
+  }, { eager: true });
+  return wrapper;
 }
 
 /**
