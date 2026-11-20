@@ -2,7 +2,7 @@
  * ADOBE CONFIDENTIAL
  * __________________
  *
- *  Copyright 2026 Adobe
+ *  Copyright 2024 Adobe
  *  All Rights Reserved.
  *
  * NOTICE:  All information contained herein is, and remains
@@ -27,3 +27,4 @@ export declare function getAdobeDataLayer(): any;
 declare function pushEvent(event: string, additionalContext?: any): void;
 declare const publishEvents: (eventType: string, eventParams: any) => null | undefined;
 export { EventsList, publishEvents, pushEvent };
+//# sourceMappingURL=acdl.d.ts.map

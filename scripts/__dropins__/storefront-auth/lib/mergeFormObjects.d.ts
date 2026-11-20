@@ -2,7 +2,7 @@
  * ADOBE CONFIDENTIAL
  * __________________
  *
- *  Copyright 2026 Adobe
+ *  Copyright 2024 Adobe
  *  All Rights Reserved.
  *
  * NOTICE:  All information contained herein is, and remains
@@ -15,3 +15,4 @@
  * from Adobe.
  *******************************************************************/
 export declare const mergeFormObjects: (input: Record<string, any>, apiVersion2: boolean) => any;
+//# sourceMappingURL=mergeFormObjects.d.ts.map

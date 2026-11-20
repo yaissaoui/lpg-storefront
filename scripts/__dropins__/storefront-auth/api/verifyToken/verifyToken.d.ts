@@ -2,7 +2,7 @@
  * ADOBE CONFIDENTIAL
  * __________________
  *
- *  Copyright 2026 Adobe
+ *  Copyright 2024 Adobe
  *  All Rights Reserved.
  *
  * NOTICE:  All information contained herein is, and remains
@@ -14,4 +14,5 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  *******************************************************************/
-export declare const verifyToken: (authType?: string, type?: string, adobeCommerceOptimizer?: boolean) => Promise<boolean>;
+export declare const verifyToken: (authType?: string, type?: string) => Promise<boolean>;
+//# sourceMappingURL=verifyToken.d.ts.map
