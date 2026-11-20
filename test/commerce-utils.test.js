@@ -151,3 +151,16 @@ test('site config: falls back to the committed file on 404 or a config without p
 test('site config: a clear error when nothing answers', async () => {
   await assert.rejects(loadPublicConfig(fakeFetch({}), 'https://x.example.com'), /No site configuration found.*404/);
 });
+
+test('safeRedirectPath keeps paths under the store root only', async () => {
+  const { safeRedirectPath } = await import('../scripts/commerce-utils.js');
+  assert.equal(safeRedirectPath('/wellbox/fr/checkout', '/wellbox/fr/'), '/wellbox/fr/checkout');
+  assert.equal(safeRedirectPath('/wellbox/fr/customer/order-details?orderRef=1', '/wellbox/fr/'), '/wellbox/fr/customer/order-details?orderRef=1');
+  assert.equal(safeRedirectPath('/fr/checkout', '/wellbox/fr/'), null, 'other store');
+  assert.equal(safeRedirectPath('https://evil.example.com/x', '/wellbox/fr/'), null);
+  assert.equal(safeRedirectPath('//evil.example.com/wellbox/fr/', '/wellbox/fr/'), null);
+  assert.equal(safeRedirectPath('/\\evil.example.com', '/'), null);
+  assert.equal(safeRedirectPath(['javascript', 'alert(1)'].join(':'), '/'), null);
+  assert.equal(safeRedirectPath('', '/'), null);
+  assert.equal(safeRedirectPath('/checkout', '/'), '/checkout', 'default root accepts any local path');
+});

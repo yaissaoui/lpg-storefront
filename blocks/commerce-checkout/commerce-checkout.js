@@ -62,7 +62,13 @@ import {
   TERMS_AND_CONDITIONS_FORM_NAME,
 } from './constants.js';
 
-import { fetchPlaceholders, rootLink } from '../../scripts/commerce.js';
+import {
+  checkIsAuthenticated,
+  fetchPlaceholders,
+  isGuestCheckoutEnabled,
+  loginLinkReturningTo,
+  rootLink,
+} from '../../scripts/commerce.js';
 
 // Initializers
 import '../../scripts/initializers/account.js';
@@ -83,6 +89,13 @@ function redirectToCartIfEmpty(cartData) {
 }
 
 export default async function decorate(block) {
+  // Guest checkout is off on the LPG stores (is_guest_checkout_enabled = false, as in
+  // production). Send a guest to the sign-in page, which comes back here after sign in.
+  if (!checkIsAuthenticated() && !(await isGuestCheckoutEnabled())) {
+    window.location.replace(loginLinkReturningTo(rootLink('/checkout')));
+    return;
+  }
+
   const labels = await fetchPlaceholders();
   const checkoutTitle = labels.Global?.CheckoutTitle || 'Checkout';
   const confirmationTitle = labels.Global?.OrderConfirmationTitle || 'Order Confirmation';

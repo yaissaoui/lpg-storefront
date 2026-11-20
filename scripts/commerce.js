@@ -24,7 +24,7 @@ import {
 import { events } from '@dropins/tools/event-bus.js';
 import { FetchGraphQL } from '@dropins/tools/fetch-graphql.js';
 import { getMetadata, readBlockConfig } from './aem.js';
-import { loadPublicConfig, parseProductPath } from './commerce-utils.js';
+import { loadPublicConfig, parseProductPath, safeRedirectPath } from './commerce-utils.js';
 import { getSiteContext } from './site-config.js';
 import initializeDropins from './initializers/index.js';
 
@@ -405,6 +405,46 @@ export function applyTemplates(doc) {
       column.removeAttribute('data-gap');
     }
   });
+}
+
+const GUEST_CHECKOUT = 'query GuestCheckout { storeConfig { is_guest_checkout_enabled } }';
+
+/**
+ * Whether the PaaS store view accepts guest checkout (storeConfig.is_guest_checkout_enabled).
+ * The checkout drop-in reads the value but does not act on it, so the checkout block asks
+ * here. Cached per store view for the session. Defaults to true when the query fails.
+ * @returns {Promise<boolean>}
+ */
+export async function isGuestCheckoutEnabled() {
+  const key = `commerce-guest-checkout:${getHeaders('all').Store || ''}`;
+  try {
+    const cached = window.sessionStorage.getItem(key);
+    if (cached !== null) return cached === 'true';
+  } catch (e) { /* no cache */ }
+  try {
+    const { data } = await CORE_FETCH_GRAPHQL.fetchGraphQl(GUEST_CHECKOUT, { method: 'GET' });
+    const enabled = data?.storeConfig?.is_guest_checkout_enabled !== false;
+    try { window.sessionStorage.setItem(key, String(enabled)); } catch (e) { /* no cache */ }
+    return enabled;
+  } catch (e) {
+    return true;
+  }
+}
+
+/**
+ * Sign-in page link that comes back to the current page (?redirect=).
+ * @param {string} [returnPath] defaults to the current path and query
+ */
+export function loginLinkReturningTo(returnPath = `${window.location.pathname}${window.location.search}`) {
+  const url = new URL(rootLink(CUSTOMER_LOGIN_PATH), window.location.origin);
+  url.searchParams.set('redirect', returnPath);
+  return `${url.pathname}${url.search}`;
+}
+
+/** Path to open after sign in: a safe ?redirect= under the store root, or the fallback. */
+export function redirectAfterSignIn(fallback) {
+  const value = new URLSearchParams(window.location.search).get('redirect');
+  return safeRedirectPath(value, getRootPath()) || fallback;
 }
 
 export function checkIsAuthenticated() {

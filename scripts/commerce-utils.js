@@ -208,3 +208,25 @@ export function combineTransformers(...transformers) {
     }, {});
   };
 }
+
+/**
+ * Return path after sign in (?redirect=). Only a path of this site under the current store
+ * root is accepted, so the parameter cannot send the shopper to another origin.
+ * @param {string} value raw query parameter
+ * @param {string} root store root, for example "/wellbox/fr/"
+ * @returns {string|null} safe path with its query string, or null
+ */
+export function safeRedirectPath(value, root = '/') {
+  if (!value || typeof value !== 'string') return null;
+  if (!value.startsWith('/') || value.startsWith('//') || value.includes('\\')) return null;
+  let url;
+  try {
+    url = new URL(value, 'https://example.com');
+  } catch (e) {
+    return null;
+  }
+  if (url.origin !== 'https://example.com') return null;
+  const prefix = root.endsWith('/') ? root : `${root}/`;
+  if (prefix !== '/' && !url.pathname.startsWith(prefix)) return null;
+  return `${url.pathname}${url.search}`;
+}
