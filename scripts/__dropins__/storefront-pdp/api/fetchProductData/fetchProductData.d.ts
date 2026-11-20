@@ -20,4 +20,5 @@ export type Options = {
     isBundle?: boolean;
     skipTransform?: boolean;
 };
-export declare const fetchProductData: (sku: string, options?: Options) => Promise<import("../../data/models").ProductModel | null>;
+export declare const fetchProductData: (sku: string, options?: Options) => Promise<import('../../data/models/product-model').ProductModel | null>;
+//# sourceMappingURL=fetchProductData.d.ts.map

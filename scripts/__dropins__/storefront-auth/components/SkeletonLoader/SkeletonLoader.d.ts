@@ -14,6 +14,6 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  *******************************************************************/
-import { Container } from '@dropins/tools/lib';
-import { SkeletonLoaderProps } from '../../types/index.d.ts';
+import { Container } from '../../../node_modules/@dropins/tools/src/lib';
+import { SkeletonLoaderProps } from '../../types';
 export declare const SkeletonLoader: Container<SkeletonLoaderProps>;

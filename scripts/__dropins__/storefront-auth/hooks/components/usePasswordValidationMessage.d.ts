@@ -14,7 +14,7 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  *******************************************************************/
-import { ValidateLengthConfigProps, statusTypes } from '../../types/index.d.ts';
+import { ValidateLengthConfigProps, statusTypes } from '../../types';
 interface UsePasswordValidationMessageProps {
     passwordConfigs: {
         minLength: number;

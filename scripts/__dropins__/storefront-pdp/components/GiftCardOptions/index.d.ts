@@ -13,5 +13,6 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  */
-export * from './GiftCardOptions.js';
-export { GiftCardOptions as default } from './GiftCardOptions.js';
+export * from './GiftCardOptions';
+export { GiftCardOptions as default } from './GiftCardOptions';
+//# sourceMappingURL=index.d.ts.map

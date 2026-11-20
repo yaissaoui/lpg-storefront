@@ -14,7 +14,7 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  *******************************************************************/
-import { UseResetPasswordFormProps } from '../../types/index.d.ts';
+import { UseResetPasswordFormProps } from '../../types';
 export declare const useResetPasswordForm: ({ routeSignIn, onErrorCallback, onSuccessCallback, setActiveComponent, handleSetInLineAlertProps, }: UseResetPasswordFormProps) => {
     isLoading: boolean;
     submitResetPassword: (event: any) => Promise<void>;

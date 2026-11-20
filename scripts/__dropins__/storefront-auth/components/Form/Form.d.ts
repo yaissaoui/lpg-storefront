@@ -14,5 +14,5 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  *******************************************************************/
-import { FormProps } from '../../types/index.d.ts';
+import { FormProps } from '../../types';
 export declare const Form: ({ slots, name, loading, children, className, fieldsConfig, onSubmit, formSlot, ...props }: FormProps) => import("preact").JSX.Element;

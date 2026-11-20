@@ -14,7 +14,7 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  *******************************************************************/
-import { GetAttributesFormResponse, ResponseAttributesFormItemsProps } from '../../types/index.d.ts';
+import { GetAttributesFormResponse, ResponseAttributesFormItemsProps } from '../../types';
 import { AttributesFormModel } from '../models';
 export declare const cloneArrayIfExists: (fields: ResponseAttributesFormItemsProps[]) => any;
 export declare const transformAttributesForm: (response: GetAttributesFormResponse) => AttributesFormModel[];

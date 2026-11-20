@@ -13,5 +13,6 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  */
-export * from './Overlay.js';
-export { Overlay as default } from './Overlay.js';
+export * from './Overlay';
+export { Overlay as default } from './Overlay';
+//# sourceMappingURL=index.d.ts.map

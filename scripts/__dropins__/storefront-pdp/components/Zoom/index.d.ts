@@ -13,5 +13,6 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  */
-export * from './Zoom.js';
-export { Zoom as default } from './Zoom.js';
+export * from './Zoom';
+export { Zoom as default } from './Zoom';
+//# sourceMappingURL=index.d.ts.map

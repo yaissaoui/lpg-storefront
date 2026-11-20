@@ -15,5 +15,5 @@
  * from Adobe.
  *******************************************************************/
 import { FunctionComponent } from 'preact';
-import { SignUpFormProps } from '../../types/index.d.ts';
+import { SignUpFormProps } from '../../types';
 export declare const SignUpForm: FunctionComponent<SignUpFormProps>;

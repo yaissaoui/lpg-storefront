@@ -16,5 +16,5 @@
  *******************************************************************/
 import { FunctionComponent } from 'preact';
 import { HTMLAttributes } from 'preact/compat';
-import { ResetPasswordFormProps } from '../../types/index.d.ts';
+import { ResetPasswordFormProps } from '../../types';
 export declare const ResetPasswordForm: FunctionComponent<ResetPasswordFormProps & HTMLAttributes<HTMLDivElement>>;

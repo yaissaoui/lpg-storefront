@@ -28,3 +28,4 @@ export declare function getVideoPreviewUrl(videoUrl: string, previewUrl?: string
  * @returns The embed URL
  */
 export declare function getEmbedUrl(url: string): string;
+//# sourceMappingURL=videoUtils.d.ts.map

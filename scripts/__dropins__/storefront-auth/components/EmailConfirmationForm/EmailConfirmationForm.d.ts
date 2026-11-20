@@ -15,5 +15,5 @@
  * from Adobe.
  *******************************************************************/
 import { FunctionComponent } from 'preact';
-import { EmailConfirmationFormProps } from '../../types/index.d.ts';
+import { EmailConfirmationFormProps } from '../../types';
 export declare const EmailConfirmationForm: FunctionComponent<EmailConfirmationFormProps>;

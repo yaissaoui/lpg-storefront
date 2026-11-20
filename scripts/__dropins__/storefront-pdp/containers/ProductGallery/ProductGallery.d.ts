@@ -1,7 +1,8 @@
 import { HTMLAttributes } from 'preact/compat';
-import { Container, ResolveImageUrlOptions, SlotProps } from '@dropins/tools/lib';
-import { ImageProps } from '@dropins/tools/components';
-import { ProductModel } from '../../data/models/product-model.js';
+import { Container, ResolveImageUrlOptions, SlotProps } from '@dropins/tools/types/elsie/src/lib';
+import { ImageProps } from '@dropins/tools/types/elsie/src/components';
+import { ProductModel } from '../../data/models/product-model';
+
 type DefaultSlotContext = {
     data: ProductModel | null;
 };
@@ -37,3 +38,4 @@ export interface ProductGalleryProps extends Omit<HTMLAttributes<HTMLDivElement>
 }
 export declare const ProductGallery: Container<ProductGalleryProps, ProductModel | null>;
 export {};
+//# sourceMappingURL=ProductGallery.d.ts.map

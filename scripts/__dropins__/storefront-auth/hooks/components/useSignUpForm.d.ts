@@ -14,7 +14,7 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  *******************************************************************/
-import { UseSingUpFormProps } from '../../types/index.d.ts';
+import { UseSingUpFormProps } from '../../types';
 export declare const useSignUpForm: ({ requireRetypePassword, addressesData, translations, isEmailConfirmationRequired, apiVersion2, passwordConfigs, isAutoSignInEnabled, routeRedirectOnSignIn, routeSignIn, onErrorCallback, onSuccessCallback, setActiveComponent, handleSetInLineAlertProps, routeRedirectOnEmailConfirmationClose, }: UseSingUpFormProps) => {
     showPasswordErrorMessage: boolean;
     confirmPassword: string;

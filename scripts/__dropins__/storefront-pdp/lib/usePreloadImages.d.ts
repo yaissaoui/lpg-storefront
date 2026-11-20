@@ -42,3 +42,4 @@ export interface UsePreloadImagesResult {
  * avoiding races where consumers would otherwise see a stale ready=true.
  */
 export declare function usePreloadImages(urls: string[], { enabled, timeoutMs, }?: UsePreloadImagesOptions): UsePreloadImagesResult;
+//# sourceMappingURL=usePreloadImages.d.ts.map

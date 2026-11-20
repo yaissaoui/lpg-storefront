@@ -14,6 +14,6 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  *******************************************************************/
-import { Customer } from '../../types/index.d.ts';
-import { CustomerModel } from '../../data/models/index.d.ts';
+import { Customer } from '../../types';
+import { CustomerModel } from '../../data/models';
 export declare const createCustomer: (forms: Customer, apiVersion2: boolean) => Promise<CustomerModel>;

@@ -14,7 +14,7 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  *******************************************************************/
-import { useFormProps } from '../../types/index.d.ts';
+import { useFormProps } from '../../types';
 export declare const useForm: ({ fieldsConfig, onSubmit }: useFormProps) => {
     formData: Record<string, string | number | boolean>;
     errors: Record<string, string>;

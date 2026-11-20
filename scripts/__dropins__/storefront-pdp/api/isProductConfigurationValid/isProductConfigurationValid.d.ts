@@ -14,5 +14,6 @@
  * from Adobe.
  */
 export declare const isProductConfigurationValid: ({ scope, }?: {
-    scope?: string;
+    scope?: string | undefined;
 }) => boolean | null;
+//# sourceMappingURL=isProductConfigurationValid.d.ts.map

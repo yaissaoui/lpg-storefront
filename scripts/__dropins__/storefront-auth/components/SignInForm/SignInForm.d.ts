@@ -15,5 +15,5 @@
  * from Adobe.
  *******************************************************************/
 import { FunctionComponent } from 'preact';
-import { SignInFormProps } from '../../types/index.d.ts';
+import { SignInFormProps } from '../../types';
 export declare const SignInForm: FunctionComponent<SignInFormProps>;

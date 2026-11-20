@@ -15,3 +15,4 @@
  */
 export declare function isNumericValue(value: string): boolean;
 export declare function formatNumeric(value: string, locale?: string): string;
+//# sourceMappingURL=number.d.ts.map

@@ -14,5 +14,5 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  *******************************************************************/
-import { confirmEmailResponse, confirmEmailProps } from '../../types/index.d.ts';
+import { confirmEmailResponse, confirmEmailProps } from '../../types';
 export declare const confirmEmail: ({ customerEmail, customerConfirmationKey, }: confirmEmailProps) => Promise<confirmEmailResponse | undefined>;

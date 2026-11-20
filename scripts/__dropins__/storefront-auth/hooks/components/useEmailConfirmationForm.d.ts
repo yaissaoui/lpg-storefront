@@ -14,7 +14,7 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  *******************************************************************/
-import { useEmailConfirmationFormProps } from '../../types/index.d.ts';
+import { useEmailConfirmationFormProps } from '../../types';
 export declare const useEmailConfirmationForm: ({ userEmail, handleSetInLineAlertProps, }: useEmailConfirmationFormProps) => {
     handleEmailConfirmation: () => Promise<void>;
     disabledButton: boolean;

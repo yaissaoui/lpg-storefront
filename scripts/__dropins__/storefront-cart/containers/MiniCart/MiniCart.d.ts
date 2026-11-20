@@ -15,9 +15,9 @@
  * from Adobe.
  *******************************************************************/
 import { HTMLAttributes } from 'preact/compat';
-import { Container, SlotProps } from '@dropins/tools/lib';
+import { Container, SlotProps } from '../../../node_modules/@dropins/tools/src/lib';
 import { CartModel } from '../../data/models';
-import { ImageProps } from '@dropins/tools/components';
+import { ImageProps } from '../../../node_modules/@dropins/tools/src/components';
 export interface MiniCartProps extends HTMLAttributes<HTMLDivElement> {
     routeProduct?: (item: CartModel['items'][0]) => string;
     routeCart?: () => string;

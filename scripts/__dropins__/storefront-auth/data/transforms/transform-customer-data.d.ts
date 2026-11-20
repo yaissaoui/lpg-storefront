@@ -14,6 +14,6 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  *******************************************************************/
-import { getCustomerDataResponse } from '../../types/index.d.ts';
+import { getCustomerDataResponse } from '../../types';
 import { CustomerModel } from '../models';
 export declare const transformCustomerData: (response: getCustomerDataResponse) => CustomerModel;

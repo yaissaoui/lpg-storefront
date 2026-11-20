@@ -13,5 +13,6 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  */
-export * from './Swatches.js';
-export { Swatches as default } from './Swatches.js';
+export * from './Swatches';
+export { Swatches as default } from './Swatches';
+//# sourceMappingURL=index.d.ts.map

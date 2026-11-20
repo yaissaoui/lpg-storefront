@@ -14,5 +14,5 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  *******************************************************************/
-import { FieldElementProps } from '../../../types/index.d.ts';
+import { FieldElementProps } from '../../../types';
 export declare const FieldElement: ({ item, errorConfig, className, itemClassName, loading, children, }: FieldElementProps) => import("preact").JSX.Element;

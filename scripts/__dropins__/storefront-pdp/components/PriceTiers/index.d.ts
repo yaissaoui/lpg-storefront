@@ -13,5 +13,6 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  */
-export * from './PriceTiers.js';
-export { PriceTiers as default } from './PriceTiers.js';
+export * from './PriceTiers';
+export { PriceTiers as default } from './PriceTiers';
+//# sourceMappingURL=index.d.ts.map

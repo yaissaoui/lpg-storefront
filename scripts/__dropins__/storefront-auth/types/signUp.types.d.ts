@@ -17,7 +17,7 @@
 import { activeComponentType } from './authCombine.types';
 import { InLineAlertInterface } from './notification.types';
 import { AddressFormProps } from './api/createCustomerAddress.types';
-import { SlotProps } from '@dropins/tools/lib';
+import { SlotProps } from '../../node_modules/@dropins/tools/src/lib';
 export interface inputsDefaultValueSetProps {
     code: string;
     defaultValue: string;

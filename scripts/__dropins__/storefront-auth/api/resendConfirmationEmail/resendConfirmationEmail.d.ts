@@ -14,5 +14,5 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  *******************************************************************/
-import { resendConfirmationEmailResponse } from '../../types/index.d.ts';
+import { resendConfirmationEmailResponse } from '../../types';
 export declare const resendConfirmationEmail: (customerEmail: string) => Promise<resendConfirmationEmailResponse>;

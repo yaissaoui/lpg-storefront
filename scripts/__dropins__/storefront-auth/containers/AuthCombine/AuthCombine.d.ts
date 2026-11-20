@@ -14,6 +14,6 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  *******************************************************************/
-import { Container } from '@dropins/tools/lib';
-import { AuthCombineProps } from '../../types/index.d.ts';
+import { Container } from '../../../node_modules/@dropins/tools/src/lib';
+import { AuthCombineProps } from '../../types';
 export declare const AuthCombine: Container<AuthCombineProps>;

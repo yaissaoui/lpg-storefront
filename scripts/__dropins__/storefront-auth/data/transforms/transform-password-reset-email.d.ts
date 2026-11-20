@@ -14,6 +14,6 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  *******************************************************************/
-import { PasswordResetEmailResponse } from '../../types/index.d.ts';
+import { PasswordResetEmailResponse } from '../../types';
 import { PasswordResetEmailModel } from '../models';
 export declare const transformPasswordResetEmail: (response: PasswordResetEmailResponse) => PasswordResetEmailModel;

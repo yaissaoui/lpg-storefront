@@ -2,7 +2,7 @@
  * ADOBE CONFIDENTIAL
  * __________________
  *
- *  Copyright 2026 Adobe
+ *  Copyright 2024 Adobe
  *  All Rights Reserved.
  *
  * NOTICE:  All information contained herein is, and remains
@@ -14,13 +14,21 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  *******************************************************************/
-/**
- * Tears down all client-side authentication state.
- *
- * Every logout path must go through here so the sequences cannot drift apart —
- * see `revokeCustomerToken` (user-initiated) and the website-switch check in
- * `initialize` (forced).
- *
- * @param authHeader - Name of the authorization header to remove
- */
-export declare const clearAuthState: (authHeader: string) => Promise<void>;
+import { CartModel } from '../../models/cart-model';
+export declare const cart: CartModel;
+export declare const sampleDataCart: CartModel;
+export declare const sampleDataWithCoupons: CartModel;
+export declare const sampleDataWithGiftCodes: CartModel;
+export declare const sampleGiftWrappingConfig: {
+    design: string;
+    uid: string;
+    selected: boolean;
+    image: {
+        url: string;
+        label: string;
+    };
+    price: {
+        currency: string;
+        value: number;
+    };
+}[];

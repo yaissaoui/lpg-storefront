@@ -13,5 +13,6 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  */
-export * from './ProductPrice.js';
-export { ProductPrice as default } from './ProductPrice.js';
+export * from './ProductPrice';
+export { ProductPrice as default } from './ProductPrice';
+//# sourceMappingURL=index.d.ts.map
