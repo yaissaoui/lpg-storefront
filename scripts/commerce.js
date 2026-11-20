@@ -1,6 +1,6 @@
 /*
  * Commerce set-up for the drop-ins, adapted from scripts/commerce.js of
- * hlxsites/aem-boilerplate-commerce v12.0.0. Same names and same split:
+ * hlxsites/aem-boilerplate-commerce (June 2026 state). Same names and same split:
  * - CS_FETCH_GRAPHQL talks to the catalogue (Adobe Commerce Optimizer, `commerce-endpoint`,
  *   headers `cs`: AC-View-ID, AC-Price-Book-ID);
  * - CORE_FETCH_GRAPHQL talks to the PaaS core GraphQL (`commerce-core-endpoint`, headers
@@ -24,7 +24,7 @@ import {
 import { events } from '@dropins/tools/event-bus.js';
 import { FetchGraphQL } from '@dropins/tools/fetch-graphql.js';
 import { getMetadata, readBlockConfig } from './aem.js';
-import { loadPublicConfig, parseProductPath, stripUnsupportedFieldsHook } from './commerce-utils.js';
+import { loadPublicConfig, parseProductPath } from './commerce-utils.js';
 import { getSiteContext } from './site-config.js';
 import initializeDropins from './initializers/index.js';
 
@@ -37,7 +37,6 @@ export const CS_FETCH_GRAPHQL = new FetchGraphQL();
 export const IS_DA = new URL(window.location.href).searchParams.has('dapreview');
 
 const CONFIG_SESSION_KEY = 'config';
-let coreHookAdded = false;
 const CONFIG_TTL_SECONDS = 7200;
 
 /**
@@ -297,11 +296,6 @@ export async function initializeCommerce() {
   // Core (PaaS): Store header from headers.all
   CORE_FETCH_GRAPHQL.setEndpoint(getConfigValue('commerce-core-endpoint') || getConfigValue('commerce-endpoint'));
   CORE_FETCH_GRAPHQL.setFetchGraphQlHeaders((prev) => ({ ...prev, ...getHeaders('all') }));
-  // Cart fields the PaaS 2.4.7 schema does not have (see commerce-utils.js)
-  if (!coreHookAdded) {
-    CORE_FETCH_GRAPHQL.addBeforeHook((request) => stripUnsupportedFieldsHook(request));
-    coreHookAdded = true;
-  }
 
   // Catalogue (ACO): AC-View-ID and AC-Price-Book-ID from headers.cs. The query string
   // hash makes the CDN cache vary on the headers, like the boilerplate.

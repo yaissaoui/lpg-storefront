@@ -8,8 +8,6 @@ import {
   parseProductPath,
   pdpPriceVisibilityTransformer,
   pdpVatTransformer,
-  stripGraphQlFields,
-  stripUnsupportedFieldsHook,
 } from '../scripts/commerce-utils.js';
 
 // Raw ACO ProductView fragments. Amounts are fake but follow the observed ratios
@@ -152,31 +150,4 @@ test('site config: falls back to the committed file on 404 or a config without p
 
 test('site config: a clear error when nothing answers', async () => {
   await assert.rejects(loadPublicConfig(fakeFetch({}), 'https://x.example.com'), /No site configuration found.*404/);
-});
-
-test('stripGraphQlFields removes only the listed scalar selections', () => {
-  const q = `fragment CART_FRAGMENT on Cart {
-    id
-    has_available_free_gifts
-    total_quantity
-    items { uid is_salable is_available is_free_gift }
-    available_free_gifts { rule_id }
-  }`;
-  const out = stripGraphQlFields(q);
-  assert.doesNotMatch(out, /has_available_free_gifts|is_salable|is_free_gift/);
-  assert.match(out, /available_free_gifts \{ rule_id \}/, 'longer names that contain a field are kept');
-  assert.match(out, /is_available/);
-  assert.match(out, /total_quantity/);
-});
-
-test('stripUnsupportedFieldsHook rewrites POST bodies only', () => {
-  const body = JSON.stringify({ query: '{ cart { id has_available_free_gifts } }', variables: { a: 1 } });
-  const post = stripUnsupportedFieldsHook({ method: 'POST', body, headers: {} });
-  assert.deepEqual(JSON.parse(post.body), { query: '{ cart { id  } }', variables: { a: 1 } });
-  const get = { method: 'GET', headers: {} };
-  assert.equal(stripUnsupportedFieldsHook(get), get);
-  const untouched = { method: 'POST', body: JSON.stringify({ query: '{ cart { id } }' }) };
-  assert.equal(stripUnsupportedFieldsHook(untouched), untouched);
-  const broken = { method: 'POST', body: 'not json' };
-  assert.equal(stripUnsupportedFieldsHook(broken), broken);
 });
